@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+    </title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.css"/>
+    <link rel="stylesheet" href="/js/jqmap/jqvmap.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/styles.css" >
+</head>
+<body>
+<div class="wrapper container">
+    <header>
+        <a href="/"><img src="/images/logo.png" alt="CheckINer logo"></a>
+    </header>
+    <div class="row">
+        <div class="col-md-24">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Conquer the world</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" method="post" id = "geocoding_form">
+                        <div id = "vmap" style="height: 400px;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="fb-root"></div>
+
+<div id="dialog" title="Авторизуйтесь!">
+    <p>Для отображения захваченных территрорий войдите на <a href="https://foursquare.com/" target="_blank">foursquare.com</a> и попробуйте <a href="/">еще раз!</a></p>
+</div>
+
+<footer class="text-center">
+    <br>
+    © 2014 iTechArt group
+</footer>
+
+<script src="//connect.facebook.net/en_US/all.js"></script>
+<script>
+    FB.init({
+        appId: 608985209216820
+    });
+</script>
+<script src="/js/jquery/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="/js/bootstrap/bootstrap.js"></script>
+<script src="/js/jquery/jquery.ba-bbq.js"></script>
+<script type="text/javascript" src="/js/jqmap/jquery.vmap.js"></script>
+<script type="text/javascript" src="/js/jqmap/maps/jquery.vmap.world.js"></script>
+<script type="text/javascript" src="/js/jqmap/data/jquery.vmap.sampledata.js"></script>
+<script type="text/javascript" src="/js/jqmap/logic/logic.js"></script>
+
+</body>
+</html>
