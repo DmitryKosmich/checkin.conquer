@@ -1,15 +1,15 @@
 var express = require('express');
 var https = require('https');
 var http = require('http');
-var fs = require('fs');
+//var fs = require('fs');
 var path = require('path');
 var swig = require('swig');
-
+/*
 var options = {
     key: fs.readFileSync('keys/conquer-key.pem'),
     cert: fs.readFileSync('keys/conquer-cert.pem')
 };
-
+*/
 var app = express();
 
 app.engine('html', swig.renderFile);
