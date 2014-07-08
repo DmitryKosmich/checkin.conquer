@@ -1,5 +1,6 @@
 var config = {
-    token: ''
+    token: '',
+    redirect: 'http://localhost:8000/'
 };
 
 window.onload = function() {
@@ -68,7 +69,7 @@ function doAuthRedirect() {
     var url = 'https://foursquare.com/oauth2/authenticate?' +
         'client_id=CN23WK1RKT1VL0VPZM2OTEGVKYMH0PYXJPOW02HOOJ2YYAXV' +
         '&response_type=token' +
-        '&redirect_uri=https://localhost:8000/';
+        '&redirect_uri='+config.redirect;
 
     window.location.href = url;
 }

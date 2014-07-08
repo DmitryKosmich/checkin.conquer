@@ -53,7 +53,11 @@ app.use(function(err, req, res, next) {
         }
     }
 });
-
+/*
 https.createServer(options, app).listen(8000, function() {
     console.log('Express server listening on port ' + '8000');
+});
+*/
+http.createServer(app).listen(8000, function(){
+    console.log('Express server listening on port ' + 8000);
 });
