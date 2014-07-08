@@ -31,7 +31,7 @@ app.use(express.cookieParser());
 
 app.use(app.router);
 
-require('routes')(app);
+require('./routes')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
