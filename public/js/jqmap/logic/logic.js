@@ -1,6 +1,6 @@
 var config = {
     token: '',
-    redirect: 'http://localhost:8000/'
+    redirect: document.URL
 };
 
 window.onload = function() {
@@ -48,9 +48,12 @@ function setToken() {
         $.bbq.pushState({}, 2)
     } else if ($.bbq.getState('error')) {
     } else {
-        if(config.token == ''){
-            $( "#dialog" ).dialog();
-        }
+        setTimeout(function(){
+            if(config.token == ''){
+                $( "#dialog" ).dialog();
+            }
+
+        }, 1000);
         doAuthRedirect();
     }
 }
