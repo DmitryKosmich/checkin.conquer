@@ -1,15 +1,7 @@
 var express = require('express');
-var https = require('https');
 var http = require('http');
-//var fs = require('fs');
 var path = require('path');
 var swig = require('swig');
-/*
-var options = {
-    key: fs.readFileSync('keys/conquer-key.pem'),
-    cert: fs.readFileSync('keys/conquer-cert.pem')
-};
-*/
 var app = express();
 
 app.engine('html', swig.renderFile);
@@ -53,11 +45,7 @@ app.use(function(err, req, res, next) {
         }
     }
 });
-/*
-https.createServer(options, app).listen(8000, function() {
-    console.log('Express server listening on port ' + '8000');
-});
-*/
+
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 

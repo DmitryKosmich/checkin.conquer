@@ -8673,7 +8673,7 @@ var fxNow, timerId,
 
 				tween.unit = unit;
 				tween.start = start;
-				// If a +=/-= token was provided, we're doing a relative animation
+				// If a +=/-= ACCESS_TOKEN was provided, we're doing a relative animation
 				tween.end = parts[1] ? start + ( parts[1] + 1 ) * end : end;
 			}
 			return tween;
