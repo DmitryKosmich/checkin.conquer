@@ -1,0 +1,32 @@
+{% extends 'layout/layout.html' %}
+
+{% block content %}
+{% include "partials/topNavigation.html" %}
+<div class="row" >
+    <table class="table table-hover countries">
+        <tr class="row">
+            <td>#</td>
+            <td>Name</td>
+            <td>Checkin Count</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
+
+{% block other %}
+<div id="fb-root"></div>
+
+<div id="dialog" title="Авторизуйтесь!">
+    <p>Для отображения захваченных территрорий войдите на <a href="https://foursquare.com/" target="_blank">foursquare.com</a> и попробуйте <a href="/">еще раз!</a></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% parent %}
+
+<script type="text/javascript" src="/js/logic/services.js"></script>
+<script type="text/javascript" src="/js/logic/foursquare.js"></script>
+<script type="text/javascript" src="/js/logic/countries.js"></script>
+<script type="text/javascript" src="/js/jqmap/countrycodes.js"></script>
+
+{% endblock %}

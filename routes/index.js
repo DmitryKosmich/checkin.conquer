@@ -8,4 +8,7 @@ module.exports = function(app) {
 
     app.get('/friend', require('./friend').get);
     app.post('/friend', require('./friend').post);
+
+    app.get('/countries', require('./countries').get);
+    app.post('/countries', require('./countries').post);
 };

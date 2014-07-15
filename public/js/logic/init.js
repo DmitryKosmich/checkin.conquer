@@ -5,11 +5,9 @@ window.onload = function() {
         map.initMap();
         map.setColor(config.BG_COLOR);
         setToken();
-        foursquare.getCheckins('self', function(data){
-            console.log(data);
-            var regions = convertChekinsToCountryCodes(data);
-            map.setRegionColor(regions, config.VISITED_COUNTRY_COLOR);
-        });
+        foursquare.getVisitedCountries('self', function(data){
+            map.setRegionColor(data, config.VISITED_COUNTRY_COLOR);
+        })
     });
 };
 
