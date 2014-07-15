@@ -1,5 +1,6 @@
 
 window.onload = function() {
+    setNavItem('friends');
     foursquare.getFriends('self', function(data){
         console.log(data);
         showFriends(data);

@@ -2,14 +2,23 @@
 
 {% block content %}
 {% include "partials/topNavigation.html" %}
-<div class="row" >
-    <table class="table table-hover countries">
-        <tr class="row">
-            <td>#</td>
-            <td>Name</td>
-            <td>Checkin Count</td>
-        </tr>
-    </table>
+<div class="row">
+    <div class="col-md-24">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Visited coutries</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover countries">
+                    <tr class="row">
+                        <td>#</td>
+                        <td>Name</td>
+                        <td>Checkin Count</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

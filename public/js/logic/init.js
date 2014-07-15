@@ -2,6 +2,7 @@
 window.onload = function() {
 
     $(document).ready(function () {
+        setNavItem('home');
         map.initMap();
         map.setColor(config.BG_COLOR);
         setToken();
@@ -39,3 +40,4 @@ function doAuthRedirect() {
 
     window.location.href = url;
 }
+

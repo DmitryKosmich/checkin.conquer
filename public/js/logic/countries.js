@@ -1,5 +1,6 @@
 
 window.onload = function() {
+    setNavItem('countries');
     foursquare.getVisitedCountries('self',function(data){
         var countries = createCountryObject(data);
         createTable(countries);

@@ -6,12 +6,63 @@
     <div class="col-md-24">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Conquer the world</h3>
+                <div class="row panel-title" >
+                    <div class="col-md-12" id="vs_title">
+                    </div>
+                    <div class="col-md-12" >
+                        ME
+                    </div>
+                </div>
             </div>
             <div class="panel-body">
-                <form role="form" method="post" id = "geocoding_form">
-                    <div id = "vmap" style="height: 400px;"></div>
-                </form>
+                <div class="col-md-12">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="f_friends">Friends</label>
+                            <input type="text" class="form-control" id="f_friends" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="f_checkins">Checkins</label>
+                            <input type="text" class="form-control" id="f_checkins" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="f_tips">Tips</label>
+                            <input type="text" class="form-control" id="f_tips" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="f_badges">Badges</label>
+                            <input type="text" class="form-control" id="f_badges" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="f_mayorships">Mayorships</label>
+                            <input type="text" class="form-control" id="f_mayorships" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="self_friends">Friends</label>
+                            <input type="text" class="form-control" id="self_friends" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="self_checkins">Checkins</label>
+                            <input type="text" class="form-control" id="self_checkins" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="self_tips">Tips</label>
+                            <input type="text" class="form-control" id="self_tips" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="self_badges">Badges</label>
+                            <input type="text" class="form-control" id="self_badges" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="self_mayorships">Mayorships</label>
+                            <input type="text" class="form-control" id="self_mayorships" readonly>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -29,14 +80,9 @@
 {% block scripts %}
 {% parent %}
 
-<script type="text/javascript" src="/js/jqmap/jquery.vmap.js"></script>
-<script type="text/javascript" src="/js/jqmap/maps/jquery.vmap.world.js"></script>
-<script type="text/javascript" src="/js/jqmap/data/jquery.vmap.sampledata.js"></script>
-
 <script type="text/javascript" src="/js/logic/configuration.js"></script>
 <script type="text/javascript" src="/js/logic/services.js"></script>
 <script type="text/javascript" src="/js/logic/foursquare.js"></script>
-<script type="text/javascript" src="/js/logic/map.js"></script>
 <script type="text/javascript" src="/js/logic/friend.js"></script>
 
 {% endblock %}

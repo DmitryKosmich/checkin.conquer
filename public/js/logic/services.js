@@ -37,3 +37,12 @@ function convertChekinsToCountryCodes(data){
     }
     return ccs;
 }
+
+function setCurrentNavItem(id){
+    sessionStorage.CURRENT_NAV_ITEM = id;
+}
+
+function setNavItem(id){
+    $( "#"+id ).find( '.active' ).removeClass( 'active' );
+    $( "#"+id ).addClass( 'active' );
+}
