@@ -1,2 +1,2 @@
-org.itechart.checkin
+checkiner-conquer
 ====================
