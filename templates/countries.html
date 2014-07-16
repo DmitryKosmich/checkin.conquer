@@ -1,7 +1,11 @@
 {% extends 'layout/layout.html' %}
 
+{% block styles %}
+{% parent %}
+<link rel="stylesheet" href="/js/modaldialog/reveal.css" >
+{% endblock %}
+
 {% block content %}
-{% include "partials/topNavigation.html" %}
 <div class="row">
     <div class="col-md-24">
         <div class="panel panel-default">
@@ -14,15 +18,21 @@
                         <td>#</td>
                         <td>Name</td>
                         <td>Capital</td>
-                        <td>Population</td>
-                        <td>Area(km^2)</td>
-                        <td>Checkins Count</td>
+                        <td class="text-right">Population</td>
+                        <td class="text-right">Area KM<sup><small>2</small></sup></td>
+                        <td class="text-center">Checkins Count</td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<div id="myModal" class="reveal-modal">
+    {% include "partials/country.html" %}
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+
 {% endblock %}
 
 {% block other %}
@@ -39,6 +49,7 @@
 <script type="text/javascript" src="/js/logic/services.js"></script>
 <script type="text/javascript" src="/js/logic/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/countries.js"></script>
-<script type="text/javascript" src="/js/jqmap/countrycodes.js"></script>
+<script type="text/javascript" src="/js/modaldialog/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/js/modaldialog/jquery.reveal.js"></script>
 
 {% endblock %}

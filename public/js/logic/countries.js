@@ -66,7 +66,6 @@ function readData(data){
 }
 
 function createTable(){
-    console.log(allCountriesInfo.length);
     for(var i = 0; i < allCountriesInfo.length; i++){
         showCountry(allCountriesInfo[i], '');
         if(i == allCountriesInfo.length-1){
@@ -79,15 +78,18 @@ function createTable(){
 }
 
 function showCountry(data, colorClass) {
-
+    var isDialog='';
+    if(colorClass==''){
+        isDialog = 'data-reveal-id="myModal" onclick=getCountryDialogInfo("'+data.alpha2Code.toLowerCase()+'")';
+    }
     $( ".countries" ).append(
             '<tr class="row">' +
-            '<td><img id="country_flag" src="'+data.flagImage+'" /></td>' +
-            '<td class="'+colorClass+'">'+data.name+'</td>' +
+            '<td><a href="#" '+isDialog+'><img id="country_flag" src="'+data.flagImage+'" /></a></td>' +
+            '<td class="'+colorClass+'" >'+data.name+'</td>' +
             '<td class="'+colorClass+'">'+data.capital+'</td>' +
-            '<td class="'+colorClass+'">'+data.population+'</td>' +
-            '<td class="'+colorClass+'">'+data.area+'</td>' +
-            '<td class="'+colorClass+'">'+data.checkinsCount+'</td>' +
+            '<td class="'+colorClass+' text-right">'+setFormat(data.population)+'</td>' +
+            '<td class="'+colorClass+' text-right">'+setFormat(data.area)+'</td>' +
+            '<td class="'+colorClass+' text-center">'+data.checkinsCount+'</td>' +
             '</tr>' );
 }
 
@@ -95,4 +97,21 @@ function addResultInfo(data){
     conquerInfo.area+=data.area;
     conquerInfo.population+=data.population;
     conquerInfo.checkinsCount+=data.checkinsCount;
+}
+
+function getCountryDialogInfo(countryCode){
+    $.get("http://restcountries.eu/rest/v1/alpha/" + countryCode, function (data) {
+        data.flagImage = "http://www.geonames.org/flags/x/"+data.alpha2Code.toLowerCase()+".gif";
+        fillCountryDialog(data);
+    }, "json");
+}
+
+function fillCountryDialog(data){
+    $( "#country_name" ).html('').append(data.name);
+    $( "#country_capital" ).html('').append(data.capital);
+    $( "#country_region" ).html('').append(data.region);
+    $( "#country_subregion" ).html('').append(data.subregion);
+    $( "#country_population" ).html('').append(setFormat(data.population));
+    $( "#country_area" ).html('').append(setFormat(data.area));
+    $( "#country_gini" ).html('').append(data.gini);
 }
