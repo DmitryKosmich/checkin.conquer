@@ -2,7 +2,6 @@
 window.onload = function() {
     setNavItem('friends');
     foursquare.getFriends('self', function(data){
-        console.log(data);
         showFriends(data);
     });
 };
@@ -27,12 +26,14 @@ function showFriends(data){
 }
 
 function showFriend(id, name, surname, homeCity) {
-    $( ".friends" ).append(
-        '<tr class="row">' +
-        '<td></td>' +
-        '<td>'+name+'</td>' +
-        '<td>'+surname+'</td>' +
-        '<td>'+homeCity+'</td>' +
-        '<td><a href="/friend?id='+id+'">Compare with me</a></td>' +
-        '</tr>' );
+    foursquare.getUser(id, function(data){
+        $( ".friends" ).append(
+                '<tr class="row">' +
+                '<td><img id="country_flag" src="'+data.response.user.photo.prefix+'30x20'+data.response.user.photo.suffix+'"></td>' +
+                '<td>'+name+'</td>' +
+                '<td>'+surname+'</td>' +
+                '<td>'+homeCity+'</td>' +
+                '<td><a href="/friend?id='+id+'">Compare with me</a></td>' +
+                '</tr>' );
+    });
 }

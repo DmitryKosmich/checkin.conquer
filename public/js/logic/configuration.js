@@ -4,7 +4,7 @@ var config = {
     CLIENT_ID: 'CN23WK1RKT1VL0VPZM2OTEGVKYMH0PYXJPOW02HOOJ2YYAXV',
     REDIRECT_URL: document.URL,
     VISITED_COUNTRY_COLOR : '#29c5e6',
-    BG_COLOR : '#444'
+    BG_COLOR : '#666'
 };
 
 function setSessionToken(token){

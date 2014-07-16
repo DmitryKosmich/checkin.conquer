@@ -32,7 +32,7 @@ h1{
     background:#4477aa;
     border:solid 3px #336699;
     border-radius:4px;
-    box-shadow:2px 2px 10px #333;
+    box-shadow:2px 2px 10px #666;
     text-shadow:1px 1px 1px #666;
     padding:0 4px;
 }
@@ -66,4 +66,15 @@ h1{
 
 #dialog {
     display:none;
+}
+
+#country_flag{
+    background-color: #fff;
+    width: 30px;
+    min-height: 20px;
+    border:solid 1px #29c5e6;
+}
+
+.mainColor{
+   color: #29c5e6;
 }
