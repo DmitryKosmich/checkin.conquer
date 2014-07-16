@@ -72,9 +72,18 @@ h1{
     background-color: #fff;
     width: 30px;
     min-height: 20px;
-    border:solid 1px #29c5e6;
+}
+
+#mini_photo{
+    background-color: #fff;
+    width: 60px;
+    min-height: 30px;
 }
 
 .mainColor{
    color: #29c5e6;
+}
+
+.center{
+    vertical-align:middle;
 }

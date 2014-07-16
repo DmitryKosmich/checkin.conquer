@@ -29,7 +29,7 @@ function showFriend(id, name, surname, homeCity) {
     foursquare.getUser(id, function(data){
         $( ".friends" ).append(
                 '<tr class="row">' +
-                '<td><img id="country_flag" src="'+data.response.user.photo.prefix+'30x20'+data.response.user.photo.suffix+'"></td>' +
+                '<td><img id="mini_photo" src="'+data.response.user.photo.prefix+'110x110'+data.response.user.photo.suffix+'"></td>' +
                 '<td>'+name+'</td>' +
                 '<td>'+surname+'</td>' +
                 '<td>'+homeCity+'</td>' +

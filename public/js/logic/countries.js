@@ -71,7 +71,7 @@ function createTable(){
         showCountry(allCountriesInfo[i], '');
         if(i == allCountriesInfo.length-1){
             foursquare.getUser('self', function(data){
-                conquerInfo.flagImage = data.response.user.photo.prefix+'30x20'+data.response.user.photo.suffix;
+                conquerInfo.flagImage = data.response.user.photo.prefix+'30x30'+data.response.user.photo.suffix;
                 showCountry(conquerInfo, 'mainColor');
             });
         }
