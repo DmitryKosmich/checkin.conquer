@@ -81,7 +81,7 @@ function createTable(){
 function showCountry(data, colorClass) {
     var isDialog='';
     if(colorClass==''){
-        isDialog = 'data-reveal-id="myModal" onclick=getCountryDialogInfo("'+data.alpha2Code.toLowerCase()+'")';
+        isDialog = 'data-reveal-id="country_popup" onclick=getCountryDialogInfo("'+data.alpha2Code.toLowerCase()+'")';
     }
     $( ".countries" ).append(
             '<tr class="row">' +
