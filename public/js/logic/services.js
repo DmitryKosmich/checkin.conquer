@@ -65,7 +65,7 @@ function wwnaviGetLang(){
 
 function setLocalization(){
     $(function(){
-        var opts = { language: "ru", pathPrefix: "/js/localize", skipLanguage: ["en", "en-US"] };
+        var opts = { language: wwnaviGetLang(), pathPrefix: "/js/localize", skipLanguage: ["en", "en-US"] };
         $("[data-localize]").localize("language", opts);
     })
 }
