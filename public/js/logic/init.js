@@ -2,6 +2,7 @@
 window.onload = function() {
 
     $(document).ready(function () {
+        setLocalization();
         setNavItem('home');
         map.initMap();
         map.setColor(config.BG_COLOR);

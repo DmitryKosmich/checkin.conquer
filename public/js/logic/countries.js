@@ -16,6 +16,7 @@ var endIndicator = {
 };
 
 window.onload = function() {
+    setLocalization();
     setNavItem('countries');
     foursquare.getVisitedCountries('self',function(data){
         var countries = createCountryObject(data);

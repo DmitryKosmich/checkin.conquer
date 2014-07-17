@@ -10,17 +10,17 @@
     <div class="col-md-24">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Captured countries</h3>
+                <h3 class="panel-title"  data-localize="captured_countries">Captured countries</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover countries">
                     <tr class="row">
                         <td>#</td>
-                        <td>Name</td>
-                        <td>Capital</td>
-                        <td class="text-right">Population</td>
-                        <td class="text-right">Area KM<sup><small>2</small></sup></td>
-                        <td class="text-center">Checkins Count</td>
+                        <td data-localize="title">Name</td>
+                        <td data-localize="capital">Capital</td>
+                        <td class="text-right" data-localize="population">Population</td>
+                        <td class="text-right"><span data-localize="area">Area</span> KM<sup><small>2</small></sup></td>
+                        <td class="text-center" data-localize="checkins_count">Checkins Count</td>
                     </tr>
                 </table>
             </div>
@@ -28,8 +28,8 @@
     </div>
 </div>
 
-<div id="myModal" class="reveal-modal">
-    {% include "partials/country.html" %}
+<div id="country_popup" class="reveal-modal">
+    {% include "partials/country_popup.html" %}
     <a class="close-reveal-modal">&#215;</a>
 </div>
 
@@ -38,9 +38,6 @@
 {% block other %}
 <div id="fb-root"></div>
 
-<div id="dialog" title="Авторизуйтесь!">
-    <p>Для отображения захваченных территрорий войдите на <a href="https://foursquare.com/" target="_blank">foursquare.com</a> и попробуйте <a href="/">еще раз!</a></p>
-</div>
 {% endblock %}
 
 {% block scripts %}
@@ -49,7 +46,6 @@
 <script type="text/javascript" src="/js/logic/services.js"></script>
 <script type="text/javascript" src="/js/logic/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/countries.js"></script>
-<script type="text/javascript" src="/js/modaldialog/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/js/modaldialog/jquery.reveal.js"></script>
 
 {% endblock %}

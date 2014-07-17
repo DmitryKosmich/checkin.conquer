@@ -1,0 +1,30 @@
+{
+    "home": "Домой",
+    "countries": "Страны",
+    "friends": "Друзья",
+
+    "conquer_the_world": "Захваченный мир",
+    "captured_countries": "Мои страны",
+
+    "title": "Название",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "home_city": "Родной город",
+    "capital": "Столица",
+    "population": "Население",
+    "area": "Площадь",
+    "checkins_count": "Количество чекинов",
+
+    "compare": "Сравнение",
+    "compare_with_me": "Сравнить со мной",
+    "me": "Я",
+    "checkins": "Чекины",
+    "tips": "Чаевые",
+    "badges": "Значки",
+    "mayorships": "mayorships",
+
+    "region": "Континент",
+    "subregion": "Часть света",
+    "gini_coefficient": "Коэффициент Джини",
+    "my_ownership": "Мои владения"
+}

@@ -8,7 +8,7 @@
                 <div class="row panel-title" >
                     <div class="col-md-12" id="vs_title">
                     </div>
-                    <div class="col-md-12" >
+                    <div class="col-md-12"data-localize="me" >
                         ME
                     </div>
                 </div>
@@ -17,23 +17,23 @@
                 <div class="col-md-12">
                     <form role="form">
                         <div class="form-group">
-                            <label for="f_friends">Friends</label>
+                            <label for="f_friends" data-localize="friends">Friends</label>
                             <input type="text" class="form-control" id="f_friends" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="f_checkins">Checkins</label>
+                            <label for="f_checkins" data-localize="checkins">Checkins</label>
                             <input type="text" class="form-control" id="f_checkins" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="f_tips">Tips</label>
+                            <label for="f_tips" data-localize="tips">Tips</label>
                             <input type="text" class="form-control" id="f_tips" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="f_badges">Badges</label>
+                            <label for="f_badges" data-localize="badges">Badges</label>
                             <input type="text" class="form-control" id="f_badges" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="f_mayorships">Mayorships</label>
+                            <label for="f_mayorships" data-localize="mayorships">Mayorships</label>
                             <input type="text" class="form-control" id="f_mayorships" readonly>
                         </div>
                     </form>
@@ -41,23 +41,23 @@
                 <div class="col-md-12">
                     <form role="form">
                         <div class="form-group">
-                            <label for="self_friends">Friends</label>
+                            <label for="self_friends"  data-localize="friends">Friends</label>
                             <input type="text" class="form-control" id="self_friends" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="self_checkins">Checkins</label>
+                            <label for="self_checkins"  data-localize="checkins">Checkins</label>
                             <input type="text" class="form-control" id="self_checkins" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="self_tips">Tips</label>
+                            <label for="self_tips" data-localize="tips">Tips</label>
                             <input type="text" class="form-control" id="self_tips" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="self_badges">Badges</label>
+                            <label for="self_badges" data-localize="badges">Badges</label>
                             <input type="text" class="form-control" id="self_badges" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="self_mayorships">Mayorships</label>
+                            <label for="self_mayorships" data-localize="mayorships">Mayorships</label>
                             <input type="text" class="form-control" id="self_mayorships" readonly>
                         </div>
                     </form>
@@ -71,9 +71,6 @@
 {% block other %}
 <div id="fb-root"></div>
 
-<div id="dialog" title="Авторизуйтесь!">
-    <p>Для отображения захваченных территрорий войдите на <a href="https://foursquare.com/" target="_blank">foursquare.com</a> и попробуйте <a href="/">еще раз!</a></p>
-</div>
 {% endblock %}
 
 {% block scripts %}

@@ -1,6 +1,7 @@
+
 exports.get = function(req, res) {
-    res.render('friend');
+    res.render('friend',{dima:{name: 'dima'}});
 };
 exports.post = function(req, res) {
-    res.render('friend');
+    res.render('friend',{dima:{name: 'dima'}});
 };

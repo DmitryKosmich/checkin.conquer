@@ -5,7 +5,7 @@
         <div class="col-md-24">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Conquer the world</h3>
+                    <h3 class="panel-title" data-localize="conquer_the_world">Conquer the world</h3>
                 </div>
                 <div class="panel-body">
                     <form role="form" method="post" id = "geocoding_form">
@@ -21,7 +21,7 @@
 <div id="fb-root"></div>
 
 <div id="dialog" title="Авторизуйтесь!">
-    <p>Для отображения захваченных территорий войдите на <a href="https://foursquare.com/" target="_blank">foursquare.com</a> и попробуйте <a href="/">еще раз!</a></p>
+    {% include "partials/auth_popup.html" %}
 </div>
 {% endblock %}
 

@@ -58,3 +58,14 @@ Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) 
         j = (j = i.length) > 3 ? j % 3 : 0;
     return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
 };
+
+function wwnaviGetLang(){
+    return (navigator.userLanguage||navigator.browserLanguage||navigator.language||'en').substr(0,2);
+}
+
+function setLocalization(){
+    $(function(){
+        var opts = { language: "ru", pathPrefix: "/js/localize", skipLanguage: ["en", "en-US"] };
+        $("[data-localize]").localize("language", opts);
+    })
+}

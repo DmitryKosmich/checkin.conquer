@@ -1,5 +1,6 @@
 
 window.onload = function() {
+    setLocalization();
     setNavItem('friends');
     foursquare.getFriends('self', function(data){
         showFriends(data);
@@ -33,7 +34,7 @@ function showFriend(id, name, surname, homeCity) {
                 '<td>'+name+'</td>' +
                 '<td>'+surname+'</td>' +
                 '<td>'+homeCity+'</td>' +
-                '<td><a href="/friend?id='+id+'">Compare with me</a></td>' +
+                '<td class="text-center"><a href="/friend?id='+id+'" class="glyphicon glyphicon-tasks"></a></td>' +
                 '</tr>' );
     });
 }
