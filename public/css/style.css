@@ -89,3 +89,7 @@ h1{
 .mainColor{
    color: #29c5e6;
 }
+
+#loadingImage {
+    visibility: visible;
+}
