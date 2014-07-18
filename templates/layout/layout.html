@@ -5,9 +5,12 @@
     </title>
     {% block styles %}
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.css"/>
-    <link rel="stylesheet" href="/js/jqmap/jqvmap.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/styles.css" >
+    <script type="text/javascript" src="/js/jquery/jquery-1.9.1.js"></script>
+    <script type="text/javascript">
+        $(window).load(function() { $("#loadingImage").fadeOut("slow"); });
+    </script>
     {% endblock %}
 </head>
 
@@ -34,10 +37,7 @@
         appId: 608985209216820
     });
 </script>-->
-<script type="text/javascript" src="/js/jquery/jquery-1.9.1.js"></script>
-<script type="text/javascript">
-    $(window).load(function() { $("#loadingImage").fadeOut("slow"); });
-</script>
+
 <script type="text/javascript" src="/js/bootstrap/bootstrap.js"></script>
 <script type="text/javascript" src="/js/jquery/jquery.ba-bbq.js"></script>
 <script type="text/javascript" src="/js/logic/configuration.js"></script>
