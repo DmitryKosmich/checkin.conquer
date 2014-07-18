@@ -16,6 +16,7 @@ var endIndicator = {
 };
 
 window.onload = function() {
+    countryPopUpHide();
     setLocalization();
     setNavItem('countries');
     foursquare.getVisitedCountries('self',function(data){
@@ -81,7 +82,7 @@ function createTable(){
 function showCountry(data, colorClass) {
     var isDialog='';
     if(colorClass==''){
-        isDialog = 'data-reveal-id="country_popup" onclick=getCountryDialogInfo("'+data.alpha2Code.toLowerCase()+'")';
+        isDialog = 'onclick=getCountryDialogInfo("'+data.alpha2Code.toLowerCase()+'")';
     }
     $( ".countries" ).append(
             '<tr class="row">' +
@@ -98,21 +99,4 @@ function addResultInfo(data){
     conquerInfo.area+=data.area;
     conquerInfo.population+=data.population;
     conquerInfo.checkinsCount+=data.checkinsCount;
-}
-
-function getCountryDialogInfo(countryCode){
-    $.get("http://restcountries.eu/rest/v1/alpha/" + countryCode, function (data) {
-        data.flagImage = "http://www.geonames.org/flags/x/"+data.alpha2Code.toLowerCase()+".gif";
-        fillCountryDialog(data);
-    }, "json");
-}
-
-function fillCountryDialog(data){
-    $( "#country_name" ).html('').append(data.name);
-    $( "#country_capital" ).html('').append(data.capital);
-    $( "#country_region" ).html('').append(data.region);
-    $( "#country_subregion" ).html('').append(data.subregion);
-    $( "#country_population" ).html('').append(setFormat(data.population));
-    $( "#country_area" ).html('').append(setFormat(data.area));
-    $( "#country_gini" ).html('').append(data.gini);
 }

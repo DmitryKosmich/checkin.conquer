@@ -22,7 +22,7 @@ var map =  (function() {
                     hoverColor: '#c9dfaf',
                     selectedRegion: null,
                     onRegionClick: function (element, code, region) {
-                        //todo: add listener
+                        getCountryDialogInfo(code);
                     }
                 });
         },

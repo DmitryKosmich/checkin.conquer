@@ -69,3 +69,12 @@ function setLocalization(){
         $("[data-localize]").localize("language", opts);
     })
 }
+
+function authPopUpShow(){
+    $(".reveal-modal_auth_popup").show();
+    $(".reveal-modal-bg_auth_popup").show();
+}
+function authPopUpHide(){
+    $(".reveal-modal_auth_popup").hide();
+    $(".reveal-modal-bg_auth_popup").hide();
+}

@@ -74,6 +74,12 @@ h1{
     min-height: 20px;
 }
 
+#country_flag_popup{
+    background-color: #fff;
+    width: 150px;
+    min-height: 70px;
+}
+
 #mini_photo{
     background-color: #fff;
     width: 60px;
@@ -82,8 +88,4 @@ h1{
 
 .mainColor{
    color: #29c5e6;
-}
-
-.center{
-    vertical-align:middle;
 }

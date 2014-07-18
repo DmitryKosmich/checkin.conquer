@@ -2,6 +2,8 @@
 window.onload = function() {
 
     $(document).ready(function () {
+        authPopUpHide();
+        countryPopUpHide();
         setLocalization();
         setNavItem('home');
         map.initMap();
@@ -25,7 +27,7 @@ function setToken() {
         else {
             setTimeout(function(){
                 if(config.ACCESS_TOKEN == 'undefined'){
-                    $( "#dialog" ).dialog();
+                    authPopUpShow();
                 }
             }, 1000);
             doAuthRedirect();
@@ -41,4 +43,3 @@ function doAuthRedirect() {
 
     window.location.href = url;
 }
-

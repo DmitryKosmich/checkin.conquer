@@ -2,7 +2,7 @@
 
 {% block styles %}
 {% parent %}
-<link rel="stylesheet" href="/js/modaldialog/reveal.css" >
+<link rel="stylesheet" href="/css/popup/popup.css" >
 {% endblock %}
 
 {% block content %}
@@ -28,10 +28,7 @@
     </div>
 </div>
 
-<div id="country_popup" class="reveal-modal">
-    {% include "partials/country_popup.html" %}
-    <a class="close-reveal-modal">&#215;</a>
-</div>
+<div>{% include "partials/country_popup.html" %}</div>
 
 {% endblock %}
 
@@ -45,7 +42,7 @@
 
 <script type="text/javascript" src="/js/logic/services.js"></script>
 <script type="text/javascript" src="/js/logic/foursquare.js"></script>
+<script type="text/javascript" src="/js/logic/country.js"></script>
 <script type="text/javascript" src="/js/logic/countries.js"></script>
-<script type="text/javascript" src="/js/modaldialog/jquery.reveal.js"></script>
 
 {% endblock %}

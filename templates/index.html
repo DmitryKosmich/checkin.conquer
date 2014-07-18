@@ -1,5 +1,11 @@
 {% extends 'layout/layout.html' %}
 
+{% block styles %}
+{% parent %}
+
+<link rel="stylesheet" href="/css/popup/popup.css" >
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-md-24">
@@ -15,27 +21,25 @@
             </div>
         </div>
     </div>
+
+<div>{% include "partials/country_popup.html" %}</div>
+
 {% endblock %}
 
 {% block other %}
 <div id="fb-root"></div>
 
-<div id="dialog" title="Авторизуйтесь!">
-    {% include "partials/auth_popup.html" %}
-</div>
+<div>{% include "partials/auth_popup.html" %}</div>
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript" src="/js/logic/init.js"></script>
+<script type="text/javascript" src="/js/logic/country.js"></script>
 {% parent %}
-
+<script type="text/javascript" src="/js/logic/services.js"></script>
+<script type="text/javascript" src="/js/logic/foursquare.js"></script>
 <script type="text/javascript" src="/js/jqmap/jquery.vmap.js"></script>
 <script type="text/javascript" src="/js/jqmap/maps/jquery.vmap.world.js"></script>
 <script type="text/javascript" src="/js/jqmap/data/jquery.vmap.sampledata.js"></script>
-
-<script type="text/javascript" src="/js/logic/configuration.js"></script>
-<script type="text/javascript" src="/js/logic/services.js"></script>
-<script type="text/javascript" src="/js/logic/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/map.js"></script>
-<script type="text/javascript" src="/js/logic/init.js"></script>
-
 {% endblock %}
