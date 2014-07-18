@@ -65,7 +65,6 @@
 
 .reveal-modal_auth_popup {
     display: none;
-   /* visibility: hidden;*/
     top: 100px;
     left: 50%;
     margin-left: -300px;
