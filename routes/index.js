@@ -11,4 +11,9 @@ module.exports = function(app) {
 
     app.get('/countries', require('./countries').get);
     app.post('/countries', require('./countries').post);
+
+    app.post('/country', require('./country').getOne);
+    app.post('/country/add', require('./country').add);
+    app.post('/country/delete', require('./country').delete);
+    app.post('/country/all', require('./country').all);
 };

@@ -1,16 +1,20 @@
 <div class="reveal-modal-bg_country_popup">
-    <div class="reveal-modal_country_popup ">
-            <h1 class="mainColor" id="country_name"></h1>
-            <div class="col-md-12">
-                <p><span data-localize="capital">Capital</span>: <span id="country_capital"></span></p>
-                <p><span data-localize="region">Region</span>: <span id="country_region"></span></p>
-                <p><span data-localize="subregion">Subregion</span>: <span id="country_subregion"></span></p>
-                <p><span data-localize="population">Population</span>: <span id="country_population"></span></p>
-                <p><span data-localize="area">Area</span>: <span id="country_area"></span></p>
-                <p><span data-localize="gini_coefficient">Gini coefficient</span>: <span id="country_gini"></span></p>
+    <div class="reveal-modal_country_popup text-center">
+            <h1 class="mainColor"  id="country_name"></h1>
+        <div class="row">
+            <div class="col-md-24">
+                <p><span data-localize="capital">Capital</span>: <span class="mainColor" id="country_capital"></span></p>
+                <p><span data-localize="region">Region</span>: <span class="mainColor" id="country_region"></span></p>
+                <p><span data-localize="subregion">Subregion</span>: <span class="mainColor" id="country_subregion"></span></p>
+                <p><span data-localize="population">Population</span>: <span class="mainColor" id="country_population"></span></p>
+                <p><span data-localize="area">Area</span>: <span class="mainColor" id="country_area"></span></p>
+                <p><span data-localize="gini_coefficient">Gini coefficient</span>: <span class="mainColor" id="country_gini"></span></p>
             </div>
-            <div class="col-md-12">
-            </div>
-            <a href="javascript:countryPopUpHide()" class="close-reveal-modal">&#215;</a>
+        </div>
+        <h1>
+            <a href="#" class="glyphicon glyphicon-map-marker" id="addCountry" onclick="" ></a>
+            <a href="#" class="glyphicon glyphicon-trash" id="deleteCountry" onclick=""></a>
+        </h1>
+            <a href="javascript:closeCountryDialog()" class="close-reveal-modal">&#215;</a>
     </div>
 </div>

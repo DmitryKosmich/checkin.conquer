@@ -2,16 +2,16 @@
 window.onload = function() {
 
     $(document).ready(function () {
+
         authPopUpHide();
         countryPopUpHide();
+
         setLocalization();
         setNavItem('home');
         map.initMap();
         map.setColor(config.BG_COLOR);
         setToken();
-        foursquare.getVisitedCountries('self', function(data){
-            map.setRegionColor(data, config.VISITED_COUNTRY_COLOR);
-        })
+        map.update();
     });
 };
 
@@ -29,7 +29,7 @@ function setToken() {
                 if(config.ACCESS_TOKEN == 'undefined'){
                     authPopUpShow();
                 }
-            }, 1000);
+            }, 3000);
             doAuthRedirect();
         }
     }

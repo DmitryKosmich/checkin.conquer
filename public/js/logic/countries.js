@@ -16,7 +16,6 @@ var endIndicator = {
 };
 
 window.onload = function() {
-    countryPopUpHide();
     setLocalization();
     setNavItem('countries');
     foursquare.getVisitedCountries('self',function(data){
@@ -80,13 +79,9 @@ function createTable(){
 }
 
 function showCountry(data, colorClass) {
-    var isDialog='';
-    if(colorClass==''){
-        isDialog = 'onclick=getCountryDialogInfo("'+data.alpha2Code.toLowerCase()+'")';
-    }
     $( ".countries" ).append(
             '<tr class="row">' +
-            '<td><a href="#" '+isDialog+'><img id="country_flag" src="'+data.flagImage+'" /></a></td>' +
+            '<td><img id="country_flag" src="'+data.flagImage+'" /></td>' +
             '<td class="'+colorClass+'" >'+data.name+'</td>' +
             '<td class="'+colorClass+'">'+data.capital+'</td>' +
             '<td class="'+colorClass+' text-right">'+setFormat(data.population)+'</td>' +
