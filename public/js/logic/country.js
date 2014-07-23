@@ -82,5 +82,5 @@ function deleteCountry(code){
 
 function closeCountryDialog(){
     countryPopUpHide();
-    map.update();
+    //map.update();
 }

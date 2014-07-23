@@ -1,0 +1,37 @@
+{% extends 'layout/layout.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-24">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title leftstr" data-localize="album">Album</h3>
+                <span class="rightstr">
+                    <span><a href="#" onclick="" class="glyphicon glyphicon glyphicon-camera mainColor"></a></span>
+                </span>
+                <input type="file" id="images" style="display:none">
+                <span class="clearfix"></span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover album">
+                    <tr class="row">
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block other %}
+<div id="fb-root"></div>
+
+{% endblock %}
+
+{% block scripts %}
+{% parent %}
+
+<script type="text/javascript" src="/js/logic/services.js"></script>
+<script type="text/javascript" src="/js/logic/foursquare.js"></script>
+
+{% endblock %}

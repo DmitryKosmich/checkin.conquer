@@ -79,6 +79,7 @@ function createTable(){
 }
 
 function showCountry(data, colorClass) {
+    var hasAlbum = colorClass=="mainColor"?'':'<a href="/album/" class="glyphicon glyphicon-picture" id="album">';
     $( ".countries" ).append(
             '<tr class="row">' +
             '<td><img id="country_flag" src="'+data.flagImage+'" /></td>' +
@@ -87,6 +88,7 @@ function showCountry(data, colorClass) {
             '<td class="'+colorClass+' text-right">'+setFormat(data.population)+'</td>' +
             '<td class="'+colorClass+' text-right">'+setFormat(data.area)+'</td>' +
             '<td class="'+colorClass+' text-center">'+data.checkinsCount+'</td>' +
+            '<td class="'+colorClass+' text-center">'+hasAlbum+'</a></td>' +
             '</tr>' );
 }
 

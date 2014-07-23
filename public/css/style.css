@@ -4,11 +4,11 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #29c5e6;
 }
 
 h1{
-    color: #00B7FF;
+    color: #29c5e6;
 }
 
 #map{
@@ -61,7 +61,7 @@ h1{
     width: 50%;
 }
 .rightstr {
-    text-align: right; /* Выравнивание по правому краю */
+    text-align: right;
 }
 
 #dialog {

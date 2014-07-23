@@ -26,5 +26,6 @@
     "region": "Континент",
     "subregion": "Часть света",
     "gini_coefficient": "Коэффициент Джини",
-    "my_ownership": "Мои владения"
+    "my_ownership": "Мои владения",
+    "album" : "Альбом"
 }
