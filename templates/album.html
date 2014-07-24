@@ -1,25 +1,28 @@
 {% extends 'layout/layout.html' %}
 
+{% block styles %}
+{% parent %}
+<link rel="stylesheet" href="/css/gallery/nanogallery.css" >
+{% endblock %}
+
 {% block content %}
 <div class="row">
-    <div class="col-md-24">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title leftstr" data-localize="album">Album</h3>
-                <span class="rightstr">
-                    <span><a href="#" onclick="" class="glyphicon glyphicon glyphicon-camera mainColor"></a></span>
-                </span>
-                <input type="file" id="images" style="display:none">
-                <span class="clearfix"></span>
-            </div>
-            <div class="panel-body">
-                <table class="table table-hover album">
-                    <tr class="row">
-                    </tr>
-                </table>
+<div class="col-md-24">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title leftstr" data-localize="album">Album</h3>
+            <span class="rightstr">
+                <span><a href="#" onclick="deleteAlbum()" id="deleteButton" class="glyphicon glyphicon-trash mainColor"></a></span>
+            </span>
+            <input type="file" id="images" style="display:none">
+            <span class="clearfix"></span>
+        </div>
+        <div class="panel-body">
+            <div id="gallery">
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
 
@@ -33,5 +36,9 @@
 
 <script type="text/javascript" src="/js/logic/services.js"></script>
 <script type="text/javascript" src="/js/logic/foursquare.js"></script>
+<script type="text/javascript" src="/js/logic/album.js"></script>
+
+<script type="text/javascript" src="/js/jquery/jquery.transit.min.js"></script>
+<script type="text/javascript" src="/js/jquery/jquery.nano-gallery.js"></script>
 
 {% endblock %}

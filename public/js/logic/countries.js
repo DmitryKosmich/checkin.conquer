@@ -67,19 +67,19 @@ function readData(data){
 }
 
 function createTable(){
-    for(var i = 0; i < allCountriesInfo.length; i++){
-        showCountry(allCountriesInfo[i], '');
-        if(i == allCountriesInfo.length-1){
-            foursquare.getUser('self', function(data){
-                conquerInfo.flagImage = data.response.user.photo.prefix+'30x30'+data.response.user.photo.suffix;
+    foursquare.getUser('self', function(userData){
+        for(var i = 0; i < allCountriesInfo.length; i++){
+            showCountry(allCountriesInfo[i], '');
+            if(i == allCountriesInfo.length-1){
+                conquerInfo.flagImage = userData.response.user.photo.prefix+'30x30'+userData.response.user.photo.suffix;
                 showCountry(conquerInfo, 'mainColor');
-            });
+            }
         }
-    }
+    });
 }
 
 function showCountry(data, colorClass) {
-    var hasAlbum = colorClass=="mainColor"?'':'<a href="/album/" class="glyphicon glyphicon-picture" id="album">';
+    var hasAlbum = colorClass=="mainColor"?'':'<a href="/album?countryCode='+data.alpha2Code.toLowerCase()+'" class="glyphicon glyphicon-picture" id="album">';
     $( ".countries" ).append(
             '<tr class="row">' +
             '<td><img id="country_flag" src="'+data.flagImage+'" /></td>' +

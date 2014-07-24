@@ -5,7 +5,6 @@ window.onload = function() {
 
         authPopUpHide();
         countryPopUpHide();
-
         setLocalization();
         setNavItem('home');
         map.initMap();
