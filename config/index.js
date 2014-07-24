@@ -10,7 +10,7 @@ var configuration = {
                                     }
                                 },
                                 "user": "admin",
-                                "pass": "Hl2NLYYtsHBK"
+                                "pass": "r3rl4C-v7WT6"
                             }
                         },
                         "session": {
