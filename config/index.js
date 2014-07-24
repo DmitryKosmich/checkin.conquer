@@ -1,8 +1,33 @@
-var nconf = require('nconf');
+/*var nconf = require('nconf');
 var path = require('path');
 
 nconf.argv()
     .env()
-    .file({ file:  path.join(__dirname,'config.json' )});
+    .file({ file:  path.join(__dirname,'config.json' )});*/
 
-module.exports = nconf;
+var configuration = {
+                        "port": "8080",
+                        "mongoose": {
+                            "uri": "mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/checkiner",
+                            "options": {
+                                "server" : {
+                                    "socketoptions": {
+                                        "keepAlive": 1
+                                    }
+                                },
+                                "user": "admin",
+                                "pass": "Hl2NLYYtsHBK"
+                            }
+                        },
+                        "session": {
+                            "secret": "KillerIsJim",
+                            "key": "sid",
+                            "cookie": {
+                                "path": "/",
+                                "httpOnly": true,
+                                "maxAge": null
+                            }
+                        }
+                    }
+
+module.exports = configuration;

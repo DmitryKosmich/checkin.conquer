@@ -1,15 +1,11 @@
 {
     "port": "8080",
     "mongoose": {
-        "uri": "mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/checkiner",
+        "uri": "mongodb://localhost/chat",
         "options": {
-            "server" : {
-                "socketoptions": {
-                    "keepAlive": 1
-                }
-            },
-            "user": "admin",
-            "pass": "Hl2NLYYtsHBK"
+            "socketoptions": {
+                "keepAlive": 1
+            }
         }
     },
     "session": {
