@@ -3,11 +3,11 @@ window.onload = function() {
 
     $(document).ready(function () {
         setLocalization();
-        foursquare.getUser(getURLParameter('id'), function(data){
+        FOURSQUARE.getUser(getURLParameter('id'), function(data){
             $('#vs_title').append(data.response.user.firstName+' '+data.response.user.lastName  );
             fullUserForm('f', data);
         });
-        foursquare.getUser('self', function(data){
+        FOURSQUARE.getUser('self', function(data){
             fullUserForm('self', data);
         });
     });

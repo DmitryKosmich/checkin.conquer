@@ -18,10 +18,19 @@ var endIndicator = {
 window.onload = function() {
     setLocalization();
     setNavItem('countries');
-    foursquare.getVisitedCountries('self',function(data){
-        var countries = createCountryObject(data);
-        fillAllCountryInfo(countries);
-    })
+    FOURSQUARE.getVisitedCountries('self',function(countriesData){
+        FOURSQUARE.getUser('self', function(userData){
+            COUNTRY.getAll(userData.response.user.id, function(countryData){
+                for(var index = 0; index< countryData.length; index++){
+                    if(!isExist(countryData[index].code, countriesData)){
+                        countriesData.push(countryData[index].code);
+                    }
+                }
+                var countries = createCountryObject(countriesData);
+                fillAllCountryInfo(countries);
+            });
+        });
+    });
 };
 
 function createCountryObject(data){
@@ -67,7 +76,7 @@ function readData(data){
 }
 
 function createTable(){
-    foursquare.getUser('self', function(userData){
+    FOURSQUARE.getUser('self', function(userData){
         for(var i = 0; i < allCountriesInfo.length; i++){
             showCountry(allCountriesInfo[i], '');
             if(i == allCountriesInfo.length-1){

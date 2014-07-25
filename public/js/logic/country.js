@@ -1,4 +1,4 @@
-var country = (function(){
+var COUNTRY = (function(){
     return {
         add : function(country, callback){
             $.post( "/country/add", {'country' : country}, function( data ) {
@@ -17,7 +17,7 @@ var country = (function(){
         },
 
         getOne : function(code, callback){
-            $.post( "/country", {'country' : country}, function( data ) {
+            $.post( "/country", {'country' : code}, function( data ) {
                 callback(data);
             }, "json");
         }
@@ -57,24 +57,24 @@ function countryPopUpHide(){
 }
 
 function addCountry(code){
-    foursquare.getUser('self', function(data){
+    FOURSQUARE.getUser('self', function(data){
         var newCountry = {
             "code": code,
             "userId": data.response.user.id
         };
-        country.add(newCountry, function(data){});
+        COUNTRY.add(newCountry, function(data){});
         map.update();
     });
     countryPopUpHide();
 }
 
 function deleteCountry(code){
-    foursquare.getUser('self', function(data){
+    FOURSQUARE.getUser('self', function(data){
         var deletedCountry = {
             "code": code,
             "userId": data.response.user.id
         };
-        country.delete(deletedCountry, function(data){});
+        COUNTRY.delete(deletedCountry, function(data){});
         map.update();
     });
     countryPopUpHide();

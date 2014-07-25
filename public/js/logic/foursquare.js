@@ -1,6 +1,6 @@
 'use strict';
 
-var foursquare =  (function() {
+var FOURSQUARE =  (function() {
 
     return  {
 
@@ -29,7 +29,7 @@ var foursquare =  (function() {
         },
 
         setCheckinCount: function (id, callback){
-            foursquare.getCheckins(id, function(data){
+            FOURSQUARE.getCheckins(id, function(data){
                 callback(data.response.checkins.count);
             });
         },
@@ -41,7 +41,7 @@ var foursquare =  (function() {
 
             this.setCheckinCount(id, function(count){
                 for(var i = 0; i <= count/CHECKIN_OFFSET; i++){
-                    foursquare.getCheckinsWithParams(id, CHECKIN_LIMIT, CHECKIN_OFFSET*i, function(data){
+                    FOURSQUARE.getCheckinsWithParams(id, CHECKIN_LIMIT, CHECKIN_OFFSET*i, function(data){
                         if('' === String(sessionStorage.CURRENT_COUNTRY_CODES)) {
                             sessionStorage.CURRENT_COUNTRY_CODES = convertChekinsToCountryCodes(data);
                         }else{

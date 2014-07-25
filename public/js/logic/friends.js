@@ -2,7 +2,7 @@
 window.onload = function() {
     setLocalization();
     setNavItem('friends');
-    foursquare.getFriends('self', function(data){
+    FOURSQUARE.getFriends('self', function(data){
         showFriends(data);
     });
 };
@@ -27,7 +27,7 @@ function showFriends(data){
 }
 
 function showFriend(id, name, surname, homeCity) {
-    foursquare.getUser(id, function(data){
+    FOURSQUARE.getUser(id, function(data){
         $( ".friends" ).append(
                 '<tr class="row">' +
                 '<td><img id="mini_photo" src="'+data.response.user.photo.prefix+'110x110'+data.response.user.photo.suffix+'"></td>' +

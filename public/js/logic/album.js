@@ -21,7 +21,7 @@ var ALBUM = (function(){
 })();
 
 $(document).ready(function () {
-    foursquare.getUser('self', function(userData){
+    FOURSQUARE.getUser('self', function(userData){
         var album = {
             userId: userData.response.user.id,
             countryCode: getURLParameter('countryCode')
@@ -63,7 +63,7 @@ function showAddAlbumText(){
 }
 
 function addAlbum(){
-    foursquare.getUser('self', function(userData){
+    FOURSQUARE.getUser('self', function(userData){
         if($("#userPicasaId").val() && $("#userPicasaId").val()){
             var newAlbum = {
                 userId: userData.response.user.id,
@@ -80,7 +80,7 @@ function addAlbum(){
 }
 
 function deleteAlbum(){
-    foursquare.getUser('self', function(userData){
+    FOURSQUARE.getUser('self', function(userData){
         var album = {
             userId: userData.response.user.id,
             countryCode: getURLParameter('countryCode')

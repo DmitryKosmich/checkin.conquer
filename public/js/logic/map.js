@@ -21,8 +21,8 @@ var map =  (function() {
     }
 
     function setRegionColorFromDB( newColor){
-        foursquare.getUser('self', function(data){
-            country.getAll(data.response.user.id, function(data){
+        FOURSQUARE.getUser('self', function(data){
+            COUNTRY.getAll(data.response.user.id, function(data){
                 var regions = [];
                 for(var index = 0; index< data.length; index++){
                     regions.push(data[index].code);
@@ -57,7 +57,7 @@ var map =  (function() {
     }
 
     function update(){
-        foursquare.getVisitedCountries('self', function(data){
+        FOURSQUARE.getVisitedCountries('self', function(data){
             setColor(config.BG_COLOR);
             setRegionColor(data, config.VISITED_COUNTRY_COLOR);
             setRegionColorFromDB( config.VISITED_COUNTRY_COLOR_BD);
