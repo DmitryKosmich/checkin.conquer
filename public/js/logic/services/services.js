@@ -74,9 +74,20 @@ function authPopUpShow(){
     $(".reveal-modal_auth_popup").show();
     $(".reveal-modal-bg_auth_popup").show();
 }
+
 function authPopUpHide(){
     $(".reveal-modal_auth_popup").hide();
     $(".reveal-modal-bg_auth_popup").hide();
+}
+
+function countryPopUpShow(){
+    $(".reveal-modal_country_popup").show();
+    $(".reveal-modal-bg_country_popup").show();
+}
+
+function countryPopUpHide(){
+    $(".reveal-modal_country_popup").hide();
+    $(".reveal-modal-bg_country_popup").hide();
 }
 
 function getLocalTimeBySeconds(seconds){

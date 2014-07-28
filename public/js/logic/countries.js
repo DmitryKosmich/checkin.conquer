@@ -92,7 +92,7 @@ function createTable(){
 
 function showCountry(data, colorClass) {
     var cc = colorClass=="mainColor"?'':data.alpha2Code.toLowerCase();
-    var hasAlbum = colorClass=="mainColor"?'':'<a href="/album?countryCode='+cc+'" class="glyphicon glyphicon-picture" >';
+    var hasAlbum = colorClass=="mainColor"?'':'<a href="/albums?countryCode='+cc+'" class="glyphicon glyphicon-picture" >';
     var showCity = colorClass=="mainColor"?'': 'showCities';
     $( ".countries" ).append(
             '<tr class="row '+showCity+'" name="'+cc+'">' +
@@ -126,17 +126,18 @@ function showCities(){
         if(activeCC!=cc){
             FOURSQUARE.getCitiesByCC(cc, function(data){
                 $('.row.city').remove();
+                console.log(data);
                 for(var i=0; i < data.length; i++){
                     if(data[i]){
                         $( thisTag).after(
                                 '<tr class="row city">' +
                                 '<td></td>' +
-                                '<td>'+data[i].name+'</td>' +
-                                '<td>'+data[i].place+'</td>' +
-                                '<td>'+data[i].date+'</td>' +
+                                '<td>'+data[i]+'</td>' +
                                 '<td></td>' +
                                 '<td></td>' +
-                                '<td class="mainColor text-center"><a href="/album?cityId='+data[i].id+'" class="glyphicon glyphicon-picture"></a></td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '<td class="mainColor text-center"><a href="/albums?city='+data[i]+'" class="glyphicon glyphicon-picture"></a></td>' +
                                 '</tr>');
                         $(".row.city").hide();
                         $( ".row.city").addClass( "accordionBodyRow" );

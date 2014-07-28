@@ -2,27 +2,28 @@
 
 {% block styles %}
 {% parent %}
-<link rel="stylesheet" href="/css/gallery/nanogallery.css" >
+<link rel="stylesheet" href="/css/popup/popup.css" >
 {% endblock %}
 
 {% block content %}
 <div class="row">
-<div class="col-md-24">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title leftstr" data-localize="album">Album</h3>
+    <div class="col-md-24">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title leftstr" data-localize="album">Albums</h3>
             <span class="rightstr">
-                <span><a href="#" onclick="deleteAlbum()" id="deleteButton" class="glyphicon glyphicon-trash mainColor"></a></span>
+                <span><a href="#" onclick="countryPopUpShow()" id="deleteButton" class="glyphicon glyphicon-plus"></a></span>
             </span>
-            <span class="clearfix"></span>
-        </div>
-        <div class="panel-body">
-            <div id="gallery">
+                <span class="clearfix"></span>
+            </div>
+            <div class="panel-body">
+                <div id="albums">
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+<div>{% include "partials/add_album_popup.html" %}</div>
 {% endblock %}
 
 {% block other %}
@@ -36,7 +37,7 @@
 <script type="text/javascript" src="/js/logic/services/services.js"></script>
 <script type="text/javascript" src="/js/logic/services/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/services/album.js"></script>
-<script type="text/javascript" src="/js/logic/album.js"></script>
+<script type="text/javascript" src="/js/logic/albums.js"></script>
 
 <script type="text/javascript" src="/js/jquery/jquery.transit.min.js"></script>
 <script type="text/javascript" src="/js/jquery/jquery.nano-gallery.js"></script>

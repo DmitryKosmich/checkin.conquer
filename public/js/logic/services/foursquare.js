@@ -63,19 +63,17 @@ var FOURSQUARE =  (function() {
 
         getCitiesByCC: function(countryCode, callback){
             FOURSQUARE.getAllCheckins('self', function(data){
-                var cities = [];
+                var cities = {};
                 for(var i = 0; i<data.length; i++){
                     if(countryCode==data[i].venue.location.cc.toLowerCase()){
-                        var city = {};
-                        city.id = data[i].id;
-                        city.countryCode = data[i].venue.location.cc.toLowerCase();
-                        city.name = data[i].venue.location.city;
-                        city.date = getLocalTimeBySeconds(data[i].createdAt);
-                        city.place = data[i].venue.name;
-                        cities.push(city);
+                        cities[data[i].venue.location.city]++;
                     }
                 }
-                callback(cities);
+                var returnCities=[];
+                for(var city in cities){
+                    returnCities.push(city);
+                }
+                callback(returnCities);
             });
         }
     }

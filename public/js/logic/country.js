@@ -46,16 +46,6 @@ function fillCountryDialog(data){
     $( "#deleteCountry" ).attr( 'onclick', "deleteCountry('"+data.alpha2Code.toLowerCase()+"')");
 }
 
-function countryPopUpShow(){
-    $(".reveal-modal_country_popup").show();
-    $(".reveal-modal-bg_country_popup").show();
-}
-
-function countryPopUpHide(){
-    $(".reveal-modal_country_popup").hide();
-    $(".reveal-modal-bg_country_popup").hide();
-}
-
 function addCountry(code){
     FOURSQUARE.getUser('self', function(data){
         var newCountry = {

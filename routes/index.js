@@ -18,6 +18,10 @@ module.exports = function(app) {
     app.post('/album/get', require('./album').getOne);
     app.post('/album/delete', require('./album').delete);
 
+    app.get('/albums', require('./albums').get);
+    app.post('/albums', require('./albums').post);
+    app.post('/albums/get', require('./albums').getAll);
+
     app.post('/country', require('./country').getOne);
     app.post('/country/add', require('./country').add);
     app.post('/country/delete', require('./country').delete);

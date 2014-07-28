@@ -10,30 +10,29 @@ exports.post = function(req, res) {
 
 exports.add = function(req, res) {
     var newAlbum = new Album({
+        "name": req.body.album.name,
         "userId": req.body.album.userId,
         "userPicasaId": req.body.album.userPicasaId,
         "albumPicasaId": req.body.album.albumPicasaId,
         "countryCode": req.body.album.countryCode,
-        "cityId": req.body.album.cityId
+        "city": req.body.album.city
     });
-    Album.findOneAndRemove({"userId": newAlbum.userId, "countryCode": newAlbum.countryCode, "cityId": newAlbum.cityId}, function(err, album) {
+    console.log(newAlbum);
+    newAlbum.save(function(err, album, affected) {
         if (err) throw err;
-        newAlbum.save(function(err, album, affected) {
-            if (err) throw err;
-        });
     });
     res.send({"album": newAlbum});
 };
 
 exports.getOne = function(req, res) {
-    Album.findOne({"userId": req.body.album.userId, "countryCode": req.body.album.countryCode, "cityId": req.body.album.cityId}, function(err, album) {
+    Album.findById(req.body.id, function(err, album) {
         if (err) throw err;
         res.send({"album": album});
     });
 };
 
 exports.delete = function(req, res) {
-    Album.findOneAndRemove({"userId": req.body.album.userId, "countryCode": req.body.album.countryCode, "cityId": req.body.album.cityId}, function(err, album) {
+    Album.findByIdAndRemove(req.body.id, function(err, album) {
         if (err) throw err;
         res.send({"album": album});
     });
