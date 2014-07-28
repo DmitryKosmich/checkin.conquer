@@ -15,13 +15,15 @@ var endIndicator = {
     currentIndex: 0
 };
 
+var activeCC = '';
+
 window.onload = function() {
     setLocalization();
     setNavItem('countries');
     FOURSQUARE.getVisitedCountries('self',function(countriesData){
         FOURSQUARE.getUser('self', function(userData){
             COUNTRY.getAll(userData.response.user.id, function(countryData){
-                for(var index = 0; index< countryData.length; index++){
+                for(var index = 0; index < countryData.length; index++){
                     if(!isExist(countryData[index].code, countriesData)){
                         countriesData.push(countryData[index].code);
                     }
@@ -84,13 +86,16 @@ function createTable(){
                 showCountry(conquerInfo, 'mainColor');
             }
         }
+        showCities();
     });
 }
 
 function showCountry(data, colorClass) {
-    var hasAlbum = colorClass=="mainColor"?'':'<a href="/album?countryCode='+data.alpha2Code.toLowerCase()+'" class="glyphicon glyphicon-picture" id="album">';
+    var cc = colorClass=="mainColor"?'':data.alpha2Code.toLowerCase();
+    var hasAlbum = colorClass=="mainColor"?'':'<a href="/album?countryCode='+cc+'" class="glyphicon glyphicon-picture" >';
+    var showCity = colorClass=="mainColor"?'': 'showCities';
     $( ".countries" ).append(
-            '<tr class="row">' +
+            '<tr class="row '+showCity+'" name="'+cc+'">' +
             '<td><img id="country_flag" src="'+data.flagImage+'" /></td>' +
             '<td class="'+colorClass+'" >'+data.name+'</td>' +
             '<td class="'+colorClass+'">'+data.capital+'</td>' +
@@ -105,4 +110,46 @@ function addResultInfo(data){
     conquerInfo.area+=data.area;
     conquerInfo.population+=data.population;
     conquerInfo.checkinsCount+=data.checkinsCount;
+}
+
+//TODO rewrite function
+function showCities(){
+    $( ".row.showCities").click( function() {
+        var thisTag = this;
+        var cc = $(thisTag).attr('name');
+
+        $( '.showCities' ).removeClass( "accordionHeaderRow" );
+        $(".row.city").hide(100, function(){
+            $('.row.city').remove();
+        });
+
+        if(activeCC!=cc){
+            FOURSQUARE.getCitiesByCC(cc, function(data){
+                $('.row.city').remove();
+                for(var i=0; i < data.length; i++){
+                    if(data[i]){
+                        $( thisTag).after(
+                                '<tr class="row city">' +
+                                '<td></td>' +
+                                '<td>'+data[i].name+'</td>' +
+                                '<td>'+data[i].place+'</td>' +
+                                '<td>'+data[i].date+'</td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '<td class="mainColor text-center"><a href="/album?cityId='+data[i].id+'" class="glyphicon glyphicon-picture"></a></td>' +
+                                '</tr>');
+                        $(".row.city").hide();
+                        $( ".row.city").addClass( "accordionBodyRow" );
+                        if(i==data.length-1){
+                            activeCC =cc;
+                            $( thisTag).addClass( "accordionHeaderRow" );
+                        }
+                    }
+                }
+                $(".row.city").show(100);
+            });
+        }else{
+            activeCC = '';
+        }
+    });
 }

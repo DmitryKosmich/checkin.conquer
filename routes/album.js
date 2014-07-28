@@ -13,9 +13,10 @@ exports.add = function(req, res) {
         "userId": req.body.album.userId,
         "userPicasaId": req.body.album.userPicasaId,
         "albumPicasaId": req.body.album.albumPicasaId,
-        "countryCode": req.body.album.countryCode
+        "countryCode": req.body.album.countryCode,
+        "cityId": req.body.album.cityId
     });
-    Album.findOneAndRemove({"userId": newAlbum.userId, "countryCode": newAlbum.countryCode}, function(err, album) {
+    Album.findOneAndRemove({"userId": newAlbum.userId, "countryCode": newAlbum.countryCode, "cityId": newAlbum.cityId}, function(err, album) {
         if (err) throw err;
         newAlbum.save(function(err, album, affected) {
             if (err) throw err;
@@ -25,14 +26,14 @@ exports.add = function(req, res) {
 };
 
 exports.getOne = function(req, res) {
-    Album.findOne({"userId": req.body.album.userId, "countryCode": req.body.album.countryCode}, function(err, album) {
+    Album.findOne({"userId": req.body.album.userId, "countryCode": req.body.album.countryCode, "cityId": req.body.album.cityId}, function(err, album) {
         if (err) throw err;
         res.send({"album": album});
     });
 };
 
 exports.delete = function(req, res) {
-    Album.findOneAndRemove({"userId": req.body.album.userId, "countryCode": req.body.album.countryCode}, function(err, album) {
+    Album.findOneAndRemove({"userId": req.body.album.userId, "countryCode": req.body.album.countryCode, "cityId": req.body.album.cityId}, function(err, album) {
         if (err) throw err;
         res.send({"album": album});
     });

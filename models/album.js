@@ -24,6 +24,11 @@ var schema = new Schema({
         unique: false,
         required: true
     },
+    cityId: {
+        type: String,
+        unique: false,
+        required: true
+    },
     created: {
         type: Date,
         default: Date.now

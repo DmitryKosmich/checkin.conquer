@@ -24,9 +24,9 @@ $(document).ready(function () {
     FOURSQUARE.getUser('self', function(userData){
         var album = {
             userId: userData.response.user.id,
-            countryCode: getURLParameter('countryCode')
+            countryCode: null==getURLParameter('countryCode')?'null':getURLParameter('countryCode'),
+            cityId: null==getURLParameter('cityId')?'null':getURLParameter('cityId')
         };
-
         ALBUM.get(album, function(albumData){
             if(!albumData.album){
                 $('#deleteButton').hide();
@@ -69,11 +69,12 @@ function addAlbum(){
                 userId: userData.response.user.id,
                 userPicasaId: $("#userPicasaId").val(),
                 albumPicasaId: $("#albumPicasaId").val(),
-                countryCode: getURLParameter('countryCode')
+                countryCode: null==getURLParameter('countryCode')?'null':getURLParameter('countryCode'),
+                cityId: null==getURLParameter('cityId')?'null':getURLParameter('cityId')
             };
 
             ALBUM.add(newAlbum, function(){
-                window.location.href = '/album?countryCode='+getURLParameter('countryCode');
+                redirectBack();
             });
         }
     });
@@ -83,11 +84,22 @@ function deleteAlbum(){
     FOURSQUARE.getUser('self', function(userData){
         var album = {
             userId: userData.response.user.id,
-            countryCode: getURLParameter('countryCode')
+            countryCode: null==getURLParameter('countryCode')?'null':getURLParameter('countryCode'),
+            cityId: null==getURLParameter('cityId')?'null':getURLParameter('cityId')
         };
 
         ALBUM.delete(album, function(){
-            window.location.href = '/album?countryCode='+getURLParameter('countryCode');
+            redirectBack();
         });
     });
+}
+
+function redirectBack(){
+    var address = '';
+    if(null==getURLParameter('countryCode')){
+        address = 'cityId='+getURLParameter('cityId');
+    }else{
+        address = 'countryCode='+getURLParameter('countryCode');
+    }
+    window.location.href = '/album?'+address;
 }

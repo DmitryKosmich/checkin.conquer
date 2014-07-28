@@ -32,8 +32,8 @@ function getURLParameter(name) {
 
 function convertChekinsToCountryCodes(data){
     var ccs = [];
-    for(var cc in data.response.checkins.items){
-        ccs.push(data.response.checkins.items[cc].venue.location.cc.toLowerCase());
+    for(var cc in data){
+        ccs.push(data[cc].venue.location.cc.toLowerCase());
     }
     return ccs;
 }
@@ -77,4 +77,10 @@ function authPopUpShow(){
 function authPopUpHide(){
     $(".reveal-modal_auth_popup").hide();
     $(".reveal-modal-bg_auth_popup").hide();
+}
+
+function getLocalTimeBySeconds(seconds){
+    var curdate = new Date(null);
+    curdate.setTime(seconds*1000);
+    return curdate.toLocaleString();
 }

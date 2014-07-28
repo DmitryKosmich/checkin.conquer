@@ -270,7 +270,7 @@
 
 
 .nanogallery_theme_default .nanoGalleryContainer .nanoGalleryThumbnailContainer .labelImage{
-    background:rgba(34, 34, 34, 0.25); /*#222;*/
+    background:rgba(34, 34, 34, 0.0); /*#222;*/
     opacity: 1;
     text-align:left;
     padding: 5px 5px 5px 5px;
@@ -288,7 +288,7 @@
     color:#eee;
     left: 0px;
     overflow:hidden;
-    Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
+    Text-Shadow: #565656 1px 0px 0px, #565656 1px 1px 0px, #565656 1px -1px 0px, #565656 -1px 1px 0px, #565656 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
     vertical-align: middle;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -296,13 +296,10 @@
     -o-box-sizing: border-box;
 }
 .nanogallery_theme_default .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelImageTitle:before{
-    content: '\e803';	/* .icon-picture */
+    /*content: '\e803';*/	/* .icon-picture */
     margin-left: .2em;
     margin-right: .3em;
-    Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
-    font-family: "nano_icon_font";
-    font-style: normal;
-    font-weight: normal;
+    Text-Shadow: #565656 1px 0px 0px, #565656 1px 1px 0px, #565656 1px -1px 0px, #565656 -1px 1px 0px, #565656 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
     speak: none;
     display: inline-block;
     text-decoration: inherit;

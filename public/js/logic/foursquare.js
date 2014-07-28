@@ -34,23 +34,48 @@ var FOURSQUARE =  (function() {
             });
         },
 
-        getVisitedCountries: function (id, callback){
+        getAllCheckins : function(id, callback){
             var CHECKIN_LIMIT = 250;
             var CHECKIN_OFFSET = 250;
-            sessionStorage.CURRENT_COUNTRY_CODES = '';
-
+            sessionStorage.CHECKINS = '';
             this.setCheckinCount(id, function(count){
                 for(var i = 0; i <= count/CHECKIN_OFFSET; i++){
                     FOURSQUARE.getCheckinsWithParams(id, CHECKIN_LIMIT, CHECKIN_OFFSET*i, function(data){
-                        if('' === String(sessionStorage.CURRENT_COUNTRY_CODES)) {
-                            sessionStorage.CURRENT_COUNTRY_CODES = convertChekinsToCountryCodes(data);
+                        if('' === String(sessionStorage.CHECKINS)) {
+                            sessionStorage.setItem("CHECKINS", JSON.stringify(data.response.checkins.items));
                         }else{
-                            sessionStorage.CURRENT_COUNTRY_CODES = convertChekinsToCountryCodes(data)+'' +
-                                ','+String(sessionStorage.CURRENT_COUNTRY_CODES);
+                            var temp = sessionStorage.getItem('CHECKINS');
+                            var checkins = JSON.parse(temp);
+                            checkins.concat(data.response.checkins.items);
+                            sessionStorage.setItem("CHECKINS", JSON.stringify(checkins));
                         }
-                        callback(String(sessionStorage.CURRENT_COUNTRY_CODES).split(','));
+                        callback(JSON.parse(sessionStorage.getItem('CHECKINS')));
                     });
                 }
+            });
+        },
+
+        getVisitedCountries: function (id, callback){
+            FOURSQUARE.getAllCheckins('self', function(data){
+                callback(convertChekinsToCountryCodes(data));
+            });
+        },
+
+        getCitiesByCC: function(countryCode, callback){
+            FOURSQUARE.getAllCheckins('self', function(data){
+                var cities = [];
+                for(var i = 0; i<data.length; i++){
+                    if(countryCode==data[i].venue.location.cc.toLowerCase()){
+                        var city = {};
+                        city.id = data[i].id;
+                        city.countryCode = data[i].venue.location.cc.toLowerCase();
+                        city.name = data[i].venue.location.city;
+                        city.date = getLocalTimeBySeconds(data[i].createdAt);
+                        city.place = data[i].venue.name;
+                        cities.push(city);
+                    }
+                }
+                callback(cities);
             });
         }
     }

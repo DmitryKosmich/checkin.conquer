@@ -93,3 +93,15 @@ h1{
 #loadingImage {
     visibility: visible;
 }
+
+.showCities{
+    cursor: pointer;
+}
+
+.accordionHeaderRow {
+    color: #444;
+}
+
+.accordionBodyRow {
+    color: #b2b2b2;
+}
