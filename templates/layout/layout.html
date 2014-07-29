@@ -4,14 +4,19 @@
     <title>
     </title>
     {% block styles %}
-    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css"/>
+
     <link rel="stylesheet" href="/css/styles.css" >
     <link rel="stylesheet" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery/jquery.browser.js"></script>
+    <script type="text/javascript" src="/js/logic/services/browser.js"></script>
     <script type="text/javascript">
+        if(!BROWSER.isCorrect(BROWSER.getVersion())){
+            window.location.href = '/error/browser';
+        }
         $(window).load(function() { $("#loadingImage").fadeOut("slow"); });
     </script>
+
     {% endblock %}
 </head>
 

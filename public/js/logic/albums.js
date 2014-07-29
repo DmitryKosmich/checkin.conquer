@@ -1,6 +1,7 @@
 'use strict';
 
 $(document).ready(function () {
+    setLocalization();
     FOURSQUARE.getUser('self', function(userData){
         var album = {
             userId: userData.response.user.id,

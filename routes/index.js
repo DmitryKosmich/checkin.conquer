@@ -1,5 +1,8 @@
 module.exports = function(app) {
 
+    app.get('/error/browser', require('./error_browser').get);
+    app.post('/error/browser', require('./error_browser').post);
+
     app.get('/', require('./jqmap').get);
     app.post('/', require('./jqmap').post);
 

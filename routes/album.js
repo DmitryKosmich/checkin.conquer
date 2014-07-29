@@ -17,7 +17,6 @@ exports.add = function(req, res) {
         "countryCode": req.body.album.countryCode,
         "city": req.body.album.city
     });
-    console.log(newAlbum);
     newAlbum.save(function(err, album, affected) {
         if (err) throw err;
     });

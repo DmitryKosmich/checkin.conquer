@@ -1,6 +1,7 @@
 'use strict';
 
 $(document).ready(function () {
+    setLocalization();
     ALBUM.get(getURLParameter('id'), function(albumData){
         init(albumData.album.userPicasaId, albumData.album.albumPicasaId);
     });

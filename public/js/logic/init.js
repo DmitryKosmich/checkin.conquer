@@ -2,7 +2,6 @@
 window.onload = function() {
 
     $(document).ready(function () {
-
         authPopUpHide();
         countryPopUpHide();
         setLocalization();
