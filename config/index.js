@@ -4,7 +4,7 @@ var DB_PORT = process.env.OPENSHIFT_MONGODB_DB_PORT;
 var configuration = {
                         "port": "8080",
                         "mongoose": {
-                            "uri": "mongodb://"+DB_HOST+":"+DB_PORT+"/checkiner",
+                            "uri": "mongodb://admin:r3rl4C-v7WT6@"+DB_HOST+":"+DB_PORT+"/checkiner",
                             "options": {
                                 "server" : {
                                     "socketoptions": {
