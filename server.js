@@ -56,5 +56,8 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var server = http.createServer(app);
 
 server.listen(server_port, server_ip_address, function () {
+
+    console.log('url: '+config.mongoose.uri);
+    console.log('options: '+JSON.stringify(config.mongoose.options));
     console.log( "Listening on " + server_ip_address + ", port " + server_port );
 });
