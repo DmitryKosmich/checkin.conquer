@@ -126,7 +126,6 @@ function showCities(){
         if(activeCC!=cc){
             FOURSQUARE.getCitiesByCC(cc, function(data){
                 $('.row.city').remove();
-                console.log(data);
                 for(var i=0; i < data.length; i++){
                     if(data[i]){
                         $( thisTag).after(

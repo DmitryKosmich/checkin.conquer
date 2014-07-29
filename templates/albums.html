@@ -3,6 +3,7 @@
 {% block styles %}
 {% parent %}
 <link rel="stylesheet" href="/css/popup/popup.css" >
+<link rel="stylesheet" href="/css/gallery/album.css" >
 {% endblock %}
 
 {% block content %}
@@ -17,12 +18,13 @@
                 <span class="clearfix"></span>
             </div>
             <div class="panel-body">
-                <div id="albums">
+                <div id="albums" class="albumContainer">
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div>{% include "partials/add_album_popup.html" %}</div>
 {% endblock %}
 
@@ -37,9 +39,7 @@
 <script type="text/javascript" src="/js/logic/services/services.js"></script>
 <script type="text/javascript" src="/js/logic/services/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/services/album.js"></script>
+<script type="text/javascript" src="/js/logic/services/picasa.js"></script>
 <script type="text/javascript" src="/js/logic/albums.js"></script>
-
-<script type="text/javascript" src="/js/jquery/jquery.transit.min.js"></script>
-<script type="text/javascript" src="/js/jquery/jquery.nano-gallery.js"></script>
 
 {% endblock %}

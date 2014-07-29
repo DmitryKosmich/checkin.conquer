@@ -16,15 +16,23 @@ $(document).ready(function () {
 
 function showAlbums(albums){
     for(var i = 0; i < albums.length; i++){
-        var name =albums[i].name==undefined?"No name":albums[i].name;
-        $("#albums").append('<p><a href="/album?id='+albums[i]._id+'">'+name+'</a></p>');
+        var album = {};
+        album.name =albums[i].name==undefined?"No name":albums[i].name;
+        album.id = albums[i]._id;
+        PICASA.getAlbumPreviewUrl(albums[i].userPicasaId, albums[i].albumPicasaId, album , function(album){
+            $("#albums").append(
+                '<div class="album">'+
+                    '<a href="/album?id='+album.id+'"><img  class="albumImage" src="'+album.url+'"></a>'+
+                    '<div class="albumTitle">'+album.name+'</div>'+
+                '</div>'
+            );
+        });
     }
 }
 
 function addAlbum(){
     FOURSQUARE.getUser('self', function(userData){
         if($("#userPicasaId").val() && $("#userPicasaId").val()){
-
             var countryCode = null==getURLParameter('countryCode')?'null':getURLParameter('countryCode');
             var city = null==getURLParameter('cityId')?'null':getURLParameter('city');
             var newAlbum = {
@@ -46,8 +54,6 @@ function addAlbum(){
 
 function redirectBack(){
     var address = '';
-    console.log(getURLParameter('countryCode'));
-    console.log(getURLParameter('city'));
     if("null"==getURLParameter('countryCode')){
         address = 'city='+getURLParameter('city');
     }else{
