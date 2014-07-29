@@ -1,18 +1,22 @@
-var DB_HOST = process.env.OPENSHIFT_MONGODB_DB_HOST;
-var DB_PORT = process.env.OPENSHIFT_MONGODB_DB_PORT;
+
+var connection_string = "mongodb://localhost/chat";
+
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+    connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+    process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+    process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+    process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+    process.env.OPENSHIFT_APP_NAME;
+  }
 
 var configuration = {
                         "port": "8080",
                         "mongoose": {
-                            "uri": "mongodb://admin:r3rl4C-v7WT6@"+DB_HOST+":"+DB_PORT+"/checkiner",
+                            "uri": connection_string,
                             "options": {
-                                "server" : {
-                                    "socketoptions": {
-                                        "keepAlive": 1
-                                    }
-                                },
-                                "user": "admin",
-                                "pass": "r3rl4C-v7WT6"
+                                "socketoptions": {
+                                    "keepAlive": 1
+                                }
                             }
                         },
                         "session": {

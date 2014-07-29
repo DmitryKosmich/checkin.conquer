@@ -2,6 +2,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var swig = require('swig');
+var config = require('./config');
 var HttpError = require('./error').HttpError;
 var app = express();
 
@@ -47,7 +48,7 @@ app.use(function(err, req, res, next) {
     }
 });
 
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || config.port;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 var server = http.createServer(app);
