@@ -5,6 +5,19 @@ var http = require('http');
 var path = require('path');
 var swig = require('swig');
 var config = require('./config');
+
+
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+
+    var connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+        process.env.OPENSHIFT_APP_NAME;
+
+    config.mongoose.uri = connection_string;
+}
+
 var HttpError = require('./error').HttpError;
 var app = express();
 

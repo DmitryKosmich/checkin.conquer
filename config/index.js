@@ -1,18 +1,9 @@
 #!/bin/env node
-var connection_string = "mongodb://localhost/chat";
-
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
-    connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-    process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-    process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-    process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-    process.env.OPENSHIFT_APP_NAME;
-  }
 
 var configuration = {
                         "port": "8080",
                         "mongoose": {
-                            "uri": connection_string,
+                            "uri": "mongodb://localhost/chat",
                             "options": {
                                 "socketoptions": {
                                     "keepAlive": 1
