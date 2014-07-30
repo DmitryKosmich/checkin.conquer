@@ -46,9 +46,9 @@ var map =  (function() {
                 scaleColors: ['#C8EEFF', '#006491'],
                 normalizeFunction: 'polynomial',
                 borderColor: null,
-                borderOpacity: 0.0,
+                borderOpacity: 1.0,
                 borderWidth: 1,
-                hoverColor: '#c9dfaf',
+                hoverColor: '#fff',
                 selectedRegion: null,
                 onRegionClick: function (element, code, region) {
                     getCountryDialogInfo({ "code" : code});

@@ -44,10 +44,11 @@ function addAlbum(){
                 countryCode: countryCode,
                 city: city
             };
-
-            ALBUM.add(newAlbum, function(){
-                redirectBack();
-            });
+            if(VALIDATION.isLength(newAlbum.albumPicasaId, 19)){
+                ALBUM.add(newAlbum, function(){
+                    redirectBack();
+                });
+            }
         }
     });
     countryPopUpHide();

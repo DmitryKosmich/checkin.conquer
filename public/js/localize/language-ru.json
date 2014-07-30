@@ -27,5 +27,15 @@
     "subregion": "Часть света",
     "gini_coefficient": "Коэффициент Джини",
     "my_ownership": "Мои владения",
-    "album" : "Альбом"
+    "album" : "Альбом",
+    "albums" : "Альбомы",
+    "new_album": "Новый альбом",
+    "picasa_user_id" : "ID пользователя Picasa",
+    "picasa_album_id" : "ID альбома Picasa",
+
+    "add": "Добавить",
+    "welcome": "Добро пожаловать",
+    "to_display_the_occupied_territories_sign_in": "Для отображения захваченных территорий войдите на ",
+    "and_try": " и попробуйте",
+    "again": " еще раз"
 }
