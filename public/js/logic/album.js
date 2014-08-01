@@ -2,8 +2,8 @@
 
 $(document).ready(function () {
     setLocalization();
-    ALBUM.get(getURLParameter('id'), function(albumData){
-        init(albumData.album.userPicasaId, albumData.album.albumPicasaId);
+    DB.album.get(getURLParameter('id'), function(album){
+        init(album.userPicasaId, album.albumPicasaId);
     });
 });
 
@@ -20,19 +20,19 @@ function init(userPicasaId, albumPicasaId){
 }
 
 function deleteAlbum(){
-    ALBUM.get(getURLParameter('id'), function(albumData){
-        ALBUM.delete(getURLParameter('id'), function(){
-            redirectBack(albumData);
+    DB.album.get(getURLParameter('id'), function(album){
+        DB.album.delete(getURLParameter('id'), function(){
+            redirectBack(album);
         });
     });
 }
 
-function redirectBack(currentAlbum){
+function redirectBack(album){
     var address = '';
-    if("null"!=currentAlbum.album.countryCode){
-        address = 'countryCode='+currentAlbum.album.countryCode;
+    if("null"!=album.cc){
+        address = 'countryCode='+album.cc;
     }else{
-        address = 'city='+currentAlbum.album.city;
+        address = 'city='+album.city;
     }
     window.location.href = '/albums?'+address;
 }

@@ -1,32 +1,55 @@
+'use strict';
+
 module.exports = function(app) {
 
-    app.get('/error/browser', require('./error_browser').get);
-    app.post('/error/browser', require('./error_browser').post);
+    app.get('/error/browser', require('./pages/error_browser').get);
+    app.post('/error/browser', require('./pages/error_browser').post);
 
-    app.get('/', require('./jqmap').get);
-    app.post('/', require('./jqmap').post);
+    app.get('/', require('./pages/map').get);
+    app.post('/', require('./pages/map').post);
 
-    app.get('/friends', require('./friends').get);
-    app.post('/friends', require('./friends').post);
+    app.get('/friends', require('./pages/friends').get);
+    app.post('/friends', require('./pages/friends').post);
 
-    app.get('/friend', require('./friend').get);
-    app.post('/friend', require('./friend').post);
+    app.get('/friend', require('./pages/friend').get);
+    app.post('/friend', require('./pages/friend').post);
 
-    app.get('/countries', require('./countries').get);
-    app.post('/countries', require('./countries').post);
+    app.get('/countries', require('./pages/countries').get);
+    app.post('/countries', require('./pages/countries').post);
 
-    app.get('/album', require('./album').get);
-    app.post('/album', require('./album').post);
-    app.post('/album/add', require('./album').add);
-    app.post('/album/get', require('./album').getOne);
-    app.post('/album/delete', require('./album').delete);
+    app.get('/album', require('./pages/album').get);
+    app.post('/album', require('./pages/album').post);
 
-    app.get('/albums', require('./albums').get);
-    app.post('/albums', require('./albums').post);
-    app.post('/albums/get', require('./albums').getAll);
+    app.get('/albums', require('./pages/albums').get);
+    app.post('/albums', require('./pages/albums').post);
 
-    app.post('/country', require('./country').getOne);
-    app.post('/country/add', require('./country').add);
-    app.post('/country/delete', require('./country').delete);
-    app.post('/country/all', require('./country').all);
+
+    app.post('/user/add', require('./db_services/user').add);
+    app.post('/user/get', require('./db_services/user').getOne);
+    app.post('/user/all', require('./db_services/user').getAll);
+    app.post('/user/delete', require('./db_services/user').delete);
+    app.post('/user/search', require('./db_services/user').search);
+    app.post('/user/update', require('./db_services/user').update);
+
+    app.post('/country/add', require('./db_services/country').add);
+    app.post('/country/get', require('./db_services/country').getOne);
+    app.post('/country/all', require('./db_services/country').getAll);
+    app.post('/country/delete', require('./db_services/country').delete);
+    app.post('/country/search', require('./db_services/country').search);
+    app.post('/country/update', require('./db_services/country').update);
+
+    app.post('/album/add', require('./db_services/album').add);
+    app.post('/album/get', require('./db_services/album').getOne);
+    app.post('/album/all', require('./db_services/album').getAll);
+    app.post('/album/delete', require('./db_services/album').delete);
+    app.post('/album/search', require('./db_services/album').search);
+    app.post('/album/update', require('./db_services/album').update);
+
+    app.post('/checkin/add', require('./db_services/checkin').add);
+    app.post('/checkin/get', require('./db_services/checkin').getOne);
+    app.post('/checkin/all', require('./db_services/checkin').getAll);
+    app.post('/checkin/delete', require('./db_services/checkin').delete);
+    app.post('/checkin/search', require('./db_services/checkin').search);
+    app.post('/checkin/update', require('./db_services/checkin').update);
+
 };

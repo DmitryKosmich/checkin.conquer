@@ -1,3 +1,4 @@
+'use strict';
 
 var mongoose = require('../lib/mongoose'),
     Schema = mongoose.Schema;
@@ -6,9 +7,10 @@ var schema = new Schema({
     name: {
         type: String,
         unique: false,
-        required: false
+        required: false,
+        default: 'no name'
     },
-    userId: {
+    FQUserId: {
         type: String,
         unique: false,
         required: true
@@ -23,15 +25,21 @@ var schema = new Schema({
         unique: false,
         required: true
     },
-    countryCode: {
+    cc: {
         type: String,
         unique: false,
-        required: true
+        required: false
     },
     city: {
         type: String,
         unique: false,
-        required: true
+        required: false,
+        default: 'unknown'
+    },
+    previewSrc: {
+        type: String,
+        unique: false,
+        required: false
     },
     created: {
         type: Date,

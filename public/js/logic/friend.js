@@ -3,20 +3,20 @@ window.onload = function() {
 
     $(document).ready(function () {
         setLocalization();
-        FOURSQUARE.getUser(getURLParameter('id'), function(data){
-            $('#vs_title').append(data.response.user.firstName+' '+data.response.user.lastName  );
-            fullUserForm('f', data);
+        DB.user.search({FQUserId: getURLParameter('id')}, function(users){
+            $('#vs_title').append(users[0].name+' '+users[0].surname  );
+            fullUserForm('f', users[0]);
         });
-        FOURSQUARE.getUser('self', function(data){
-            fullUserForm('self', data);
+        DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(users){
+            fullUserForm('self', users[0]);
         });
     });
 };
 
-function fullUserForm(flag, data){
-    $( '#'+flag+"_friends" ).val(data.response.user.friends.count);
-    $( '#'+flag+"_checkins" ).val(data.response.user.checkins.count);
-    $( '#'+flag+"_tips" ).val(data.response.user.tips.count);
-    $( '#'+flag+"_badges" ).val(data.response.user.badges.count);
-    $( '#'+flag+"_mayorships" ).val(data.response.user.mayorships.count);
+function fullUserForm(flag, user){
+    $( '#'+flag+"_friends" ).val(user.frindsNmbr);
+    $( '#'+flag+"_checkins" ).val(user.checkinsNmbr);
+    $( '#'+flag+"_tips" ).val(user.tipsNmbr);
+    $( '#'+flag+"_badges" ).val(user.badgesNmbr);
+    $( '#'+flag+"_mayorships" ).val(user.mayorshipsNmbr);
 }

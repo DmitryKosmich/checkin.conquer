@@ -20,19 +20,7 @@ var map =  (function() {
         jQuery('#vmap').vectorMap('set', 'colors', colorData);
     }
 
-    function setRegionColorFromDB( newColor){
-        FOURSQUARE.getUser('self', function(data){
-            COUNTRY.getAll(data.response.user.id, function(data){
-                var regions = [];
-                for(var index = 0; index< data.length; index++){
-                    regions.push(data[index].code);
-                }
-                map.setRegionColor(regions, newColor);
-            });
-        });
-    }
-
-    function initMap() {
+    function init() {
         jQuery('#vmap').vectorMap(
             {
                 map: 'world_en',
@@ -57,20 +45,26 @@ var map =  (function() {
     }
 
     function update(){
-        FOURSQUARE.getVisitedCountries('self', function(data){
+        DB.checkin.getAll(function(checkins){
+            var regions = [];
+            for(var i = 0; i < checkins.length; i++){
+                regions.push(checkins[i].cc);
+            }
+            var tempRegions = removeRepetition(regions);
+            var result = [];
+            for(var i = 0; i < tempRegions.length; i++){
+                result.push(tempRegions[i].value);
+            }
             setColor(config.BG_COLOR);
-            setRegionColor(data, config.VISITED_COUNTRY_COLOR);
-            setRegionColorFromDB( config.VISITED_COUNTRY_COLOR_BD);
+            setRegionColor(result, config.VISITED_COUNTRY_COLOR);
         });
     }
     return  {
-        initMap : initMap,
+        init : init,
 
         setColor: setColor,
 
         setRegionColor: setRegionColor,
-
-        setRegionColorFromDB: setRegionColorFromDB,
 
         update: update
     }

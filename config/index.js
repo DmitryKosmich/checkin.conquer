@@ -3,7 +3,7 @@
 var configuration = {
                         "port": "8080",
                         "mongoose": {
-                            "uri": "mongodb://localhost/chat",
+                            "uri": "mongodb://localhost/checkiner",
                             "options": {
                                 "socketoptions": {
                                     "keepAlive": 1

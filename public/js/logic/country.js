@@ -1,71 +1,67 @@
-var COUNTRY = (function(){
-    return {
-        add : function(country, callback){
-            $.post( "/country/add", {'country' : country}, function( data ) {
-            }, "json");
-        },
-
-        delete : function(country, callback){
-            $.post( "/country/delete", {'country' : country}, function( data ) {
-            }, "json");
-        },
-
-        getAll : function(userId, callback){
-            $.post( "/country/all", {"userId": userId}, function( data ) {
-                callback(data);
-            }, "json");
-        },
-
-        getOne : function(code, callback){
-            $.post( "/country", {'country' : code}, function( data ) {
-                callback(data);
-            }, "json");
-        }
-    }
-})();
 
 function getCountryDialogInfo(country){
-    $.get("http://restcountries.eu/rest/v1/alpha/" + country.code, function (data) {
-        data.flagImage = "http://www.geonames.org/flags/x/"+data.alpha2Code.toLowerCase()+".gif";
-        fillCountryDialog(data);
-        countryPopUpShow();
-    }, "json");
+    DB.country.search({cc: country.code}, function(counties){
+        if(counties[0]){
+            fillCountryDialog(counties[0]);
+            countryPopUpShow();
+        }else{
+            SYNCHRONIZER.add.country({cc: country.code}, function(err, country){
+                if(err){
+                    alert("ERROR: adding country");
+                }else{
+                    fillCountryDialog(country);
+                    countryPopUpShow();
+                }
+            });
+        }
+    });
 }
 
-function fillCountryDialog(data){
-    $( "#country_name" ).html('').append(data.name);
-    $( "#country_capital" ).html('').append(data.capital);
-    $( "#country_region" ).html('').append(data.region);
-    $( "#country_subregion" ).html('').append(data.subregion);
-    $( "#country_population" ).html('').append(setFormat(data.population));
-    $( "#country_area" ).html('').append(setFormat(data.area));
-    $( "#country_gini" ).html('').append(data.gini);
-    $( "#country_flag_popup" ).attr( 'src', data.flagImage);
+function fillCountryDialog(country){
+    $( "#country_name" ).html('').append(country.name);
+    $( "#country_capital" ).html('').append(country.capital);
+    $( "#country_region" ).html('').append(country.region);
+    $( "#country_subregion" ).html('').append(country.subregion);
+    $( "#country_population" ).html('').append(setFormat(country.population));
+    $( "#country_area" ).html('').append(setFormat(country.area));
+    $( "#country_gini" ).html('').append(country.gini);
+    $( "#country_flag_popup" ).attr( 'src', country.flagSrc);
 
-    $( "#addCountry" ).attr( 'onclick', "addCountry('"+data.alpha2Code.toLowerCase()+"')");
-    $( "#deleteCountry" ).attr( 'onclick', "deleteCountry('"+data.alpha2Code.toLowerCase()+"')");
+    $( "#addCountry" ).attr( 'onclick', "addCountry('"+country.cc+"')");
+    $( "#deleteCountry" ).attr( 'onclick', "deleteCountry('"+country.cc+"')");
 }
 
-function addCountry(code){
-    FOURSQUARE.getUser('self', function(data){
-        var newCountry = {
-            "code": code,
-            "userId": data.response.user.id
-        };
-        COUNTRY.add(newCountry, function(data){});
-        map.update();
+function addCountry(cc){
+    DB.checkin.search({cc: cc, isFQ: false}, function(checkins){
+        if(checkins[0] == null){
+            DB.country.search({cc: cc},function(countries){
+                if(countries[0]){
+                    SYNCHRONIZER.add.checkin({cc: cc, isFQ: false}, function(err){
+                        if (err) alert('ERROR: adding checkin');
+                        map.update();
+                    })
+                }else{
+                    SYNCHRONIZER.add.country({cc: cc}, function(err){
+                        if (err) alert('ERROR: adding country');
+                        SYNCHRONIZER.add.checkin({cc: cc, isFQ: false}, function(err){
+                            if (err) alert('ERROR: adding checkin');
+                            map.update();
+                        });
+                    });
+                }
+            });
+        }
     });
     countryPopUpHide();
 }
 
 function deleteCountry(code){
-    FOURSQUARE.getUser('self', function(data){
-        var deletedCountry = {
-            "code": code,
-            "userId": data.response.user.id
-        };
-        COUNTRY.delete(deletedCountry, function(data){});
-        map.update();
+    DB.checkin.search({cc: code, isFQ: false}, function(checkins){
+        if(checkins[0]){
+            DB.checkin.delete(checkins[0]._id, function(){
+                map.update();
+            });
+        }
     });
     countryPopUpHide();
 }

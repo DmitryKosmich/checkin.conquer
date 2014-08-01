@@ -1,6 +1,9 @@
+'use strict';
+
 exports.get = function(req, res) {
-    res.render('countries');
+    res.render('album');
 };
+
 exports.post = function(req, res) {
-    res.render('countries');
+    res.render('album');
 };

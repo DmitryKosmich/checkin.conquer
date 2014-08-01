@@ -95,3 +95,21 @@ function getLocalTimeBySeconds(seconds){
     curdate.setTime(seconds*1000);
     return curdate.toLocaleString();
 }
+
+function removeRepetition(data){
+    var countriesObj = {};
+    var countriesArr = [];
+
+    for(var i = 0; i < data.length; i++){
+        if(countriesObj[data[i]] == undefined){
+            countriesObj[data[i]] = 1;
+        }else{
+            countriesObj[data[i]]+=1;
+        }
+    }
+
+    for(var cc in countriesObj){
+        countriesArr.push({value: cc, count: countriesObj[cc]});
+    }
+    return countriesArr;
+}

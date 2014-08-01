@@ -18,13 +18,13 @@ var FOURSQUARE =  (function() {
 
         getFriends: function (id, callback) {
             $.get("https://api.foursquare.com/v2/users/" + id + "/friends?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate(), function (data) {
-                callback(data);
+                callback(null, data.response.friends.items);
             }, "json");
         },
 
         getUser: function (id, callback) {
             $.get("https://api.foursquare.com/v2/users/" + id + "?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate(), function (data) {
-                callback(data);
+                callback(null, data.response.user);
             }, "json");
         },
 
@@ -37,19 +37,20 @@ var FOURSQUARE =  (function() {
         getAllCheckins : function(id, callback){
             var CHECKIN_LIMIT = 250;
             var CHECKIN_OFFSET = 250;
-            sessionStorage.CHECKINS = '';
+            SESSION.set('CHECKINS', '');
             this.setCheckinCount(id, function(count){
                 for(var i = 0; i <= count/CHECKIN_OFFSET; i++){
                     FOURSQUARE.getCheckinsWithParams(id, CHECKIN_LIMIT, CHECKIN_OFFSET*i, function(data){
-                        if('' === String(sessionStorage.CHECKINS)) {
-                            sessionStorage.setItem("CHECKINS", JSON.stringify(data.response.checkins.items));
+                        if('' === SESSION.get('CHECKINS')) {
+                            SESSION.set("CHECKINS", JSON.stringify(data.response.checkins.items));
                         }else{
-                            var temp = sessionStorage.getItem('CHECKINS');
+                            var temp = SESSION.get('CHECKINS');
                             var checkins = JSON.parse(temp);
                             checkins.concat(data.response.checkins.items);
-                            sessionStorage.setItem("CHECKINS", JSON.stringify(checkins));
+                            SESSION.set("CHECKINS", JSON.stringify(checkins));
                         }
-                        callback(JSON.parse(sessionStorage.getItem('CHECKINS')));
+                        //TODO: free sessionStorage item
+                        callback(JSON.parse(SESSION.get('CHECKINS')));
                     });
                 }
             });

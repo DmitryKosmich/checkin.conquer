@@ -4,58 +4,61 @@ var mongoose = require('../lib/mongoose'),
     Schema = mongoose.Schema;
 
 var schema = new Schema({
-    cc: {
-        type: String,
-        unique: true,
-        required: true
-    },
     name: {
         type: String,
-        unique: false,
         required: false,
         default: 'unknown'
     },
-    capital: {
+    address: {
         type: String,
         unique: false,
         required: false,
         default: 'unknown'
     },
-    region: {
+    city: {
         type: String,
         unique: false,
         required: false,
         default: 'unknown'
     },
-    subregion: {
+    FQUserId: {
         type: String,
         unique: false,
-        required: false,
-        default: 'unknown'
+        required: true
     },
-    population: {
-        type: String,
-        unique: false,
-        required: false,
-        default: 'unknown'
-    },
-    area: {
-        type: String,
-        unique: false,
-        required: false,
-        default: 'unknown'
-    },
-    gini: {
-        type: String,
-        unique: false,
-        required: false,
-        default: 'unknown'
-    },
-    flagSrc: {
+    FQCheckinId: {
         type: String,
         unique: false,
         required: false
+    },
+    cc: {
+        type: String,
+        unique: false,
+        required: false
+    },
+    created: {
+        type: String,
+        unique: false,
+        required: false
+    },
+    lat: {
+        type: String,
+        unique: false,
+        required: false,
+        default: 'unknown'
+    },
+    lng: {
+        type: String,
+        unique: false,
+        required: false,
+        default: 'unknown'
+    },
+    isFQ: {
+        type: Boolean,
+        unique: false,
+        required: false,
+        default: false
     }
 });
 
-exports.Country = mongoose.model('Country', schema);
+exports.Checkin = mongoose.model('Checkin', schema);

@@ -2,56 +2,53 @@
 
 $(document).ready(function () {
     setLocalization();
-    FOURSQUARE.getUser('self', function(userData){
-        var album = {
-            userId: userData.response.user.id,
-            countryCode: null==getURLParameter('countryCode')?'null':getURLParameter('countryCode'),
-            city: null==getURLParameter('city')?'null':getURLParameter('city')
-        };
+    var params = {};
+    params.FQUserId = SESSION.get("currentUserId");
 
-        ALBUM.getAll(album, function(albumsData){
-            showAlbums(albumsData.albums);
-        });
+    if(getURLParameter('countryCode')){
+        params.cc = getURLParameter('countryCode');
+    }else{
+        params.city = getURLParameter('city');
+    }
+
+    DB.album.search(params, function(albums){
+        showAlbums(albums);
     });
 });
 
 function showAlbums(albums){
     for(var i = 0; i < albums.length; i++){
-        var album = {};
-        album.name =albums[i].name==undefined?"No name":albums[i].name;
-        album.id = albums[i]._id;
-        PICASA.getAlbumPreviewUrl(albums[i].userPicasaId, albums[i].albumPicasaId, album , function(album){
-            $("#albums").append(
+        $("#albums").append(
                 '<div class="album">'+
-                    '<a href="/album?id='+album.id+'"><img  class="albumImage" src="'+album.url+'"></a>'+
-                    '<div class="albumTitle">'+album.name+'</div>'+
+                '<a href="/album?id='+albums[i]._id+'"><img  class="albumImage" src="'+albums[i].previewSrc+'"></a>'+
+                '<div class="albumTitle">'+albums[i].name+'</div>'+
                 '</div>'
-            );
-        });
+        );
     }
 }
 
 function addAlbum(){
-    FOURSQUARE.getUser('self', function(userData){
-        if($("#userPicasaId").val() && $("#userPicasaId").val()){
-            var countryCode = null==getURLParameter('countryCode')?'null':getURLParameter('countryCode');
-            var city = null==getURLParameter('cityId')?'null':getURLParameter('city');
-            var newAlbum = {
-                name : $("#albumName").val(),
-                userId: userData.response.user.id,
-                userPicasaId: $("#userPicasaId").val(),
-                albumPicasaId: $("#albumPicasaId").val(),
-                countryCode: countryCode,
-                city: city
-            };
-            if(VALIDATION.isLength(newAlbum.albumPicasaId, 19)){
-                ALBUM.add(newAlbum, function(){
-                    redirectBack();
-                });
-            }
+    if($("#userPicasaId").val() && $("#albumPicasaId").val()) {
+        var newAlbum = {
+            name: $("#albumName").val(),
+            userPicasaId: $("#userPicasaId").val(),
+            albumPicasaId: $("#albumPicasaId").val()
+        };
+
+        if (getURLParameter('countryCode')) {
+            newAlbum.cc = getURLParameter('countryCode');
+        } else {
+            newAlbum.city = getURLParameter('city');
         }
-    });
-    countryPopUpHide();
+
+        SYNCHRONIZER.add.album(newAlbum, function (err) {
+            if(err) alert('ERROR: album adding');
+            redirectBack();
+        });
+        countryPopUpHide();
+    }else{
+        alert("Fields should not be empty!");
+    }
 }
 
 function redirectBack(){
