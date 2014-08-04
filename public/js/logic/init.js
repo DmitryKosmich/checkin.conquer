@@ -53,7 +53,7 @@ function userInit(){
                 callback(err);
             }else{
                 SESSION.set("currentUserId", user.id);
-                updateAll();
+                synchUpdate();
             }
         });
     }
@@ -62,30 +62,27 @@ function updateAll(){
     DB.user.search({FQUserId: SESSION.get('currentUserId')}, function(users){
         if(users[0]){
             if(((new Date().getTime() / 1000) - users[0].lastUpdate)>config.UPDATE_INTERVAL){
-                SYNCHRONIZER.update.all(function(err, data){
-                    if(err){
-                        alert('ERROR: updating base');
-                    }else{
-                        window.location.href = '/';
-                        console.log('All base updated'+data);
-                    }
-                });
+                synchUpdate();
             }
         }else{
             SYNCHRONIZER.update.user('self', function(err){
                 if(err){
                     alert('ERROR: updating user');
                 }else{
-                    SYNCHRONIZER.update.all(function(err, data){
-                        if(err){
-                            alert('ERROR: updating base');
-                        }else{
-                            window.location.href = '/';
-                            console.log('All base updated '+data);
-                        }
-                    });
+                    synchUpdate();
                 }
             });
+        }
+    });
+}
+
+function synchUpdate(){
+    SYNCHRONIZER.update.all(function(err, data){
+        if(err){
+            alert('ERROR: updating base');
+        }else{
+            window.location.href = '/';
+            console.log('All base updated'+data);
         }
     });
 }
