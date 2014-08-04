@@ -13,10 +13,12 @@ $(document).ready(function () {
 
     DB.album.search(params, function(albums){
         showAlbums(albums);
+        $("#loadingImage").fadeOut("slow");
     });
 });
 
 function showAlbums(albums){
+
     for(var i = 0; i < albums.length; i++){
         $("#albums").append(
                 '<div class="album">'+

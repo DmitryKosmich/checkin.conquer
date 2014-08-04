@@ -16,7 +16,8 @@ window.onload = function() {
         DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(users){
             fullUserForm('self', users[0]);
         });
-        map.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR)
+        map.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR);
+        $("#loadingImage").fadeOut("slow");
     });
 };
 

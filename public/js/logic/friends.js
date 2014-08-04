@@ -11,11 +11,18 @@ window.onload = function() {
 
 function showFriends(friends){
     for(var i = 0; i < friends.length; i++){
-        DB.user.search({FQUserId: friends[i]}, function(users){
-            if(users[0]){
-                showFriend(users[0]);
-            }
-        });
+        (function(n, m){
+            DB.user.search({FQUserId: friends[n]}, function(users){
+                if(users[0]){
+                    showFriend(users[0]);
+                }else{
+                    console.log('no user');
+                }
+                if(n == m){
+                    $("#loadingImage").fadeOut("slow");
+                }
+            });
+        })(i, friends.length-1);
     }
 }
 

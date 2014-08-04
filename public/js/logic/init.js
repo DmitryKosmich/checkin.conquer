@@ -64,6 +64,7 @@ function updateAll(){
             if(((new Date().getTime() / 1000) - users[0].lastUpdate)>config.UPDATE_INTERVAL){
                 synchUpdate();
             }
+            $("#loadingImage").fadeOut("slow");
         }else{
             SYNCHRONIZER.update.user('self', function(err){
                 if(err){
@@ -77,12 +78,15 @@ function updateAll(){
 }
 
 function synchUpdate(){
+
+    $("#loadingImage").show();
     SYNCHRONIZER.update.all(function(err, data){
         if(err){
             alert('ERROR: updating base');
         }else{
-            window.location.href = '/';
-            console.log('All base updated'+data);
+            map.update();
+            $("#loadingImage").fadeOut("slow");
+            console.log('All base updated '+data);
         }
     });
 }

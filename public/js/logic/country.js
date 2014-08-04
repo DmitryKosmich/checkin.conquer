@@ -22,8 +22,8 @@ function fillCountryDialog(country){
     $( "#country_capital" ).html('').append(country.capital);
     $( "#country_region" ).html('').append(country.region);
     $( "#country_subregion" ).html('').append(country.subregion);
-    $( "#country_population" ).html('').append(setFormat(country.population));
-    $( "#country_area" ).html('').append(setFormat(country.area));
+    $( "#country_population" ).html('').append(setFormat(country.population)=='0'?'':setFormat(country.population));
+    $( "#country_area" ).html('').append(setFormat(country.area)=='0'?'':setFormat(country.area));
     $( "#country_gini" ).html('').append(country.gini);
     $( "#country_flag_popup" ).attr( 'src', country.flagSrc);
 
@@ -32,7 +32,7 @@ function fillCountryDialog(country){
 }
 
 function addCountry(cc){
-    DB.checkin.search({cc: cc, isFQ: false}, function(checkins){
+    DB.checkin.search({cc: cc, isFQ: false, FQUserId: SESSION.get('currentUserId')}, function(checkins){
         if(checkins[0] == null){
             DB.country.search({cc: cc},function(countries){
                 if(countries[0]){

@@ -65,6 +65,7 @@ function createTable(){
             if(i == allCountriesInfo.length-1){
                 conquerInfo.flagSrc = users[0].avatarSrc;
                 showCountry(conquerInfo, 'mainColor');
+                $("#loadingImage").fadeOut("slow");
             }
         }
         showCities();
@@ -76,13 +77,15 @@ function showCountry(country, colorClass) {
     var hasAlbum = colorClass=="mainColor"?'':'<a href="/albums?countryCode='+cc+'" class="glyphicon glyphicon-picture" >';
     var showCity = colorClass=="mainColor"?'': 'showCities';
 
+    country.population = setFormat(country.population)=='0'?'':setFormat(country.population);
+    country.area = setFormat(country.area)=='0'?'':setFormat(country.area);
     $( ".countries" ).append(
             '<tr class="row '+showCity+'" name="'+cc+'">' +
             '<td><img id="country_flag" src="'+country.flagSrc+'" /></td>' +
             '<td class="'+colorClass+'" >'+country.name+'</td>' +
             '<td class="'+colorClass+'">'+country.capital+'</td>' +
-            '<td class="'+colorClass+' text-right">'+setFormat(country.population)+'</td>' +
-            '<td class="'+colorClass+' text-right">'+setFormat(country.area)+'</td>' +
+            '<td class="'+colorClass+' text-right">'+country.population+'</td>' +
+            '<td class="'+colorClass+' text-right">'+country.area+'</td>' +
             '<td class="'+colorClass+' text-center">'+country.checkinsCount+'</td>' +
             '<td class="'+colorClass+' text-center">'+hasAlbum+'</a></td>' +
             '</tr>' );
@@ -101,9 +104,7 @@ function showCities(){
         var cc = $(thisTag).attr('name');
 
         $( '.showCities' ).removeClass( "accordionHeaderRow" );
-        $(".row.city").hide(100, function(){
-            $('.row.city').remove();
-        });
+        $(".row.city").hide(100, function(){});
 
         if(activeCC!=cc){
             DB.checkin.search({cc:cc, FQUserId: SESSION.get("currentUserId")}, function(checkins){
@@ -113,18 +114,19 @@ function showCities(){
                         cities.push(checkins[i].city);
                     }
                 }
+                cities = removeRepetition(cities);
                 $('.row.city').remove();
                 for(var i=0; i < cities.length; i++){
                     if(checkins[i]){
                         $( thisTag).after(
                                 '<tr class="row city">' +
                                 '<td></td>' +
-                                '<td>'+cities[i]+'</td>' +
+                                '<td>'+cities[i].value+'</td>' +
                                 '<td></td>' +
                                 '<td></td>' +
                                 '<td></td>' +
                                 '<td></td>' +
-                                '<td class="mainColor text-center"><a href="/albums?city='+cities[i]+'" class="glyphicon glyphicon-picture"></a></td>' +
+                                '<td class="mainColor text-center"><a href="/albums?city='+cities[i].value+'" class="glyphicon glyphicon-picture"></a></td>' +
                                 '</tr>');
                         $(".row.city").hide();
                         $( ".row.city").addClass( "accordionBodyRow" );

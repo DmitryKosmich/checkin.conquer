@@ -4,6 +4,7 @@ $(document).ready(function () {
     setLocalization();
     DB.album.get(getURLParameter('id'), function(album){
         init(album.userPicasaId, album.albumPicasaId);
+        $("#loadingImage").fadeOut("slow");
     });
 });
 

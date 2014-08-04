@@ -3,10 +3,11 @@
 var SYNCHRONIZER = (function(){
 
     var createUser = function(FQUser, FQUserId){
+
         if(!FQUserId){
             FQUserId = SESSION.get("currentUserId");
         }
-        return {
+        var newUser = {
             FQUserId: FQUserId,
             name : FQUser.firstName,
             surname : FQUser.lastName,
@@ -18,7 +19,11 @@ var SYNCHRONIZER = (function(){
             mayorshipsNmbr : FQUser.mayorships.count,
             avatarSrc : FQUser.photo.prefix + '110x110' + FQUser.photo.suffix,
             lastUpdate : new Date().getTime() / 1000
+        };
+        if(!FQUserId){
+            newUser.lastUpdate = new Date().getTime() / 1000;
         }
+        return newUser;
     };
 
     var createCheckin = function(id, FQCheckin){
@@ -94,23 +99,22 @@ var SYNCHRONIZER = (function(){
             user: function(user, callback){
 
                 FOURSQUARE.getUser(user.FQUserId, function(err, FQUser){
-                    console.log(user.FQUserId);
                     if(err){
                         callback(err);
                     }else{
-                        var newUser = createUser(FQUser);
-                        newUser.FQUserId = user.FQUserId;
+                        var newUser = createUser(FQUser, user.FQUserId);
 
                         FOURSQUARE.getFriends(user.FQUserId, function(err, data){
                             if(err){
                                 callback(err);
                             }else{
-                                newUser.friends = [];
+                                var friends = [];
                                 for(var i = 0; i < data.length; i++){
-                                    newUser.friends.push(data[i].id);
+                                    friends.push(data[i].id);
                                 }
+                                newUser.friends = friends;
                                 DB.user.add(newUser, function(data){
-                                    callback(err, data);
+                                    callback(null, data);
                                 });
                             }
                         });
@@ -184,17 +188,22 @@ var SYNCHRONIZER = (function(){
                 var index = 0;
                 DB.album.getAll(null, function (albums) {
                     for(var i = 0; i < albums.length; i++){
-                        PICASA.getAlbumPreviewUrl(albums[i].userPicasaId, albums[i].albumPicasaId, function(err, url){
-                            if(err) {
-                                callback(err);
-                            }else{
-                                albums[index].previewSrc = url;
-                                DB.album.update(albums[index]._id, albums[index], function(data){
-                                    callback(null, data);
-                                });
-                                ++index;
-                            }
-                        });
+                        (function(n, m){
+                            PICASA.getAlbumPreviewUrl(albums[n].userPicasaId, albums[n].albumPicasaId, function(err, url){
+                                if(err) {
+                                    callback(err);
+                                }else{
+                                    albums[n].previewSrc = url;
+                                    DB.album.update(albums[n]._id, albums[n], function(data){
+                                        console.log(albums[n]._id+" "+n+" "+m);
+                                        if(n == m){
+                                            callback(null, data);
+                                        }
+                                    });
+                                    ++index;
+                                }
+                            });
+                        })(i , albums.length-1);
                     }
                 });
                 callback(null);
@@ -215,7 +224,7 @@ var SYNCHRONIZER = (function(){
                         addCheckins(id, FQCheckins, DBCheckins, function(err){});
                         updateCheckins(id, FQCheckins, DBCheckins, function(err){});
                         deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
-                        callback(null);
+                        callback(null, data);
                     });
                 });
             },
@@ -224,13 +233,17 @@ var SYNCHRONIZER = (function(){
                 var index = 0;
                 DB.checkin.getAll(null, function(checkins){
                     for(var i = 0; i < checkins.length; i++){
-                        SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
-                            if(err){
-                                callback(err);
-                            }else{
-                                callback(err, data);
-                            }
-                        });
+                        (function(n, m){
+                            SYNCHRONIZER.add.country({cc: checkins[n].cc}, function(err, data){
+                                if(err){
+                                    callback(err);
+                                }else{
+                                    if(n == m){
+                                        callback(err, data);
+                                    }
+                                }
+                            });
+                        })(i, checkins.length-1);
                         ++index;
                     }
                     index = 0;
@@ -247,8 +260,20 @@ var SYNCHRONIZER = (function(){
                             if(err){
                                 callback(null);
                             }else{
-                                DB.user.update(users[0]._id, createUser(FQUser, FQUserId), function(data){
-                                    callback(null, data);
+                                FOURSQUARE.getFriends(FQUserId, function(err, data){
+                                    if(err){
+                                        callback(err);
+                                    }else{
+                                        var friends = [];
+                                        for(var i = 0; i < data.length; i++){
+                                            friends.push(data[i].id);
+                                        }
+                                        var newUser =  createUser(FQUser, FQUserId);
+                                        newUser.friends = friends;
+                                        DB.user.update(users[0]._id, newUser, function(data){
+                                            callback(null, data);
+                                        });
+                                    }
                                 });
                             }
                         });
@@ -268,13 +293,14 @@ var SYNCHRONIZER = (function(){
                 DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(users){
                     if(users[0]){
                         for(var i = 0; i < users[0].friends.length; i++){
-                            SYNCHRONIZER.update.user( users[0].friends[0], function(err, data){
+                            SYNCHRONIZER.update.user( users[0].friends[i], function(err, data){
                                 callback(err, data);
                             });
                         }
                     }
                 });
             },
+
             all: function(callback){
                 console.log('ALL update start');
                 SYNCHRONIZER.update.user(null, function(err){
