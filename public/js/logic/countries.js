@@ -19,18 +19,6 @@ var endIndicator = {
 var activeCC = '';
 
 window.onload = function() {
-    DB.user.getAll(function(data){
-       console.log(data);
-    });
-    DB.checkin.getAll(function(data){
-        console.log(data);
-    });
-    DB.country.getAll(function(data){
-        console.log(data);
-    });
-    DB.album.getAll(function(data){
-        console.log(data);
-    });
     setLocalization();
     setNavItem('countries');
 
@@ -121,7 +109,9 @@ function showCities(){
             DB.checkin.search({cc:cc, FQUserId: SESSION.get("currentUserId")}, function(checkins){
                 var cities = [];
                 for(var i = 0; i < checkins.length; i++){
-                    cities.push(checkins[i].city);
+                    if(checkins[i].city!='unknown'){
+                        cities.push(checkins[i].city);
+                    }
                 }
                 $('.row.city').remove();
                 for(var i=0; i < cities.length; i++){

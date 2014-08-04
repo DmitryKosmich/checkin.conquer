@@ -45,7 +45,7 @@ function doAuthRedirect() {
 }
 
 function userInit(){
-    if(SESSION.get('currentUserId')!='null'){
+    if(SESSION.get('currentUserId')!=null){
         updateAll();
     }else{
         FOURSQUARE.getUser('self', function(err, user){
@@ -61,12 +61,10 @@ function userInit(){
 function updateAll(){
     DB.user.search({FQUserId: SESSION.get('currentUserId')}, function(users){
         if(users[0]){
-            console.log(((new Date().getTime() / 1000) - users[0].lastUpdate));
             if(((new Date().getTime() / 1000) - users[0].lastUpdate)>config.UPDATE_INTERVAL){
-                console.log("sssss");
                 SYNCHRONIZER.update.all(function(err){
                     if(err){
-                        console.log('ERROR: updating base ');
+                        alert('ERROR: updating base');
                     }else{
                         console.log('All base updated');
                     }

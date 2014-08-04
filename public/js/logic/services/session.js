@@ -6,7 +6,12 @@ var SESSION = (function(){
 
         return {
             get: function(name){
-                return String(sessionStorage.getItem(name));
+                var result = String(sessionStorage.getItem(name));
+                if(result=='null'){
+                    return null;
+                }else{
+                    return result;
+                }
             },
             set: function(name, value){
                 sessionStorage.setItem(name, value);

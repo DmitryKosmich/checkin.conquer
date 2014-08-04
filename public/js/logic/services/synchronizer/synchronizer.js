@@ -134,14 +134,11 @@ var SYNCHRONIZER = (function(){
         var isExistDBCheckins = function(checkin, DBCheckins){
             for(var i = 0; i < DBCheckins.length; i++){
                 if(DBCheckins[i].FQCheckinId){
-                    console.log(checkin.id + " "+ DBCheckins[i].FQCheckinId);
                     if(checkin.id == DBCheckins[i].FQCheckinId){
-                        console.log(true);
                         return true;
                     }
                 }
             }
-            console.log(false);
             return false;
         };
 
