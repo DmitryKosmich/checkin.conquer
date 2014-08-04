@@ -48,7 +48,7 @@ function getCountryInfo(country){
                 if(err){
                     console.error('ERROR: getCountryInfo()');
                 }else{
-                    DB.country.search({cc: country.value}, function(){
+                    DB.country.search({cc: country.value}, function(data){
                         data[0].checkinsCount = country.count;
                         readData(data[0]);
                     });
