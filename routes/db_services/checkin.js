@@ -1,7 +1,6 @@
 var Checkin = require('../../models/checkin').Checkin;
 
 exports.add = function(req, res) {
-    console.log(req.body.checkin);
     var newCheckin = new Checkin(req.body.checkin);
     newCheckin.save(function(err, checkin, affected) {
         if (err) throw err;

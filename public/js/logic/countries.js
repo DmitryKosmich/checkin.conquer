@@ -44,7 +44,16 @@ function getCountryInfo(country){
             data[0].checkinsCount = country.count;
             readData(data[0]);
         }else{
-            console.log('country '+country.value+' not found');
+            SYNCHRONIZER.add.country({cc: country.value}, function(err){
+                if(err){
+                    console.error('ERROR: getCountryInfo()');
+                }else{
+                    DB.country.search({cc: country.value}, function(){
+                        data[0].checkinsCount = country.count;
+                        readData(data[0]);
+                    });
+                }
+            });
         }
     });
 }

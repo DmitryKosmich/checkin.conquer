@@ -194,8 +194,10 @@ var SYNCHRONIZER = (function(){
                                     callback(err);
                                 }else{
                                     albums[n].previewSrc = url;
-                                    DB.album.update(albums[n]._id, albums[n], function(data){
-                                        console.log(albums[n]._id+" "+n+" "+m);
+                                    var id = albums[n]._id;
+                                    delete albums[n]._id;
+                                    delete albums[n].__v;
+                                    DB.album.update(id, albums[n], function(data){
                                         if(n == m){
                                             callback(null, data);
                                         }
