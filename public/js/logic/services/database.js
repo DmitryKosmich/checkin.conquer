@@ -62,8 +62,10 @@ var DB = (function(){
                 }, "json");
             },
 
-            getAll: function(callback){
-                var id = SESSION.get("currentUserId");
+            getAll: function(id, callback){
+                if(id==null){
+                    id = SESSION.get("currentUserId");
+                }
                 $.post( "/checkin/all", {'FQUserId' : id}, function( data ) {
                     callback(data);
                 }, "json");
@@ -143,8 +145,10 @@ var DB = (function(){
                 }, "json");
             },
 
-            getAll: function(callback){
-                var id = SESSION.get("currentUserId");
+            getAll: function(id, callback){
+                if(id==null){
+                    id = SESSION.get("currentUserId");
+                }
                 $.post( "/album/all", {'FQUserId' : id}, function( data ) {
                     callback(data);
                 }, "json");

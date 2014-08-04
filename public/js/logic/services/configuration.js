@@ -5,6 +5,7 @@ var config = {
     REDIRECT_URL: document.URL,
     VISITED_COUNTRY_COLOR : '#29c5e6',
     VISITED_COUNTRY_COLOR_BD : '#29c5e6',
+    FRIEND_COLOR: '#BB4E51',
     BG_COLOR : '#666',
     UPDATE_INTERVAL: 450
 };

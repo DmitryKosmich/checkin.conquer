@@ -22,7 +22,7 @@ window.onload = function() {
     setLocalization();
     setNavItem('countries');
 
-    DB.checkin.getAll(function(checkins){
+    DB.checkin.getAll(null, function(checkins){
         var countriesData = [];
         for(var i = 0; i < checkins.length; i++){
             countriesData.push(checkins[i].cc);

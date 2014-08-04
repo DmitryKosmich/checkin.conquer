@@ -6,7 +6,7 @@ window.onload = function() {
         countryPopUpHide();
         setLocalization();
         setNavItem('home');
-        map.init();
+        map.init({isRegionClick: true});
         map.setColor(config.BG_COLOR);
         setToken();
         userInit();
@@ -45,7 +45,7 @@ function doAuthRedirect() {
 }
 
 function userInit(){
-    if(SESSION.get('currentUserId')!=null){
+    if(SESSION.get('currentUserId')!= null){
         updateAll();
     }else{
         FOURSQUARE.getUser('self', function(err, user){
@@ -62,14 +62,30 @@ function updateAll(){
     DB.user.search({FQUserId: SESSION.get('currentUserId')}, function(users){
         if(users[0]){
             if(((new Date().getTime() / 1000) - users[0].lastUpdate)>config.UPDATE_INTERVAL){
-                SYNCHRONIZER.update.all(function(err){
+                SYNCHRONIZER.update.all(function(err, data){
                     if(err){
                         alert('ERROR: updating base');
                     }else{
-                        console.log('All base updated');
+                        window.location.href = '/';
+                        console.log('All base updated'+data);
                     }
                 });
             }
+        }else{
+            SYNCHRONIZER.update.user('self', function(err){
+                if(err){
+                    alert('ERROR: updating user');
+                }else{
+                    SYNCHRONIZER.update.all(function(err, data){
+                        if(err){
+                            alert('ERROR: updating base');
+                        }else{
+                            window.location.href = '/';
+                            console.log('All base updated '+data);
+                        }
+                    });
+                }
+            });
         }
     });
 }

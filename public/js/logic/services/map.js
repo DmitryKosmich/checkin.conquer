@@ -20,7 +20,21 @@ var map =  (function() {
         jQuery('#vmap').vectorMap('set', 'colors', colorData);
     }
 
-    function init() {
+    function setTwoRegionsColor(obj1, obj2){
+        var colorData = sample_data;
+        for (var cc in colorData){
+            if(isExist(cc, obj2.regions)){
+                colorData[cc]=obj2.color;
+            }else{
+                if(isExist(cc, obj1.regions)){
+                    colorData[cc]=obj1.color;
+                }
+            }
+        }
+        jQuery('#vmap').vectorMap('set', 'colors', colorData);
+    }
+
+    function init(params) {
         jQuery('#vmap').vectorMap(
             {
                 map: 'world_en',
@@ -39,26 +53,55 @@ var map =  (function() {
                 hoverColor: '#fff',
                 selectedRegion: null,
                 onRegionClick: function (element, code, region) {
-                    getCountryDialogInfo({ "code" : code});
+                    if(params.isRegionClick==true){
+                        getCountryDialogInfo({ "code" : code});
+                    }
                 }
             });
     }
 
-    function update(){
-        DB.checkin.getAll(function(checkins){
-            var regions = [];
-            for(var i = 0; i < checkins.length; i++){
-                regions.push(checkins[i].cc);
-            }
-            var tempRegions = removeRepetition(regions);
-            var result = [];
-            for(var i = 0; i < tempRegions.length; i++){
-                result.push(tempRegions[i].value);
-            }
+    function update(userId, color){
+        DB.checkin.getAll(userId, function(checkins){
+            var regions = getRegions(checkins);
             setColor(config.BG_COLOR);
-            setRegionColor(result, config.VISITED_COUNTRY_COLOR);
+            if(color){
+                setRegionColor(regions, color);
+            }else{
+                setRegionColor(regions, config.VISITED_COUNTRY_COLOR);
+            }
         });
     }
+
+    function updateCompetition(userId1, color1, userId2, color2){
+        DB.checkin.getAll(userId1, function(checkins1){
+            var obj1 = {
+                color: color1,
+                regions: getRegions(checkins1)
+            };
+            DB.checkin.getAll(userId2, function(checkins2){
+                var obj2 = {
+                    color: color2,
+                    regions: getRegions(checkins2)
+                };
+                setTwoRegionsColor(obj1, obj2);
+            });
+        });
+    }
+
+    function getRegions(checkins){
+
+        var regions = [];
+        for(var i = 0; i < checkins.length; i++){
+            regions.push(checkins[i].cc);
+        }
+        var tempRegions = removeRepetition(regions);
+        var result = [];
+        for(var i = 0; i < tempRegions.length; i++){
+            result.push(tempRegions[i].value);
+        }
+        return regions;
+    }
+
     return  {
         init : init,
 
@@ -66,7 +109,9 @@ var map =  (function() {
 
         setRegionColor: setRegionColor,
 
-        update: update
+        update: update,
+
+        updateCompetition: updateCompetition
     }
 })();
 

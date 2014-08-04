@@ -17,7 +17,7 @@ exports.getOne = function(req, res) {
 };
 
 exports.getAll = function(req, res) {
-    Checkin.find({"userId": req.body.userId}, function(err, checkins) {
+    Checkin.find({"FQUserId": req.body.FQUserId}, function(err, checkins) {
         if (err) throw err;
         res.send(checkins);
     });

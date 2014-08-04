@@ -6,62 +6,65 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row panel-title" >
-                    <div class="col-md-12" id="vs_title">
-                    </div>
-                    <div class="col-md-12"data-localize="me" >
-                        ME
+                    <div class="col-md-12">
+                        <span id="vs_title"></span>  VS  <span data-localize="me">ME</span>
                     </div>
                 </div>
             </div>
             <div class="panel-body">
-                <div class="col-md-12">
-                    <form role="form">
-                        <div class="form-group">
-                            <label for="f_friends" data-localize="friends">Friends</label>
-                            <input type="text" class="form-control" id="f_friends" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="f_checkins" data-localize="checkins">Checkins</label>
-                            <input type="text" class="form-control" id="f_checkins" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="f_tips" data-localize="tips">Tips</label>
-                            <input type="text" class="form-control" id="f_tips" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="f_badges" data-localize="badges">Badges</label>
-                            <input type="text" class="form-control" id="f_badges" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="f_mayorships" data-localize="mayorships">Mayorships</label>
-                            <input type="text" class="form-control" id="f_mayorships" readonly>
-                        </div>
-                    </form>
+                <div class="row">
+                    <div id = "vmap" style="height: 400px;"></div>
                 </div>
-                <div class="col-md-12">
-                    <form role="form">
-                        <div class="form-group">
-                            <label for="self_friends"  data-localize="friends">Friends</label>
-                            <input type="text" class="form-control" id="self_friends" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="self_checkins"  data-localize="checkins">Checkins</label>
-                            <input type="text" class="form-control" id="self_checkins" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="self_tips" data-localize="tips">Tips</label>
-                            <input type="text" class="form-control" id="self_tips" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="self_badges" data-localize="badges">Badges</label>
-                            <input type="text" class="form-control" id="self_badges" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="self_mayorships" data-localize="mayorships">Mayorships</label>
-                            <input type="text" class="form-control" id="self_mayorships" readonly>
-                        </div>
-                    </form>
-                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="f_friends" data-localize="friends">Friends</label>
+                                <input type="text" class="form-control" id="f_friends" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="f_checkins" data-localize="checkins">Checkins</label>
+                                <input type="text" class="form-control" id="f_checkins" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="f_tips" data-localize="tips">Tips</label>
+                                <input type="text" class="form-control" id="f_tips" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="f_badges" data-localize="badges">Badges</label>
+                                <input type="text" class="form-control" id="f_badges" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="f_mayorships" data-localize="mayorships">Mayorships</label>
+                                <input type="text" class="form-control" id="f_mayorships" readonly>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-12">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="self_friends"  data-localize="friends">Friends</label>
+                                <input type="text" class="form-control" id="self_friends" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="self_checkins"  data-localize="checkins">Checkins</label>
+                                <input type="text" class="form-control" id="self_checkins" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="self_tips" data-localize="tips">Tips</label>
+                                <input type="text" class="form-control" id="self_tips" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="self_badges" data-localize="badges">Badges</label>
+                                <input type="text" class="form-control" id="self_badges" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="self_mayorships" data-localize="mayorships">Mayorships</label>
+                                <input type="text" class="form-control" id="self_mayorships" readonly>
+                            </div>
+                        </form>
+                    </div>
+               </div>
             </div>
         </div>
     </div>
@@ -80,6 +83,10 @@
 <script type="text/javascript" src="/js/logic/services/session.js"></script>
 <script type="text/javascript" src="/js/logic/services/configuration.js"></script>
 <script type="text/javascript" src="/js/logic/services/database.js"></script>
+<script type="text/javascript" src="/js/jqmap/jquery.vmap.min.js"></script>
+<script type="text/javascript" src="/js/jqmap/maps/jquery.vmap.world.js"></script>
+<script type="text/javascript" src="/js/jqmap/data/jquery.vmap.sampledata.js"></script>
+<script type="text/javascript" src="/js/logic/services/map.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
 <script type="text/javascript" src="/js/logic/friend.js"></script>

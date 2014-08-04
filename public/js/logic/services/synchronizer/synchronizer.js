@@ -21,9 +21,9 @@ var SYNCHRONIZER = (function(){
         }
     };
 
-    var createCheckin = function(FQCheckin){
+    var createCheckin = function(id, FQCheckin){
         return {
-            FQUserId: SESSION.get("currentUserId"),
+            FQUserId: id,
             name: FQCheckin.venue.name,
             created: FQCheckin.createdAt,
             address: FQCheckin.venue.location.address,
@@ -70,6 +70,7 @@ var SYNCHRONIZER = (function(){
             },
 
             checkin: function(checkin, callback){
+
                 checkin.FQUserId = SESSION.get("currentUserId");
                 DB.checkin.add(checkin, function(data){
                     callback(null, data);
@@ -93,6 +94,7 @@ var SYNCHRONIZER = (function(){
             user: function(user, callback){
 
                 FOURSQUARE.getUser(user.FQUserId, function(err, FQUser){
+                    console.log(user.FQUserId);
                     if(err){
                         callback(err);
                     }else{
@@ -142,7 +144,7 @@ var SYNCHRONIZER = (function(){
             return false;
         };
 
-        var deleteCheckins = function(FQCheckins, DBCheckins, callback){
+        var deleteCheckins = function(id, FQCheckins, DBCheckins, callback){
             for(var i = 0; i < DBCheckins.length; i++){
                 if(isExistFQCheckins( DBCheckins[i], FQCheckins) == false){
                     DB.checkin.delete(DBCheckins[i]._id, function(data){});
@@ -150,13 +152,13 @@ var SYNCHRONIZER = (function(){
             }
         };
 
-        var updateCheckins = function(FQCheckins, DBCheckins, callback){
+        var updateCheckins = function(id, FQCheckins, DBCheckins, callback){
             for(var i = 0; i < FQCheckins.length; i++){
                 if(isExistDBCheckins(FQCheckins[i], DBCheckins)){
                     (function(n){
                         DB.checkin.search({FQCheckinId: FQCheckins[n].id}, function(checkins){
                             if(checkins[0]){
-                                DB.checkin.update(checkins[0]._id, createCheckin(FQCheckins[n]), function(data){});
+                                DB.checkin.update(checkins[0]._id, createCheckin(id, FQCheckins[n]), function(data){});
                             }
                         });
                     })(i);
@@ -164,10 +166,10 @@ var SYNCHRONIZER = (function(){
             }
         };
 
-        var addCheckins = function(FQCheckins, DBCheckins, callback){
+        var addCheckins = function(id, FQCheckins, DBCheckins, callback){
             for(var i = 0; i < FQCheckins.length; i++){
                 if(isExistDBCheckins(FQCheckins[i], DBCheckins) == false){
-                    SYNCHRONIZER.add.checkin(createCheckin(FQCheckins[i]), function(err){
+                    SYNCHRONIZER.add.checkin(createCheckin(id, FQCheckins[i]), function(err){
                         if(err){
                             alert('ERROR add checkin');
                         }
@@ -180,7 +182,7 @@ var SYNCHRONIZER = (function(){
 
             albums: function (callback) {
                 var index = 0;
-                DB.album.getAll(function (albums) {
+                DB.album.getAll(null, function (albums) {
                     for(var i = 0; i < albums.length; i++){
                         PICASA.getAlbumPreviewUrl(albums[i].userPicasaId, albums[i].albumPicasaId, function(err, url){
                             if(err) {
@@ -198,18 +200,21 @@ var SYNCHRONIZER = (function(){
                 callback(null);
             },
 
-            checkins: function (callback) {
-                FOURSQUARE.getAllCheckins(SESSION.get("currentUserId"), function(FQCheckins){
-                    DB.checkin.getAll(function(data){
+            checkins: function (id, callback) {
+                if(id==null){
+                    id = SESSION.get("currentUserId");
+                }
+                FOURSQUARE.getAllCheckins(id, function(FQCheckins){
+                    DB.checkin.getAll(id, function(data){
                         var DBCheckins = [];
                         for(var i = 0; i < data.length; i++){
                             if(data[i].isFQ==true){
                                 DBCheckins.push(data[i]);
                             }
                         }
-                        addCheckins(FQCheckins, DBCheckins, function(err){});
-                        updateCheckins(FQCheckins, DBCheckins, function(err){});
-                        deleteCheckins(FQCheckins, DBCheckins, function(err){});
+                        addCheckins(id, FQCheckins, DBCheckins, function(err){});
+                        updateCheckins(id, FQCheckins, DBCheckins, function(err){});
+                        deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
                         callback(null);
                     });
                 });
@@ -217,27 +222,23 @@ var SYNCHRONIZER = (function(){
 
             countries: function (callback) {
                 var index = 0;
-                DB.checkin.getAll(function(checkins){
+                DB.checkin.getAll(null, function(checkins){
                     for(var i = 0; i < checkins.length; i++){
-                        DB.country.search({cc: checkins[index].cc}, function(countries){
-                            if(!countries[0]){
-                                SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
-                                    if(err){
-                                        callback(err);
-                                    }else{
-                                        callback(err, data);
-                                    }
-                                });
+                        SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
+                            if(err){
+                                callback(err);
+                            }else{
+                                callback(err, data);
                             }
-                            ++index;
                         });
+                        ++index;
                     }
                     index = 0;
                 });
             },
 
             user: function (FQUserId, callback) {
-                if(!FQUserId){
+                if(FQUserId==null){
                     FQUserId = SESSION.get("currentUserId");
                 }
                 DB.user.search({FQUserId: FQUserId}, function(users){
@@ -290,7 +291,7 @@ var SYNCHRONIZER = (function(){
                                 alert('ERROR: update albums');
                             }
                         });
-                        SYNCHRONIZER.update.checkins(function(err){
+                        SYNCHRONIZER.update.checkins(null, function(err){
                             if(err){
                                 alert('ERROR: update checkins');
                             }else{
