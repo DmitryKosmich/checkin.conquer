@@ -22,14 +22,28 @@ var map =  (function() {
 
     function setTwoRegionsColor(obj1, obj2){
         var colorData = sample_data;
+        var flag = {
+            isBelongsToFirst: false,
+            isBelongsToSecond: false
+        };
         for (var cc in colorData){
-            if(isExist(cc, obj2.regions)){
-                colorData[cc]=obj2.color;
-            }else{
-                if(isExist(cc, obj1.regions)){
-                    colorData[cc]=obj1.color;
-                }
+            if(isExist(cc, obj1.regions)){
+                flag.isBelongsToFirst = true;
             }
+            if(isExist(cc, obj2.regions)){
+                flag.isBelongsToSecond = true;
+            }
+            if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == true){
+                colorData[cc]=config.JOIN_COUNTRY_COLOR;
+            }
+            if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == false){
+                colorData[cc]=obj1.color;
+            }
+            if(flag.isBelongsToFirst == false && flag.isBelongsToSecond == true){
+                colorData[cc]=obj2.color;
+            }
+            flag.isBelongsToFirst = false;
+            flag.isBelongsToSecond = false;
         }
         jQuery('#vmap').vectorMap('set', 'colors', colorData);
     }
@@ -86,20 +100,6 @@ var map =  (function() {
                 setTwoRegionsColor(obj1, obj2);
             });
         });
-    }
-
-    function getRegions(checkins){
-
-        var regions = [];
-        for(var i = 0; i < checkins.length; i++){
-            regions.push(checkins[i].cc);
-        }
-        var tempRegions = removeRepetition(regions);
-        var result = [];
-        for(var i = 0; i < tempRegions.length; i++){
-            result.push(tempRegions[i].value);
-        }
-        return regions;
     }
 
     return  {

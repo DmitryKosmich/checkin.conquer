@@ -1,5 +1,11 @@
 {% extends 'layout/layout.html' %}
 
+{% block styles %}
+{% parent %}
+
+<link rel="stylesheet" href="/css/design.css"/>
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-24">
@@ -7,60 +13,46 @@
             <div class="panel-heading">
                 <div class="row panel-title" >
                     <div class="col-md-12">
-                        <span id="vs_title"></span>  VS  <span data-localize="me">ME</span>
+                        <span class="vs_title"></span>  VS  <span data-localize="me">ME</span>
                     </div>
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body ">
                 <div class="row">
                     <div id = "vmap" style="height: 400px;"></div>
+                </div>
+                <div class="row">
+                    <div class="designationContainer">
+                        <div class="designationWrapper"><span id = 'friend_color' class="designation" style=""></span><span class="vs_title"></span></div>
+                        <div class="designationWrapper"><span id = 'join_color' class="designation" style=""></span>Join</div>
+                        <div class="designationWrapper"><span id = 'user_color' class="designation" style=""></span><span data-localize="me">Me</span></div>
+                        <div class="designationWrapper"><span id = 'not_captured_color' class="designation" style=""></span><span data-localize="me">Not captured</span></div>
+                        <div style="clear: both"></div>
+                        <hr>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <form role="form">
                             <div class="form-group">
-                                <label for="f_friends" data-localize="friends">Friends</label>
-                                <input type="text" class="form-control" id="f_friends" readonly>
-                            </div>
-                            <div class="form-group">
                                 <label for="f_checkins" data-localize="checkins">Checkins</label>
                                 <input type="text" class="form-control" id="f_checkins" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="f_tips" data-localize="tips">Tips</label>
-                                <input type="text" class="form-control" id="f_tips" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="f_badges" data-localize="badges">Badges</label>
-                                <input type="text" class="form-control" id="f_badges" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="f_mayorships" data-localize="mayorships">Mayorships</label>
-                                <input type="text" class="form-control" id="f_mayorships" readonly>
+                                <label for="f_countries"  data-localize="countries">Countries</label>
+                                <div id="f_countries"></div>
                             </div>
                         </form>
                     </div>
                     <div class="col-md-12">
                         <form role="form">
                             <div class="form-group">
-                                <label for="self_friends"  data-localize="friends">Friends</label>
-                                <input type="text" class="form-control" id="self_friends" readonly>
-                            </div>
-                            <div class="form-group">
                                 <label for="self_checkins"  data-localize="checkins">Checkins</label>
                                 <input type="text" class="form-control" id="self_checkins" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="self_tips" data-localize="tips">Tips</label>
-                                <input type="text" class="form-control" id="self_tips" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="self_badges" data-localize="badges">Badges</label>
-                                <input type="text" class="form-control" id="self_badges" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="self_mayorships" data-localize="mayorships">Mayorships</label>
-                                <input type="text" class="form-control" id="self_mayorships" readonly>
+                                <label for="self_countries"  data-localize="countries">Countries</label>
+                                <div id="self_countries"></div>
                             </div>
                         </form>
                     </div>

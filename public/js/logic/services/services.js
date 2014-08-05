@@ -113,3 +113,17 @@ function removeRepetition(data){
     }
     return countriesArr;
 }
+
+function getRegions(checkins){
+
+    var regions = [];
+    for(var i = 0; i < checkins.length; i++){
+        regions.push(checkins[i].cc);
+    }
+    var tempRegions = removeRepetition(regions);
+    var result = [];
+    for(var i = 0; i < tempRegions.length; i++){
+        result.push(tempRegions[i].value);
+    }
+    return result;
+}
