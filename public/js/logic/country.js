@@ -35,7 +35,6 @@ function fillCountryDialog(country){
         }else{
             for(var i = 0; i < checkins.length; i++){
                 if(checkins[i].isFQ == false){
-                    console.log(checkins[i]);
                     $( "#deleteCountry" ).html('').append( '<a href="#" class="glyphicon glyphicon-trash" onclick="deleteCountry(\''+country.cc+'\')" ></a>' );
                     break;
                 }
