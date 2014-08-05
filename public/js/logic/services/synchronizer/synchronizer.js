@@ -307,24 +307,25 @@ var SYNCHRONIZER = (function(){
                 console.log('ALL update start');
                 SYNCHRONIZER.update.user(null, function(err){
                     if(err){
-                        alert('ERROR: update user');
+                        console.error('ERROR: update user');
                     }else{
                         SYNCHRONIZER.update.friends(function(err){
                             if(err){
-                                alert('ERROR: update friends');
+                                console.error('ERROR: update friends');
                             }
                         });
                         SYNCHRONIZER.update.albums(function(err){
                             if(err){
-                                alert('ERROR: update albums');
+                                console.error('ERROR: update albums');
                             }
                         });
                         SYNCHRONIZER.update.checkins(null, function(err){
                             if(err){
-                                alert('ERROR: update checkins');
+                                console.error('ERROR: update checkins');
                             }else{
                                 SYNCHRONIZER.update.countries(function(err){
                                     if(err){
+                                        console.error('ERROR: SYNCHRONIZER.update.countries()');
                                         callback(err);
                                     }else{
                                         callback(null, 'OK');

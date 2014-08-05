@@ -27,6 +27,11 @@ function showAlbums(albums){
                 '</div>'
         );
     }
+    $("#albums").append(
+            '<div class="album">'+
+            '<a href="#" onclick="countryPopUpShow()"><img  class="albumImage" src="/images/add_album.png"></a>'+
+            '</div>'
+    );
 }
 
 function addAlbum(){
@@ -44,7 +49,7 @@ function addAlbum(){
         }
 
         SYNCHRONIZER.add.album(newAlbum, function (err) {
-            if(err) alert('ERROR: album adding');
+            if(err) console.error('ERROR: album adding');
             redirectBack();
         });
         countryPopUpHide();

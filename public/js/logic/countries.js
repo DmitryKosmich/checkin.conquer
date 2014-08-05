@@ -137,6 +137,7 @@ function showCities(){
                                 '<td></td>' +
                                 '<td class="mainColor text-center"><a href="/albums?city='+cities[i].value+'" class="glyphicon glyphicon-picture"></a></td>' +
                                 '</tr>');
+
                         $(".row.city").hide();
                         $( ".row.city").addClass( "accordionBodyRow" );
                         if(i==cities.length-1){

@@ -16,7 +16,7 @@ function showFriends(friends){
                 if(users[0]){
                     showFriend(users[0]);
                 }else{
-                    console.log('no user');
+                    console.error('no user');
                 }
                 if(n == m){
                     $("#loadingImage").fadeOut("slow");
