@@ -32,31 +32,7 @@ var schema = new Schema({
         unique: false,
         required: false
     },
-    frindsNmbr: {
-        type: String,
-        unique: false,
-        required: false,
-        default: 'unknown'
-    },
-    checkinsNmbr: {
-        type: String,
-        unique: false,
-        required: false,
-        default: 'unknown'
-    },
-    tipsNmbr: {
-        type: String,
-        unique: false,
-        required: false,
-        default: 'unknown'
-    },
-    badgesNmbr: {
-        type: String,
-        unique: false,
-        required: false,
-        default: 'unknown'
-    },
-    mayorshipsNmbr: {
+    email: {
         type: String,
         unique: false,
         required: false,

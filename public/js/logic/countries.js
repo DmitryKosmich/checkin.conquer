@@ -109,6 +109,7 @@ function addResultInfo(country){
 //TODO rewrite function
 function showCities(){
     $( ".row.showCities").click( function() {
+        ALERT.show('Откроем город', ALERT_TYPE.success);
         var thisTag = this;
         var cc = $(thisTag).attr('name');
 

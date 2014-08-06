@@ -78,15 +78,13 @@ function updateAll(){
 }
 
 function synchUpdate(){
-
-    $("#loadingImage").show();
     SYNCHRONIZER.update.all(function(err, data){
         if(err){
-            alert('ERROR: updating base');
+            ALERT.show("Update is completed with error!", ALERT_TYPE.danger);
         }else{
             map.update();
             $("#loadingImage").fadeOut("slow");
-            console.log('All base updated '+data);
+            ALERT.show("Update is completed!", ALERT_TYPE.success);
         }
     });
 }

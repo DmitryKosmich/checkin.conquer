@@ -1,0 +1,55 @@
+
+#alerts {
+    position: fixed;
+    top: 50px;
+    left: 100%;
+    list-style-type: none;
+    margin-left: -310px;
+    padding: 0;
+    z-index: 9999;
+    border: 0;
+}
+
+.alert{
+      width: 300px;
+      max-height: 300px;
+      color: #fff;
+      text-align: center;
+        background: #eee url(../images/modal-gloss.png) no-repeat -200px -80px;
+}
+.alert:hover{
+    cursor: pointer;
+}
+
+.alert-success{
+    background-color: rgba(107, 185, 38, 0.51);
+}
+.alert-success:hover{
+    background-color: #6bb926;
+}
+
+.alert-info{
+    background-color: rgba(41, 197, 230, 0.51);
+}
+.alert-info:hover{
+    background-color: #29c5e6;
+}
+
+.alert-warning{
+    background-color: rgba(205, 183, 38, 0.51);
+}
+.alert-warning:hover{
+    background-color: #cdb726;
+}
+
+.alert-danger{
+    background-color: rgba(232, 98, 48, 0.51);
+}
+.alert-danger:hover{
+    background-color: #e86230;
+}
+
+.alert_icon{
+    padding: 10px;
+    color: #fff;
+}

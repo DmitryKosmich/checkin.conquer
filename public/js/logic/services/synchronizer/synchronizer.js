@@ -12,17 +12,13 @@ var SYNCHRONIZER = (function(){
             name : FQUser.firstName,
             surname : FQUser.lastName,
             homeCity : FQUser.homeCity,
-            frindsNmbr : FQUser.friends.count,
-            checkinsNmbr : FQUser.checkins.count,
-            tipsNmbr : FQUser.tips.count,
-            badgesNmbr : FQUser.badges.count,
-            mayorshipsNmbr : FQUser.mayorships.count,
-            avatarSrc : FQUser.photo.prefix + '110x110' + FQUser.photo.suffix,
-            lastUpdate : new Date().getTime() / 1000
+            email : FQUser.contact.email,
+            avatarSrc : FQUser.photo.prefix + '110x110' + FQUser.photo.suffix
         };
-        if(!FQUserId){
+        if(FQUserId == SESSION.get("currentUserId")){
             newUser.lastUpdate = new Date().getTime() / 1000;
         }
+        console.log(newUser);
         return newUser;
     };
 
@@ -157,29 +153,66 @@ var SYNCHRONIZER = (function(){
         };
 
         var updateCheckins = function(id, FQCheckins, DBCheckins, callback){
-            for(var i = 0; i < FQCheckins.length; i++){
-                if(isExistDBCheckins(FQCheckins[i], DBCheckins)){
-                    (function(n){
-                        DB.checkin.search({FQCheckinId: FQCheckins[n].id}, function(checkins){
-                            if(checkins[0]){
-                                DB.checkin.update(checkins[0]._id, createCheckin(id, FQCheckins[n]), function(data){});
-                            }
-                        });
-                    })(i);
+
+            var updateCheckinsTransaction = function(index, FQCheckins, DBCheckins, callback){
+                if(isExistDBCheckins(FQCheckins[index], DBCheckins)){
+                    DB.checkin.search({FQCheckinId: FQCheckins[index].id}, function(checkins){
+                        if(checkins[0]){
+                            DB.checkin.update(checkins[0]._id, createCheckin(id, FQCheckins[index]), function(data){
+                                console.log('updateCheckinsTransaction '+ index);
+                                if(index >=  FQCheckins.length-1){
+                                    callback(null, data);
+                                    return '';
+                                }else{
+                                    updateCheckinsTransaction(++index, FQCheckins, DBCheckins, callback);
+                                }
+                            });
+                        }
+                    });
+                }else{
+                    if(index >=  FQCheckins.length-1){
+                        callback(null);
+                        return '';
+                    }else{
+                        updateCheckinsTransaction(++index, FQCheckins, DBCheckins, callback);
+                    }
                 }
-            }
+            };
+
+            var startIndex = 0;
+            updateCheckinsTransaction(startIndex, FQCheckins, DBCheckins, callback);
         };
 
         var addCheckins = function(id, FQCheckins, DBCheckins, callback){
-            for(var i = 0; i < FQCheckins.length; i++){
-                if(isExistDBCheckins(FQCheckins[i], DBCheckins) == false){
-                    SYNCHRONIZER.add.checkin(createCheckin(id, FQCheckins[i]), function(err){
+
+            var addCheckinTransaction = function(index, FQCheckins, DBCheckins, callback){
+                if(isExistDBCheckins(FQCheckins[index], DBCheckins) == false){
+                    SYNCHRONIZER.add.checkin(createCheckin(id, FQCheckins[index]), function(err, data){
                         if(err){
-                            alert('ERROR add checkin');
+                            console.error('ERROR: addCheckins()');
+                        }else{
+                            console.log('addCheckinTransaction '+ index);
+                            if(index >=  FQCheckins.length-1){
+                                callback(null, data);
+                                return '';
+                            }else{
+                                addCheckinTransaction(++index, FQCheckins, DBCheckins, callback);
+                            }
                         }
                     });
+                }else{
+                    if(index >=  FQCheckins.length-1){
+                        callback(null);
+                        return '';
+                    }else{
+                        addCheckinTransaction(++index, FQCheckins, DBCheckins, callback);
+                    }
                 }
-            }
+
+            };
+
+            var startIndex = 0;
+            addCheckinTransaction(startIndex, FQCheckins, DBCheckins, callback);
         };
 
         return {
@@ -223,33 +256,37 @@ var SYNCHRONIZER = (function(){
                                 DBCheckins.push(data[i]);
                             }
                         }
-                        addCheckins(id, FQCheckins, DBCheckins, function(err){});
-                        updateCheckins(id, FQCheckins, DBCheckins, function(err){});
-                        deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
+                        addCheckins(id, FQCheckins, DBCheckins, function(err){
+                            updateCheckins(id, FQCheckins, DBCheckins, function(err){});
+                            deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
+                        });
                         callback(null, data);
                     });
                 });
             },
 
             countries: function (callback) {
-                var index = 0;
+
+                var addCountryTransaction = function(index, checkins, callback){
+                    SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
+                        if(err){
+                            callback(err);
+                        }else{
+                            if(index >= checkins.length-1){
+                                callback(err, data);
+                                return '';
+                            }else{
+                                addCountryTransaction(++index, checkins, callback);
+                            }
+                        }
+                    });
+                };
+
                 DB.checkin.getAll(null, function(checkins){
-                    for(var i = 0; i < checkins.length; i++){
-                        (function(n, m){
-                            SYNCHRONIZER.add.country({cc: checkins[n].cc}, function(err, data){
-                                if(err){
-                                    callback(err);
-                                }else{
-                                    if(n == m){
-                                        callback(err, data);
-                                    }
-                                }
-                            });
-                        })(i, checkins.length-1);
-                        ++index;
-                    }
-                    index = 0;
+                    var startIndex = 0;
+                    addCountryTransaction(startIndex, checkins, callback);
                 });
+
             },
 
             user: function (FQUserId, callback) {
@@ -292,19 +329,29 @@ var SYNCHRONIZER = (function(){
             },
 
             friends: function (callback) {
+
+                var updateUserTransaction = function(index, user, callback){
+                    SYNCHRONIZER.update.user( user.friends[index], function(err, data){
+                        if(index >= user.friends.length-1){
+                            callback(err, data);
+                            return '';
+                        }else{
+                            updateUserTransaction(++index, user, callback);
+                        }
+                    });
+                };
+
                 DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(users){
                     if(users[0]){
-                        for(var i = 0; i < users[0].friends.length; i++){
-                            SYNCHRONIZER.update.user( users[0].friends[i], function(err, data){
-                                callback(err, data);
-                            });
-                        }
+                        var startIndex = 0;
+                        updateUserTransaction(startIndex, users[0], callback);
                     }
                 });
             },
 
             all: function(callback){
-                console.log('ALL update start');
+                $("#loadingImage").show();
+                ALERT.show("Start update!", ALERT_TYPE.info);
                 SYNCHRONIZER.update.user(null, function(err){
                     if(err){
                         console.error('ERROR: update user');

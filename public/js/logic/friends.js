@@ -27,13 +27,45 @@ function showFriends(friends){
 }
 
 function showFriend(friend) {
+    var compare = '';
+    if(friend.lastUpdate == '0'){
+        compare = '<a href="#" onclick="sendInvite('+friend.FQUserId+')">invite</a>';
+    }else{
+        compare = '<a href="/friend?id='+friend.FQUserId+'" class="glyphicon glyphicon-tasks"></a>';
+    }
     $( ".friends" ).append(
             '<tr class="row">' +
             '<td><img id="mini_photo" src="'+friend.avatarSrc+'"></td>' +
             '<td>'+friend.name+'</td>' +
             '<td>'+friend.surname+'</td>' +
             '<td>'+friend.homeCity+'</td>' +
-            '<td class="text-center"><a href="/friend?id='+friend.FQUserId+'" class="glyphicon glyphicon-tasks"></a></td>' +
+            '<td class="text-center">'+compare+'</td>' +
             '</tr>'
     );
+}
+
+function sendInvite(FQUserId){
+    DB.user.search({FQUserId: SESSION.get("currentUserId")},function(users){
+        if(users[0] && users[0].email != 'unknown'){
+            var user = users[0];
+            DB.user.search({FQUserId: FQUserId}, function(frineds){
+                if(frineds[0]){
+                    var message = {
+                        from: user.email,
+                        to: frineds[0].email,
+                        subject: "Invite",
+                        body: "Dear, "+frineds[0].name+", your friend "+user.name+" "+user.surname+" invited " +
+                            "you to join to "+config.CURR_WEB_ADDRESS+".  With respect Checkiner."
+                    };
+                    $("#loadingImage").show();
+                    ALERT.show("Sending was started!", ALERT_TYPE.info);
+                    EMAIL.send(message, function(data){
+                        ALERT.show("Letter was sent!", ALERT_TYPE.success);
+                        $("#loadingImage").fadeOut("slow");
+                    });
+                }
+            });
+
+        }
+    });
 }

@@ -4,9 +4,9 @@
     <title>
     </title>
     {% block styles %}
-
     <link rel="stylesheet" href="/css/styles.css" >
     <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/alert.css"/>
     <script type="text/javascript" src="/js/jquery/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery/jquery.browser.js"></script>
     <script type="text/javascript" src="/js/logic/services/browser.js"></script>
@@ -15,7 +15,6 @@
             window.location.href = '/error/browser';
         }
     </script>
-
     {% endblock %}
 </head>
 
@@ -26,6 +25,8 @@
         <a href="/"><img id="loadingImage" src="/images/loader.gif" alt="CheckINer logo"></a>
     </header>
     {% include "../partials/topNavigation.html" %}
+    <ul id="alerts">
+    </ul>
 {% block content %}{% endblock %}
 </div>
 
@@ -36,16 +37,10 @@
 </footer>
 
 {% block scripts %}
-<!--<script src="//connect.facebook.net/en_US/all.js"></script>
-<script>
-    FB.init({
-        appId: 608985209216820
-    });
-</script>-->
-
 <script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/jquery/jquery.ba-bbq.min.js"></script>
 <script type="text/javascript" src="/js/localize/jquery.localize.min.js"></script>
+<script type="text/javascript" src="/js/logic/services/alert.js"></script>
 {% endblock %}
 
 </body>

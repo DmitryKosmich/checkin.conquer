@@ -8,5 +8,10 @@ var config = {
     VISITED_COUNTRY_COLOR_BD : '#29c5e6',
     FRIEND_COLOR: '#BB4E51',
     BG_COLOR : '#666',
-    UPDATE_INTERVAL: 450
+    UPDATE_INTERVAL: 450,
+
+    EMAIL_USER: "checkiner@gmail.com",
+    EMAIL_PASSWORD: "checkiner1234",
+
+    CURR_WEB_ADDRESS: 'checkiner-conquer.rhcloud.com'
 };
