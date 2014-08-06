@@ -75,30 +75,42 @@ var map =  (function() {
     }
 
     function update(userId, color){
-        DB.checkin.getAll(userId, function(checkins){
-            var regions = getRegions(checkins);
-            setColor(config.BG_COLOR);
-            if(color){
-                setRegionColor(regions, color);
+        DB.checkin.getAll(userId, function(err, checkins){
+            if(err) {
+                ALERT.show(err, ALERT_TYPE.DANGER);
             }else{
-                setRegionColor(regions, config.VISITED_COUNTRY_COLOR);
+                var regions = getRegions(checkins);
+                setColor(config.BG_COLOR);
+                if(color){
+                    setRegionColor(regions, color);
+                }else{
+                    setRegionColor(regions, config.VISITED_COUNTRY_COLOR);
+                }
             }
         });
     }
 
     function updateCompetition(userId1, color1, userId2, color2){
-        DB.checkin.getAll(userId1, function(checkins1){
-            var obj1 = {
-                color: color1,
-                regions: getRegions(checkins1)
-            };
-            DB.checkin.getAll(userId2, function(checkins2){
-                var obj2 = {
-                    color: color2,
-                    regions: getRegions(checkins2)
+        DB.checkin.getAll(userId1, function(err, checkins1){
+            if(err) {
+                ALERT.show(err, ALERT_TYPE.DANGER);
+            }else{
+                var obj1 = {
+                    color: color1,
+                    regions: getRegions(checkins1)
                 };
-                setTwoRegionsColor(obj1, obj2);
-            });
+                DB.checkin.getAll(userId2, function(err, checkins2){
+                    if(err) {
+                        ALERT.show(err, ALERT_TYPE.DANGER);
+                    }else{
+                        var obj2 = {
+                            color: color2,
+                            regions: getRegions(checkins2)
+                        };
+                        setTwoRegionsColor(obj1, obj2);
+                    }
+                });
+            }
         });
     }
 

@@ -5,32 +5,53 @@ var FOURSQUARE =  (function() {
     return  {
 
         getCheckins: function (id, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit=250&oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate(), function (data) {
-                callback(data);
-            }, "json");
+            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit=250&oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+                .done(function( data ) {
+                    callback(null, data);
+                }, "json")
+                .fail(function( err ) {
+                    callback(err);
+                }, "json");
         },
 
         getCheckinsWithParams: function (id, limit, offset, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit="+limit+"&offset="+offset+"&oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate(), function (data) {
-                callback(data);
-            }, "json");
+            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit="+limit+"&offset="+offset+"&oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+                .done(function( data ) {
+                    callback(null, data);
+                }, "json")
+                .fail(function( err ) {
+                    callback(err);
+                }, "json");
         },
 
         getFriends: function (id, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "/friends?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate(), function (data) {
-                callback(null, data.response.friends.items);
-            }, "json");
+            $.get("https://api.foursquare.com/v2/users/" + id + "/friends?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+                .done(function( data ) {
+                    callback(null, data.response.friends.items);
+                }, "json")
+                .fail(function( err ) {
+                    callback(err);
+                }, "json");
         },
 
         getUser: function (id, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate(), function (data) {
-                callback(null, data.response.user);
-            }, "json");
+            $.get("https://api.foursquare.com/v2/users/" + id + "?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+                .done(function( data ) {
+                    callback(null, data.response.user);
+                }, "json")
+                .fail(function( err ) {
+                    callback(err);
+                }, "json");
         },
 
         setCheckinCount: function (id, callback){
-            FOURSQUARE.getCheckins(id, function(data){
-                callback(data.response.checkins.count);
+            FOURSQUARE.getCheckins(id, function(err, data){
+                if(err){
+                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                    callback(err);
+                }else{
+                    callback(null, data.response.checkins.count);
+                }
             });
         },
 
@@ -40,41 +61,56 @@ var FOURSQUARE =  (function() {
             SESSION.set('CHECKINS', '');
             this.setCheckinCount(id, function(count){
                 for(var i = 0; i <= count/CHECKIN_OFFSET; i++){
-                    FOURSQUARE.getCheckinsWithParams(id, CHECKIN_LIMIT, CHECKIN_OFFSET*i, function(data){
-                        if('' === SESSION.get('CHECKINS')) {
-                            SESSION.set("CHECKINS", JSON.stringify(data.response.checkins.items));
+                    FOURSQUARE.getCheckinsWithParams(id, CHECKIN_LIMIT, CHECKIN_OFFSET*i, function(err, data){
+                        if(err){
+                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            callback(err);
                         }else{
-                            var temp = SESSION.get('CHECKINS');
-                            var checkins = JSON.parse(temp);
-                            checkins.concat(data.response.checkins.items);
-                            SESSION.set("CHECKINS", JSON.stringify(checkins));
+                            if('' === SESSION.get('CHECKINS')) {
+                                SESSION.set("CHECKINS", JSON.stringify(data.response.checkins.items));
+                            }else{
+                                var temp = SESSION.get('CHECKINS');
+                                var checkins = JSON.parse(temp);
+                                checkins.concat(data.response.checkins.items);
+                                SESSION.set("CHECKINS", JSON.stringify(checkins));
+                            }
+                            //TODO: free sessionStorage item
+                            callback(null, JSON.parse(SESSION.get('CHECKINS')));
                         }
-                        //TODO: free sessionStorage item
-                        callback(JSON.parse(SESSION.get('CHECKINS')));
                     });
                 }
             });
         },
 
         getVisitedCountries: function (id, callback){
-            FOURSQUARE.getAllCheckins('self', function(data){
-                callback(convertChekinsToCountryCodes(data));
+            FOURSQUARE.getAllCheckins('self', function(err, data){
+                if(err){
+                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                    callback(err);
+                }else{
+                    callback(null, convertChekinsToCountryCodes(data));
+                }
             });
         },
 
         getCitiesByCC: function(countryCode, callback){
-            FOURSQUARE.getAllCheckins('self', function(data){
-                var cities = {};
-                for(var i = 0; i<data.length; i++){
-                    if(countryCode==data[i].venue.location.cc.toLowerCase()){
-                        cities[data[i].venue.location.city]++;
+            FOURSQUARE.getAllCheckins('self', function(err, data){
+                if(err){
+                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                    callback(err);
+                }else{
+                    var cities = {};
+                    for(var i = 0; i<data.length; i++){
+                        if(countryCode==data[i].venue.location.cc.toLowerCase()){
+                            cities[data[i].venue.location.city]++;
+                        }
                     }
+                    var returnCities=[];
+                    for(var city in cities){
+                        returnCities.push(city);
+                    }
+                    callback(null, returnCities);
                 }
-                var returnCities=[];
-                for(var city in cities){
-                    returnCities.push(city);
-                }
-                callback(returnCities);
             });
         }
     }

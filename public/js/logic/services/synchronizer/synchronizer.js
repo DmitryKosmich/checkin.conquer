@@ -7,6 +7,7 @@ var SYNCHRONIZER = (function(){
         if(!FQUserId){
             FQUserId = SESSION.get("currentUserId");
         }
+        console.log(FQUser);
         var newUser = {
             FQUserId: FQUserId,
             name : FQUser.firstName,
@@ -59,12 +60,18 @@ var SYNCHRONIZER = (function(){
 
                 PICASA.getAlbumPreviewUrl(album.userPicasaId, album.albumPicasaId, function(err, url){
                     if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
                         callback(err);
                     }else{
                         album.FQUserId = SESSION.get("currentUserId");
                         album.previewSrc = url;
-                        DB.album.add(album, function(data){
-                            callback(null, data);
+                        DB.album.add(album, function(err, data){
+                            if(err) {
+                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                callback(err);
+                            }else{
+                                callback(null, data);
+                            }
                         });
                     }
                 });
@@ -73,8 +80,13 @@ var SYNCHRONIZER = (function(){
             checkin: function(checkin, callback){
 
                 checkin.FQUserId = SESSION.get("currentUserId");
-                DB.checkin.add(checkin, function(data){
-                    callback(null, data);
+                DB.checkin.add(checkin, function(err, data){
+                        if(err) {
+                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            callback(err);
+                        }else{
+                            callback(null, data);
+                        }
                 });
             },
 
@@ -82,11 +94,17 @@ var SYNCHRONIZER = (function(){
 
                 RESTCOUNTRIES.getCountryByCC(country.cc, function(err, countryData){
                     if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
                         callback(err);
                     }else{
                         var newCountry = createCountry(countryData);
-                        DB.country.add(newCountry, function(data){
-                            callback(null, data);
+                        DB.country.add(newCountry, function(err, data){
+                            if(err) {
+                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                callback(err);
+                            }else{
+                                callback(null, data);
+                            }
                         });
                     }
                 });
@@ -95,13 +113,15 @@ var SYNCHRONIZER = (function(){
             user: function(user, callback){
 
                 FOURSQUARE.getUser(user.FQUserId, function(err, FQUser){
-                    if(err){
+                    if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
                         callback(err);
                     }else{
                         var newUser = createUser(FQUser, user.FQUserId);
 
                         FOURSQUARE.getFriends(user.FQUserId, function(err, data){
-                            if(err){
+                            if(err) {
+                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
                                 callback(err);
                             }else{
                                 var friends = [];
@@ -109,8 +129,13 @@ var SYNCHRONIZER = (function(){
                                     friends.push(data[i].id);
                                 }
                                 newUser.friends = friends;
-                                DB.user.add(newUser, function(data){
-                                    callback(null, data);
+                                DB.user.add(newUser, function(err, data){
+                                    if(err) {
+                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                        callback(err);
+                                    }else{
+                                        callback(null, data);
+                                    }
                                 });
                             }
                         });
@@ -156,17 +181,26 @@ var SYNCHRONIZER = (function(){
 
             var updateCheckinsTransaction = function(index, FQCheckins, DBCheckins, callback){
                 if(isExistDBCheckins(FQCheckins[index], DBCheckins)){
-                    DB.checkin.search({FQCheckinId: FQCheckins[index].id}, function(checkins){
-                        if(checkins[0]){
-                            DB.checkin.update(checkins[0]._id, createCheckin(id, FQCheckins[index]), function(data){
-                                console.log('updateCheckinsTransaction '+ index);
-                                if(index >=  FQCheckins.length-1){
-                                    callback(null, data);
-                                    return '';
-                                }else{
-                                    updateCheckinsTransaction(++index, FQCheckins, DBCheckins, callback);
-                                }
-                            });
+                    DB.checkin.search({FQCheckinId: FQCheckins[index].id}, function(err, checkins){
+                        if(err) {
+                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            callback(err);
+                        }else{
+                            if(checkins[0]){
+                                DB.checkin.update(checkins[0]._id, createCheckin(id, FQCheckins[index]), function(err, data){
+                                    if(err) {
+                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                        callback(err);
+                                    }else{
+                                        if(index >=  FQCheckins.length-1){
+                                            callback(null, data);
+                                            return '';
+                                        }else{
+                                            updateCheckinsTransaction(++index, FQCheckins, DBCheckins, callback);
+                                        }
+                                    }
+                                });
+                            }
                         }
                     });
                 }else{
@@ -188,10 +222,10 @@ var SYNCHRONIZER = (function(){
             var addCheckinTransaction = function(index, FQCheckins, DBCheckins, callback){
                 if(isExistDBCheckins(FQCheckins[index], DBCheckins) == false){
                     SYNCHRONIZER.add.checkin(createCheckin(id, FQCheckins[index]), function(err, data){
-                        if(err){
-                            console.error('ERROR: addCheckins()');
+                        if(err) {
+                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            callback(err);
                         }else{
-                            console.log('addCheckinTransaction '+ index);
                             if(index >=  FQCheckins.length-1){
                                 callback(null, data);
                                 return '';
@@ -219,26 +253,32 @@ var SYNCHRONIZER = (function(){
 
             albums: function (callback) {
                 var index = 0;
-                DB.album.getAll(null, function (albums) {
-                    for(var i = 0; i < albums.length; i++){
-                        (function(n, m){
-                            PICASA.getAlbumPreviewUrl(albums[n].userPicasaId, albums[n].albumPicasaId, function(err, url){
-                                if(err) {
-                                    callback(err);
-                                }else{
-                                    albums[n].previewSrc = url;
-                                    var id = albums[n]._id;
-                                    delete albums[n]._id;
-                                    delete albums[n].__v;
-                                    DB.album.update(id, albums[n], function(data){
-                                        if(n == m){
-                                            callback(null, data);
-                                        }
-                                    });
-                                    ++index;
-                                }
-                            });
-                        })(i , albums.length-1);
+                DB.album.getAll(null, function (err, albums) {
+                    if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        callback(err);
+                    }else{
+                        for(var i = 0; i < albums.length; i++){
+                            (function(n, m){
+                                PICASA.getAlbumPreviewUrl(albums[n].userPicasaId, albums[n].albumPicasaId, function(err, url){
+                                    if(err) {
+                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                        callback(err);
+                                    }else{
+                                        albums[n].previewSrc = url;
+                                        var id = albums[n]._id;
+                                        delete albums[n]._id;
+                                        delete albums[n].__v;
+                                        DB.album.update(id, albums[n], function(data){
+                                            if(n == m){
+                                                callback(null, data);
+                                            }
+                                        });
+                                        ++index;
+                                    }
+                                });
+                            })(i , albums.length-1);
+                        }
                     }
                 });
                 callback(null);
@@ -248,20 +288,31 @@ var SYNCHRONIZER = (function(){
                 if(id==null){
                     id = SESSION.get("currentUserId");
                 }
-                FOURSQUARE.getAllCheckins(id, function(FQCheckins){
-                    DB.checkin.getAll(id, function(data){
-                        var DBCheckins = [];
-                        for(var i = 0; i < data.length; i++){
-                            if(data[i].isFQ==true){
-                                DBCheckins.push(data[i]);
+                FOURSQUARE.getAllCheckins(id, function(err, FQCheckins){
+                    if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        callback(err);
+                    }else{
+                        DB.checkin.getAll(id, function(err, data){
+                            if(err) {
+                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                callback(err);
+                            }else{
+                                var DBCheckins = [];
+                                for(var i = 0; i < data.length; i++){
+                                    if(data[i].isFQ==true){
+                                        DBCheckins.push(data[i]);
+                                    }
+                                }
+                                addCheckins(id, FQCheckins, DBCheckins, function(err){
+                                    updateCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                    deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                });
+                                callback(null, data);
                             }
-                        }
-                        addCheckins(id, FQCheckins, DBCheckins, function(err){
-                            updateCheckins(id, FQCheckins, DBCheckins, function(err){});
-                            deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
                         });
-                        callback(null, data);
-                    });
+
+                    }
                 });
             },
 
@@ -269,11 +320,12 @@ var SYNCHRONIZER = (function(){
 
                 var addCountryTransaction = function(index, checkins, callback){
                     SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
-                        if(err){
+                        if(err) {
+                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
                             callback(err);
                         }else{
                             if(index >= checkins.length-1){
-                                callback(err, data);
+                                callback(null, data);
                                 return '';
                             }else{
                                 addCountryTransaction(++index, checkins, callback);
@@ -282,48 +334,66 @@ var SYNCHRONIZER = (function(){
                     });
                 };
 
-                DB.checkin.getAll(null, function(checkins){
-                    var startIndex = 0;
-                    addCountryTransaction(startIndex, checkins, callback);
+                DB.checkin.getAll(null, function(err, checkins){
+                    if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        callback(err);
+                    }else{
+                        var startIndex = 0;
+                        addCountryTransaction(startIndex, checkins, callback);
+                    }
                 });
-
             },
 
             user: function (FQUserId, callback) {
                 if(FQUserId==null){
                     FQUserId = SESSION.get("currentUserId");
                 }
-                DB.user.search({FQUserId: FQUserId}, function(users){
-                    if(users[0]){
-                        FOURSQUARE.getUser(FQUserId, function(err, FQUser){
-                            if(err){
-                                callback(null);
-                            }else{
-                                FOURSQUARE.getFriends(FQUserId, function(err, data){
-                                    if(err){
-                                        callback(err);
-                                    }else{
-                                        var friends = [];
-                                        for(var i = 0; i < data.length; i++){
-                                            friends.push(data[i].id);
-                                        }
-                                        var newUser =  createUser(FQUser, FQUserId);
-                                        newUser.friends = friends;
-                                        DB.user.update(users[0]._id, newUser, function(data){
-                                            callback(null, data);
-                                        });
-                                    }
-                                });
-                            }
-                        });
+                DB.user.search({FQUserId: FQUserId}, function(err, users){
+                    if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        callback(err);
                     }else{
-                        SYNCHRONIZER.add.user({FQUserId: FQUserId}, function(err, data){
-                            if(err){
-                                callback(err);
-                            }else{
-                                callback(null, data);
-                            }
-                        });
+                        if(users[0]){
+                            FOURSQUARE.getUser(FQUserId, function(err, FQUser){
+                                if(err) {
+                                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                    callback(err);
+                                }else{
+                                    FOURSQUARE.getFriends(FQUserId, function(err, data){
+                                        if(err) {
+                                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                            callback(err);
+                                        }else{
+                                            var friends = [];
+                                            for(var i = 0; i < data.length; i++){
+                                                friends.push(data[i].id);
+                                            }
+                                            var newUser =  createUser(FQUser, FQUserId);
+                                            newUser.friends = friends;
+                                            DB.user.update(users[0]._id, newUser, function(err, data){
+                                                if(err) {
+                                                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                                    callback(err);
+                                                }else{
+                                                    callback(null, data);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            SYNCHRONIZER.add.user({FQUserId: FQUserId}, function(err, data){
+                                if(err) {
+                                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                    callback(err);
+                                }else{
+                                    callback(null, data);
+                                }
+                            });
+                        }
+
                     }
                 });
             },
@@ -332,47 +402,61 @@ var SYNCHRONIZER = (function(){
 
                 var updateUserTransaction = function(index, user, callback){
                     SYNCHRONIZER.update.user( user.friends[index], function(err, data){
-                        if(index >= user.friends.length-1){
-                            callback(err, data);
-                            return '';
+                        if(err) {
+                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            callback(err);
                         }else{
-                            updateUserTransaction(++index, user, callback);
+                            if(index >= user.friends.length-1){
+                                callback(null, data);
+                                return '';
+                            }else{
+                                updateUserTransaction(++index, user, callback);
+                            }
                         }
                     });
                 };
 
-                DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(users){
-                    if(users[0]){
-                        var startIndex = 0;
-                        updateUserTransaction(startIndex, users[0], callback);
+                DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
+                    if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        callback(err);
+                    }else{
+                        if(users[0]){
+                            var startIndex = 0;
+                            updateUserTransaction(startIndex, users[0], callback);
+                        }
                     }
                 });
             },
 
             all: function(callback){
                 $("#loadingImage").show();
-                ALERT.show("Start update!", ALERT_TYPE.info);
+                ALERT.show("Start update!", ALERT_TYPE.INFO);
                 SYNCHRONIZER.update.user(null, function(err){
-                    if(err){
-                        console.error('ERROR: update user');
+                    if(err) {
+                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        callback(err);
                     }else{
                         SYNCHRONIZER.update.friends(function(err){
-                            if(err){
-                                console.error('ERROR: update friends');
+                            if(err) {
+                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                callback(err);
                             }
                         });
                         SYNCHRONIZER.update.albums(function(err){
-                            if(err){
-                                console.error('ERROR: update albums');
+                            if(err) {
+                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                callback(err);
                             }
                         });
                         SYNCHRONIZER.update.checkins(null, function(err){
-                            if(err){
-                                console.error('ERROR: update checkins');
+                            if(err) {
+                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                callback(err);
                             }else{
                                 SYNCHRONIZER.update.countries(function(err){
-                                    if(err){
-                                        console.error('ERROR: SYNCHRONIZER.update.countries()');
+                                    if(err) {
+                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
                                         callback(err);
                                     }else{
                                         callback(null, 'OK');

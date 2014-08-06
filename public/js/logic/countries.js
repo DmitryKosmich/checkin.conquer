@@ -22,12 +22,16 @@ window.onload = function() {
     setLocalization();
     setNavItem('countries');
 
-    DB.checkin.getAll(null, function(checkins){
-        var countriesData = [];
-        for(var i = 0; i < checkins.length; i++){
-            countriesData.push(checkins[i].cc);
+    DB.checkin.getAll(null, function(err, checkins){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
+        }else{
+            var countriesData = [];
+            for(var i = 0; i < checkins.length; i++){
+                countriesData.push(checkins[i].cc);
+            }
+            fillAllCountryInfo(removeRepetition(countriesData));
         }
-        fillAllCountryInfo(removeRepetition(countriesData));
     });
 };
 
@@ -39,21 +43,29 @@ function fillAllCountryInfo(countries){
 }
 
 function getCountryInfo(country){
-    DB.country.search({cc: country.value}, function(data){
-        if(data[0]){
-            data[0].checkinsCount = country.count;
-            readData(data[0]);
+    DB.country.search({cc: country.value}, function(err, data){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
         }else{
-            SYNCHRONIZER.add.country({cc: country.value}, function(err){
-                if(err){
-                    console.error('ERROR: getCountryInfo()');
-                }else{
-                    DB.country.search({cc: country.value}, function(data){
-                        data[0].checkinsCount = country.count;
-                        readData(data[0]);
-                    });
-                }
-            });
+            if(data[0]){
+                data[0].checkinsCount = country.count;
+                readData(data[0]);
+            }else{
+                SYNCHRONIZER.add.country({cc: country.value}, function(err){
+                    if(err){
+                        ALERT.show(err, ALERT_TYPE.DANGER);
+                    }else{
+                        DB.country.search({cc: country.value}, function(err, data){
+                            if(err){
+                                ALERT.show(err, ALERT_TYPE.DANGER);
+                            }else{
+                                data[0].checkinsCount = country.count;
+                                readData(data[0]);
+                            }
+                        });
+                    }
+                });
+            }
         }
     });
 }
@@ -68,16 +80,20 @@ function readData(data){
 }
 
 function createTable(){
-    DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(users){
-        for(var i = 0; i < allCountriesInfo.length; i++){
-            showCountry(allCountriesInfo[i], '');
-            if(i == allCountriesInfo.length-1){
-                conquerInfo.flagSrc = users[0].avatarSrc;
-                showCountry(conquerInfo, 'mainColor');
-                $("#loadingImage").fadeOut("slow");
+    DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
+        }else{
+            for(var i = 0; i < allCountriesInfo.length; i++){
+                showCountry(allCountriesInfo[i], '');
+                if(i == allCountriesInfo.length-1){
+                    conquerInfo.flagSrc = users[0].avatarSrc;
+                    showCountry(conquerInfo, 'mainColor');
+                    $("#loadingImage").fadeOut("slow");
+                }
             }
+            showCities();
         }
-        showCities();
     });
 }
 
@@ -109,7 +125,6 @@ function addResultInfo(country){
 //TODO rewrite function
 function showCities(){
     $( ".row.showCities").click( function() {
-        ALERT.show('Откроем город', ALERT_TYPE.success);
         var thisTag = this;
         var cc = $(thisTag).attr('name');
 
@@ -117,37 +132,41 @@ function showCities(){
         $(".row.city").hide(100, function(){});
 
         if(activeCC!=cc){
-            DB.checkin.search({cc:cc, FQUserId: SESSION.get("currentUserId")}, function(checkins){
-                var cities = [];
-                for(var i = 0; i < checkins.length; i++){
-                    if(checkins[i].city!='unknown'){
-                        cities.push(checkins[i].city);
-                    }
-                }
-                cities = removeRepetition(cities);
-                $('.row.city').remove();
-                for(var i=0; i < cities.length; i++){
-                    if(checkins[i]){
-                        $( thisTag).after(
-                                '<tr class="row city">' +
-                                '<td></td>' +
-                                '<td>'+cities[i].value+'</td>' +
-                                '<td></td>' +
-                                '<td></td>' +
-                                '<td></td>' +
-                                '<td></td>' +
-                                '<td class="mainColor text-center"><a href="/albums?city='+cities[i].value+'" class="glyphicon glyphicon-picture"></a></td>' +
-                                '</tr>');
-
-                        $(".row.city").hide();
-                        $( ".row.city").addClass( "accordionBodyRow" );
-                        if(i==cities.length-1){
-                            activeCC = cc;
-                            $( thisTag).addClass( "accordionHeaderRow" );
+            DB.checkin.search({cc:cc, FQUserId: SESSION.get("currentUserId")}, function(err, checkins){
+                if(err) {
+                    ALERT.show(err, ALERT_TYPE.DANGER);
+                }else{
+                    var cities = [];
+                    for(var i = 0; i < checkins.length; i++){
+                        if(checkins[i].city!='unknown'){
+                            cities.push(checkins[i].city);
                         }
                     }
+                    cities = removeRepetition(cities);
+                    $('.row.city').remove();
+                    for(var i=0; i < cities.length; i++){
+                        if(checkins[i]){
+                            $( thisTag).after(
+                                    '<tr class="row city">' +
+                                    '<td></td>' +
+                                    '<td>'+cities[i].value+'</td>' +
+                                    '<td></td>' +
+                                    '<td></td>' +
+                                    '<td></td>' +
+                                    '<td></td>' +
+                                    '<td class="mainColor text-center"><a href="/albums?city='+cities[i].value+'" class="glyphicon glyphicon-picture"></a></td>' +
+                                    '</tr>');
+
+                            $(".row.city").hide();
+                            $( ".row.city").addClass( "accordionBodyRow" );
+                            if(i==cities.length-1){
+                                activeCC = cc;
+                                $( thisTag).addClass( "accordionHeaderRow" );
+                            }
+                        }
+                    }
+                    $(".row.city").show(100);
                 }
-                $(".row.city").show(100);
             });
         }else{
             activeCC = '';

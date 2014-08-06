@@ -15,7 +15,8 @@
       max-height: 300px;
       color: #fff;
       text-align: center;
-        background: #eee url(../images/modal-gloss.png) no-repeat -200px -80px;
+      background: #eee url(../images/modal-gloss.png) no-repeat -200px -80px;
+      border: 0;
 }
 .alert:hover{
     cursor: pointer;

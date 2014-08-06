@@ -5,16 +5,24 @@ window.onload = function() {
         setLocalization();
         map.init({isRegionClick: false});
         map.setColor(config.BG_COLOR);
-        DB.user.search({FQUserId: getURLParameter('id')}, function(users){
-            if(users[0]){
-                $('.vs_title').append(users[0].name+' '+users[0].surname  );
-                fullUserForm('f', users[0]);
+        DB.user.search({FQUserId: getURLParameter('id')}, function(err, users){
+            if(err) {
+                ALERT.show(err, ALERT_TYPE.DANGER);
             }else{
-                console.error('ERROR: user '+ getURLParameter('id')+' not founded!');
+                if(users[0]){
+                    $('.vs_title').append(users[0].name+' '+users[0].surname  );
+                    fullUserForm('f', users[0]);
+                }else{
+                    console.error('ERROR: user '+ getURLParameter('id')+' not founded!');
+                }
             }
         });
-        DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(users){
-            fullUserForm('self', users[0]);
+        DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
+            if(err) {
+                ALERT.show(err, ALERT_TYPE.DANGER);
+            }else{
+                fullUserForm('self', users[0]);
+            }
         });
         map.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR);
         setDesidnation();
@@ -30,29 +38,35 @@ function setDesidnation() {
 }
 
 function fullUserForm(flag, user){
-    DB.checkin.getAll(user.FQUserId, function(checkins){
-        if(checkins[0]){
-            var regions = getRegions(checkins);
-            var returnCountries = '';
-            var startIndex = 0;
-            appendCountry(startIndex, regions.length-1, flag, regions, returnCountries);
-            $( '#'+flag+"_checkins" ).val(checkins.length);
+    DB.checkin.getAll(user.FQUserId, function(err, checkins){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
+        }else{
+            if(checkins[0]){
+                var regions = getRegions(checkins);
+                var returnCountries = '';
+                var startIndex = 0;
+                appendCountry(startIndex, regions.length-1, flag, regions, returnCountries);
+                $( '#'+flag+"_checkins" ).val(checkins.length);
+            }
         }
     });
 }
 
 function appendCountry(n, m, flag, regions, returnCountries){
-    DB.country.search({cc: regions[n]}, function(countries){
-    if(countries[0]){
-        returnCountries += countries[0].name+', ';
-    }
-    if(n == m){
-        console.log(returnCountries);
-        $( '#'+flag+"_countries" ).append(returnCountries.substr(0,returnCountries.length-2));
-        return '';
-    }else{
-        appendCountry(++n, m, flag, regions, returnCountries);
-    }
-});
-
+    DB.country.search({cc: regions[n]}, function(err, countries){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
+        }else{
+            if(countries[0]){
+                returnCountries += countries[0].name+', ';
+            }
+            if(n == m){
+                $( '#'+flag+"_countries" ).append(returnCountries.substr(0,returnCountries.length-2));
+                return '';
+            }else{
+                appendCountry(++n, m, flag, regions, returnCountries);
+            }
+        }
+    });
 }

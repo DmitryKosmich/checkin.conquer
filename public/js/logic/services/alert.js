@@ -2,26 +2,26 @@
 
 var ALERT_TYPE = {
 
-    success: "alert-success",
-    info: "alert-info",
-    warning: "alert-warning",
-    danger: "alert-danger"
+    SUCCESS: "alert-success",
+    INFO: "alert-info",
+    WARNING: "alert-warning",
+    DANGER: "alert-danger"
 
 };
 
 var ALERT = (function(){
 
     var getIcon = function(type){
-        if(type == ALERT_TYPE.success)  {
+        if(type == ALERT_TYPE.SUCCESS)  {
             return '<h1 class="glyphicon glyphicon-ok alert_icon"></h1><br>'
         }
-        if(type == ALERT_TYPE.info)  {
+        if(type == ALERT_TYPE.INFO)  {
             return '<h1 class="glyphicon glyphicon-bullhorn alert_icon"></h1><br>'
         }
-        if(type == ALERT_TYPE.warning)  {
+        if(type == ALERT_TYPE.WARNING)  {
             return '<h1 class="glyphicon glyphicon-warning-sign alert_icon"></h1><br>'
         }
-        if(type == ALERT_TYPE.danger)  {
+        if(type == ALERT_TYPE.DANGER)  {
             return '<h1 class="glyphicon glyphicon-fire alert_icon"></h1><br>'
         }
 

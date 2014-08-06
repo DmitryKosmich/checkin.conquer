@@ -22,7 +22,7 @@ exports.send = function(req, res) {
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
             res.statusCode(500);
-            res.send("error");
+            res.send(error);
         }else{
             res.send({ reponse: 'Message sent: ' + info.response});
         }

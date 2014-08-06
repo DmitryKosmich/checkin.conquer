@@ -11,9 +11,14 @@ $(document).ready(function () {
         params.city = getURLParameter('city');
     }
 
-    DB.album.search(params, function(albums){
-        showAlbums(albums);
-        $("#loadingImage").fadeOut("slow");
+    DB.album.search(params, function(err, albums){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
+            $("#loadingImage").fadeOut("slow");
+        }else{
+            showAlbums(albums);
+            $("#loadingImage").fadeOut("slow");
+        }
     });
 });
 
@@ -49,12 +54,14 @@ function addAlbum(){
         }
 
         SYNCHRONIZER.add.album(newAlbum, function (err) {
-            if(err) console.error('ERROR: album adding');
+            if(err) {
+                ALERT.show(err, ALERT_TYPE.DANGER);
+            }
             redirectBack();
         });
         countryPopUpHide();
     }else{
-        alert("Fields should not be empty!");
+        ALERT.show('Fields should not be empty!', ALERT_TYPE.WARNING);
     }
 }
 

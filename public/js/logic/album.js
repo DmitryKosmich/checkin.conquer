@@ -2,9 +2,14 @@
 
 $(document).ready(function () {
     setLocalization();
-    DB.album.get(getURLParameter('id'), function(album){
-        init(album.userPicasaId, album.albumPicasaId);
-        $("#loadingImage").fadeOut("slow");
+    DB.album.get(getURLParameter('id'), function(err, album){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
+            $("#loadingImage").fadeOut("slow");
+        }else{
+            init(album.userPicasaId, album.albumPicasaId);
+            $("#loadingImage").fadeOut("slow");
+        }
     });
 });
 
@@ -21,10 +26,18 @@ function init(userPicasaId, albumPicasaId){
 }
 
 function deleteAlbum(){
-    DB.album.get(getURLParameter('id'), function(album){
-        DB.album.delete(getURLParameter('id'), function(){
-            redirectBack(album);
-        });
+    DB.album.get(getURLParameter('id'), function(err, album){
+        if(err) {
+            ALERT.show(err, ALERT_TYPE.DANGER);
+        }else{
+            DB.album.delete(getURLParameter('id'), function(err){
+                if(err) {
+                    ALERT.show(err, ALERT_TYPE.DANGER);
+                }else{
+                    redirectBack(album);
+                }
+            });
+        }
     });
 }
 
