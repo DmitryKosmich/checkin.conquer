@@ -3,23 +3,38 @@
 var ERROR_TYPE = {
 
     DATA_BASE: "DATA_BASE",
-    EMAIL: "EMAIL"
+    EMAIL: "EMAIL",
+    REST_COUNTRY_SERVICE: "REST_COUNTRY_SERVICE",
+    FOURSQUARE: "FOURSQUARE",
+    PICASA: "PICASA"
 };
 
 var ERROR = (function(){
 
     return {
         create: function(type, message){
+            var mess = '';
             if(message){
-                message = ': '+message;
+                mess = ': '+message;
             }else{
-                message = '!';
+                mess = '!';
             }
-            if(type == ERROR_TYPE.DATA_BASE){
-                return "Data base error"+message;
-            }
-            if(type == ERROR_TYPE.EMAIL){
-                return "Email error"+message;
+            switch (type){
+                case ERROR_TYPE.DATA_BASE:{
+                    return "Data base error"+mess;
+                }
+                case ERROR_TYPE.EMAIL:{
+                    return "Email error"+mess;
+                }
+                case ERROR_TYPE.FOURSQUARE:{
+                    return "Foursquare service error"+mess;
+                }
+                case ERROR_TYPE.REST_COUNTRY_SERVICE:{
+                    return "Rest countries service error"+mess;
+                }
+                case ERROR_TYPE.PICASA:{
+                    return "Picasa service error"+mess;
+                }
             }
         }
     }

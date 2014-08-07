@@ -2,9 +2,9 @@
 #alerts {
     position: fixed;
     top: 50px;
-    left: 100%;
+    left: 10px;
     list-style-type: none;
-    margin-left: -310px;
+    margin: 0px;
     padding: 0;
     z-index: 9999;
     border: 0;
@@ -37,10 +37,10 @@
 }
 
 .alert-warning{
-    background-color: rgba(205, 183, 38, 0.51);
+    background-color: rgba(205, 203, 34, 0.51);
 }
 .alert-warning:hover{
-    background-color: #cdb726;
+    background-color: #cdcb22;
 }
 
 .alert-danger{

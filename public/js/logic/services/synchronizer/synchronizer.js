@@ -7,7 +7,6 @@ var SYNCHRONIZER = (function(){
         if(!FQUserId){
             FQUserId = SESSION.get("currentUserId");
         }
-        console.log(FQUser);
         var newUser = {
             FQUserId: FQUserId,
             name : FQUser.firstName,
@@ -19,7 +18,6 @@ var SYNCHRONIZER = (function(){
         if(FQUserId == SESSION.get("currentUserId")){
             newUser.lastUpdate = new Date().getTime() / 1000;
         }
-        console.log(newUser);
         return newUser;
     };
 
@@ -60,14 +58,14 @@ var SYNCHRONIZER = (function(){
 
                 PICASA.getAlbumPreviewUrl(album.userPicasaId, album.albumPicasaId, function(err, url){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         album.FQUserId = SESSION.get("currentUserId");
                         album.previewSrc = url;
                         DB.album.add(album, function(err, data){
                             if(err) {
-                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
                                 callback(null, data);
@@ -82,7 +80,7 @@ var SYNCHRONIZER = (function(){
                 checkin.FQUserId = SESSION.get("currentUserId");
                 DB.checkin.add(checkin, function(err, data){
                         if(err) {
-                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            ALERT.show(err, ALERT_TYPE.DANGER);
                             callback(err);
                         }else{
                             callback(null, data);
@@ -94,13 +92,13 @@ var SYNCHRONIZER = (function(){
 
                 RESTCOUNTRIES.getCountryByCC(country.cc, function(err, countryData){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         var newCountry = createCountry(countryData);
                         DB.country.add(newCountry, function(err, data){
                             if(err) {
-                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
                                 callback(null, data);
@@ -114,14 +112,14 @@ var SYNCHRONIZER = (function(){
 
                 FOURSQUARE.getUser(user.FQUserId, function(err, FQUser){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         var newUser = createUser(FQUser, user.FQUserId);
 
                         FOURSQUARE.getFriends(user.FQUserId, function(err, data){
                             if(err) {
-                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
                                 var friends = [];
@@ -131,7 +129,7 @@ var SYNCHRONIZER = (function(){
                                 newUser.friends = friends;
                                 DB.user.add(newUser, function(err, data){
                                     if(err) {
-                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                        ALERT.show(err, ALERT_TYPE.DANGER);
                                         callback(err);
                                     }else{
                                         callback(null, data);
@@ -172,7 +170,11 @@ var SYNCHRONIZER = (function(){
         var deleteCheckins = function(id, FQCheckins, DBCheckins, callback){
             for(var i = 0; i < DBCheckins.length; i++){
                 if(isExistFQCheckins( DBCheckins[i], FQCheckins) == false){
-                    DB.checkin.delete(DBCheckins[i]._id, function(data){});
+                    DB.checkin.delete(DBCheckins[i]._id, function(err, data){
+                        if(err) {
+                            callback(err);
+                        }
+                    });
                 }
             }
         };
@@ -183,13 +185,13 @@ var SYNCHRONIZER = (function(){
                 if(isExistDBCheckins(FQCheckins[index], DBCheckins)){
                     DB.checkin.search({FQCheckinId: FQCheckins[index].id}, function(err, checkins){
                         if(err) {
-                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            ALERT.show(err, ALERT_TYPE.DANGER);
                             callback(err);
                         }else{
                             if(checkins[0]){
                                 DB.checkin.update(checkins[0]._id, createCheckin(id, FQCheckins[index]), function(err, data){
                                     if(err) {
-                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                        ALERT.show(err, ALERT_TYPE.DANGER);
                                         callback(err);
                                     }else{
                                         if(index >=  FQCheckins.length-1){
@@ -223,7 +225,7 @@ var SYNCHRONIZER = (function(){
                 if(isExistDBCheckins(FQCheckins[index], DBCheckins) == false){
                     SYNCHRONIZER.add.checkin(createCheckin(id, FQCheckins[index]), function(err, data){
                         if(err) {
-                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            ALERT.show(err, ALERT_TYPE.DANGER);
                             callback(err);
                         }else{
                             if(index >=  FQCheckins.length-1){
@@ -255,23 +257,28 @@ var SYNCHRONIZER = (function(){
                 var index = 0;
                 DB.album.getAll(null, function (err, albums) {
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         for(var i = 0; i < albums.length; i++){
                             (function(n, m){
                                 PICASA.getAlbumPreviewUrl(albums[n].userPicasaId, albums[n].albumPicasaId, function(err, url){
                                     if(err) {
-                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                        ALERT.show(err, ALERT_TYPE.DANGER);
                                         callback(err);
                                     }else{
                                         albums[n].previewSrc = url;
                                         var id = albums[n]._id;
                                         delete albums[n]._id;
                                         delete albums[n].__v;
-                                        DB.album.update(id, albums[n], function(data){
-                                            if(n == m){
-                                                callback(null, data);
+                                        DB.album.update(id, albums[n], function(err, data){
+                                            if(err) {
+                                                ALERT.show(err, ALERT_TYPE.DANGER);
+                                                callback(err);
+                                            }else{
+                                                if(n == m){
+                                                    callback(null, data);
+                                                }
                                             }
                                         });
                                         ++index;
@@ -290,12 +297,12 @@ var SYNCHRONIZER = (function(){
                 }
                 FOURSQUARE.getAllCheckins(id, function(err, FQCheckins){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         DB.checkin.getAll(id, function(err, data){
                             if(err) {
-                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
                                 var DBCheckins = [];
@@ -321,7 +328,7 @@ var SYNCHRONIZER = (function(){
                 var addCountryTransaction = function(index, checkins, callback){
                     SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
                         if(err) {
-                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            ALERT.show(err, ALERT_TYPE.DANGER);
                             callback(err);
                         }else{
                             if(index >= checkins.length-1){
@@ -336,7 +343,7 @@ var SYNCHRONIZER = (function(){
 
                 DB.checkin.getAll(null, function(err, checkins){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         var startIndex = 0;
@@ -351,18 +358,18 @@ var SYNCHRONIZER = (function(){
                 }
                 DB.user.search({FQUserId: FQUserId}, function(err, users){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         if(users[0]){
                             FOURSQUARE.getUser(FQUserId, function(err, FQUser){
                                 if(err) {
-                                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                    ALERT.show(err, ALERT_TYPE.DANGER);
                                     callback(err);
                                 }else{
                                     FOURSQUARE.getFriends(FQUserId, function(err, data){
                                         if(err) {
-                                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                            ALERT.show(err, ALERT_TYPE.DANGER);
                                             callback(err);
                                         }else{
                                             var friends = [];
@@ -373,7 +380,7 @@ var SYNCHRONIZER = (function(){
                                             newUser.friends = friends;
                                             DB.user.update(users[0]._id, newUser, function(err, data){
                                                 if(err) {
-                                                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                                    ALERT.show(err, ALERT_TYPE.DANGER);
                                                     callback(err);
                                                 }else{
                                                     callback(null, data);
@@ -386,7 +393,7 @@ var SYNCHRONIZER = (function(){
                         }else{
                             SYNCHRONIZER.add.user({FQUserId: FQUserId}, function(err, data){
                                 if(err) {
-                                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                    ALERT.show(err, ALERT_TYPE.DANGER);
                                     callback(err);
                                 }else{
                                     callback(null, data);
@@ -403,7 +410,7 @@ var SYNCHRONIZER = (function(){
                 var updateUserTransaction = function(index, user, callback){
                     SYNCHRONIZER.update.user( user.friends[index], function(err, data){
                         if(err) {
-                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            ALERT.show(err, ALERT_TYPE.DANGER);
                             callback(err);
                         }else{
                             if(index >= user.friends.length-1){
@@ -418,7 +425,7 @@ var SYNCHRONIZER = (function(){
 
                 DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         if(users[0]){
@@ -434,29 +441,29 @@ var SYNCHRONIZER = (function(){
                 ALERT.show("Start update!", ALERT_TYPE.INFO);
                 SYNCHRONIZER.update.user(null, function(err){
                     if(err) {
-                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                        ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
                         SYNCHRONIZER.update.friends(function(err){
                             if(err) {
-                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }
                         });
                         SYNCHRONIZER.update.albums(function(err){
                             if(err) {
-                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }
                         });
                         SYNCHRONIZER.update.checkins(null, function(err){
                             if(err) {
-                                ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
                                 SYNCHRONIZER.update.countries(function(err){
                                     if(err) {
-                                        ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                                        ALERT.show(err, ALERT_TYPE.DANGER);
                                         callback(err);
                                     }else{
                                         callback(null, 'OK');

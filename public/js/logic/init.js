@@ -22,7 +22,7 @@ function setToken() {
             $.bbq.pushState({}, 2);
         }else{
             if ($.bbq.getState('error')) {
-                alert('ERROR: getting access token');
+                ALERT.show('ERROR: getting access token', ALERT_TYPE.DANGER);
             }else {
                 setTimeout(function(){
                     if(config.ACCESS_TOKEN == 'undefined'){

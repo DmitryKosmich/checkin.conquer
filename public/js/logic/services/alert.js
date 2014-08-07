@@ -33,7 +33,9 @@ var ALERT = (function(){
     };
 
     var removeAlert = function(tag){
-        $( tag ).fadeOut("100", function(){
+
+        $( tag ).hide("100", function(){
+        //$( tag ).fadeOut("100", function(){
             $( tag ).remove();
         });
     };

@@ -10,7 +10,7 @@ var FOURSQUARE =  (function() {
                     callback(null, data);
                 }, "json")
                 .fail(function( err ) {
-                    callback(err);
+                    callback(ERROR.create(ERROR_TYPE.FOURSQUARE, 'loading of checkins'));
                 }, "json");
         },
 
@@ -20,7 +20,7 @@ var FOURSQUARE =  (function() {
                     callback(null, data);
                 }, "json")
                 .fail(function( err ) {
-                    callback(err);
+                    callback(ERROR.create(ERROR_TYPE.FOURSQUARE, 'loading of checkins'));
                 }, "json");
         },
 
@@ -30,7 +30,7 @@ var FOURSQUARE =  (function() {
                     callback(null, data.response.friends.items);
                 }, "json")
                 .fail(function( err ) {
-                    callback(err);
+                    callback(ERROR.create(ERROR_TYPE.FOURSQUARE, 'loading of friends'));
                 }, "json");
         },
 
@@ -40,14 +40,14 @@ var FOURSQUARE =  (function() {
                     callback(null, data.response.user);
                 }, "json")
                 .fail(function( err ) {
-                    callback(err);
+                    callback(ERROR.create(ERROR_TYPE.FOURSQUARE, 'loading of user information'));
                 }, "json");
         },
 
         setCheckinCount: function (id, callback){
             FOURSQUARE.getCheckins(id, function(err, data){
                 if(err){
-                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                    ALERT.show(err, ALERT_TYPE.DANGER);
                     callback(err);
                 }else{
                     callback(null, data.response.checkins.count);
@@ -63,7 +63,7 @@ var FOURSQUARE =  (function() {
                 for(var i = 0; i <= count/CHECKIN_OFFSET; i++){
                     FOURSQUARE.getCheckinsWithParams(id, CHECKIN_LIMIT, CHECKIN_OFFSET*i, function(err, data){
                         if(err){
-                            ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                            ALERT.show(err, ALERT_TYPE.DANGER);
                             callback(err);
                         }else{
                             if('' === SESSION.get('CHECKINS')) {
@@ -96,7 +96,7 @@ var FOURSQUARE =  (function() {
         getCitiesByCC: function(countryCode, callback){
             FOURSQUARE.getAllCheckins('self', function(err, data){
                 if(err){
-                    ALERT.show(JSON.parse(err), ALERT_TYPE.WARNING);
+                    ALERT.show(err, ALERT_TYPE.DANGER);
                     callback(err);
                 }else{
                     var cities = {};

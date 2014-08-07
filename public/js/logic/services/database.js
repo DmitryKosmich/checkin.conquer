@@ -10,7 +10,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting country"));
                     }, "json");
             },
 
@@ -20,7 +20,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "adding country"));
                     }, "json");
             },
 
@@ -30,7 +30,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "deleting country"));
                     }, "json");
             },
 
@@ -40,7 +40,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting all countries"));
                     }, "json");
             },
 
@@ -50,7 +50,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "searching country"));
                     }, "json");
             },
 
@@ -60,7 +60,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "updating country"));
                     }, "json");
             }
         }
@@ -74,7 +74,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting checkin"));
                     }, "json");
             },
 
@@ -84,7 +84,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "adding checkin"));
                     }, "json");
             },
 
@@ -94,7 +94,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "deleting checkin"));
                     }, "json");
             },
 
@@ -107,7 +107,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting all checkins"));
                     }, "json");
             },
 
@@ -117,7 +117,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "searching checkins"));
                     }, "json");
             },
 
@@ -127,7 +127,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "updating checkin"));
                     }, "json");
             }
         }
@@ -141,7 +141,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting user"));
                     }, "json");
             },
 
@@ -151,7 +151,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "adding user"));
                     }, "json");
             },
 
@@ -161,7 +161,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "deleting user"));
                     }, "json");
             },
 
@@ -171,7 +171,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting all users"));
                     }, "json");
             },
 
@@ -181,7 +181,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "searching user"));
                     }, "json");
             },
 
@@ -191,7 +191,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "updating user"));
                     }, "json");
             }
         }
@@ -205,7 +205,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting album"));
                     }, "json");
             },
 
@@ -215,7 +215,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "adding album"));
                     }, "json");
             },
 
@@ -225,7 +225,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "deleting album"));
                     }, "json");
             },
 
@@ -238,7 +238,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting  all albums"));
                     }, "json");
             },
 
@@ -248,7 +248,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "searching album"));
                     }, "json");
             },
 
@@ -258,7 +258,7 @@ var DB = (function(){
                         callback(null, data);
                     }, "json")
                     .fail(function( err ) {
-                        callback(ERROR.create(ERROR_TYPE.DATA_BASE));
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "updating album"));
                     }, "json");
             }
         }

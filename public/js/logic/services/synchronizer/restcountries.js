@@ -9,7 +9,7 @@ var RESTCOUNTRIES = (function(){
                 callback(null, data);
             }, "json")
                 .fail(function( err ) {
-                    callback(err);
+                    callback(ERROR.create(ERROR_TYPE.REST_COUNTRY_SERVICE, 'loading of country information'));
             }, "json");
         }
     }

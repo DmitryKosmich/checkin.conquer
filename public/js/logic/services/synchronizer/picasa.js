@@ -9,7 +9,7 @@ var PICASA = (function(){
                     callback(null, data.feed.entry[0].media$group.media$content[0].url);
                 }, "json")
                 .fail(function( err ) {
-                    callback(err);
+                    callback(ERROR.create(ERROR_TYPE.PICASA, 'loading of album preview'));
                 }, "json");
         }
     }
