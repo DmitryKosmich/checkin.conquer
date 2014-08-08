@@ -33,7 +33,7 @@ function fillCountryDialog(country){
 
     DB.checkin.search({cc: country.cc, FQUserId: SESSION.get('currentUserId')}, function(err, checkins){
         if(err) {
-            ALERT.show(JSON.parse(err), ALERT_TYPE.DANGER);
+            ALERT.show(err, ALERT_TYPE.DANGER);
         }else{
             $( "#addCountry").html('');
             $( "#deleteCountry").html('');

@@ -66,8 +66,9 @@ function updateAll(){
             if(users[0]){
                 if(((new Date().getTime() / 1000) - users[0].lastUpdate)>config.UPDATE_INTERVAL){
                     synchUpdate();
+                }else{
+                    $("#loadingImage").fadeOut("slow");
                 }
-                $("#loadingImage").fadeOut("slow");
             }else{
                 SYNCHRONIZER.update.user('self', function(err){
                     if(err){
