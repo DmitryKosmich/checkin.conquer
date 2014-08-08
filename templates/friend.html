@@ -1,9 +1,11 @@
 {% extends 'layout/layout.html' %}
 
+
 {% block styles %}
 {% parent %}
 
 <link rel="stylesheet" href="/css/design.css"/>
+<link rel="stylesheet" href="/js/jqmap/jqvmap.css"/>
 {% endblock %}
 
 {% block content %}
@@ -24,9 +26,9 @@
                 <div class="row">
                     <div class="designationContainer">
                         <div class="designationWrapper"><span id = 'friend_color' class="designation" style=""></span><span class="vs_title"></span></div>
-                        <div class="designationWrapper"><span id = 'join_color' class="designation" style=""></span>Join</div>
+                        <div class="designationWrapper"><span id = 'join_color' class="designation" style="" ></span ><span data-localize="join">Join</span></div>
                         <div class="designationWrapper"><span id = 'user_color' class="designation" style=""></span><span data-localize="me">Me</span></div>
-                        <div class="designationWrapper"><span id = 'not_captured_color' class="designation" style=""></span><span data-localize="me">Not captured</span></div>
+                        <div class="designationWrapper"><span id = 'not_captured_color' class="designation" style=""></span><span data-localize="not_captured">Not captured</span></div>
                         <div style="clear: both"></div>
                         <hr>
                     </div>

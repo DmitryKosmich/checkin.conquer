@@ -38,5 +38,8 @@
     "welcome": "Добро пожаловать",
     "to_display_the_occupied_territories_sign_in": "Для отображения захваченных территорий войдите на ",
     "and_try": " и попробуйте",
-    "again": " еще раз"
+    "again": " еще раз",
+
+    "not_captured": "Не захваченные",
+    "join": "Совместные"
 }
