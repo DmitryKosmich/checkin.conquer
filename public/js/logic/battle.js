@@ -25,12 +25,12 @@ window.onload = function() {
             }
         });
         map.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR);
-        setDesidnation();
+        setDesignation();
         $("#loadingImage").fadeOut("slow");
     });
 };
 
-function setDesidnation() {
+function setDesignation() {
     $( "#friend_color" ).attr('style', 'background-color: '+config.FRIEND_COLOR+';');
     $( "#join_color" ).attr('style', 'background-color: '+config.JOIN_COUNTRY_COLOR+';');
     $( "#user_color" ).attr('style', 'background-color: '+config.VISITED_COUNTRY_COLOR+';');

@@ -5,7 +5,7 @@ window.onload = function() {
         authPopUpHide();
         countryPopUpHide();
         setLocalization();
-        setNavItem('home');
+        setNavItem('home_map');
         map.init({isRegionClick: true});
         map.setColor(config.BG_COLOR);
         setToken();

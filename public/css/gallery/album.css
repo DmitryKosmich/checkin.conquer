@@ -15,7 +15,6 @@
     margin: 5px;
     width: 285px;
     height: 170px;
-    float: left;
 }
 
 .album:hover{
@@ -23,9 +22,17 @@
 }
 
 .albumImage{
-    max-width: 230px;
-    max-height: 130px;
+    max-width: 285px;
+    max-height: 157px;
 }
 
 .albumTitle{
+}
+
+.albumWrapper{;
+    padding-bottom: 20px;
+    max-width: 300px;
+    max-height: 210px;
+    overflow: hidden;
+    float: left
 }

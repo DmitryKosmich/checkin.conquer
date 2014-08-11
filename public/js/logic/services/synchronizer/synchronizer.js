@@ -437,7 +437,7 @@ var SYNCHRONIZER = (function(){
             },
 
             points: function(FQUserId, callback){
-                if(FQUserId== null){
+                if(FQUserId == null){
                     FQUserId = SESSION.get("currentUserId");
                 }
                 POINTS.calculate(FQUserId, function(points){

@@ -7,6 +7,9 @@ $(document).ready(function () {
             ALERT.show(err, ALERT_TYPE.DANGER);
             $("#loadingImage").fadeOut("slow");
         }else{
+            if(album.FQUserId != SESSION.get("currentUserId")){
+                $('#deleteButtonWrap').remove();
+            }
             init(album.userPicasaId, album.albumPicasaId);
             $("#loadingImage").fadeOut("slow");
         }

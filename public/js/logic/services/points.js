@@ -71,6 +71,8 @@ var POINTS = (function(){
                         points += cities.length * POINT_COST.FQ_CITY;
                         points += calculateCountriesPoints(checkins);
                         calculateFriendsPoints(points, id, callback);
+                    }else{
+                        calculateFriendsPoints(points, id, callback);
                     }
                 }
             });

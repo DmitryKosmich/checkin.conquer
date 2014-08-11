@@ -107,14 +107,14 @@ h1{
 }
 
 #user_avatar_wrapper{
-    margin-left: 10px;
-    float: left;
+    text-align: center;
 }
 
 #user_avatar {
+    position: relative;
+    text-align: center;
     width: 150px;
     max-height: 250px;
-    margin: 20px;
 }
 
 .trivial_text{

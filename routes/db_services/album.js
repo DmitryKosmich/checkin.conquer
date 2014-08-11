@@ -25,7 +25,7 @@ exports.getOne = function(req, res) {
 };
 
 exports.getAll = function(req, res) {
-    Album.find({"userId": req.body.userId}, function(err, albums) {
+    Album.find({"FQUserId": req.body.FQUserId}, function(err, albums) {
         if (err) {
             res.statusCode(500);
             res.end();

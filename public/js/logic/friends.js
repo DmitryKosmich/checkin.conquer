@@ -2,7 +2,15 @@
 window.onload = function() {
     setLocalization();
     setNavItem('friends');
-    DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
+
+    var FQUserId = '';
+    if(getURLParameter('id')!='null'){
+       FQUserId = getURLParameter('id');
+    }else{
+        FQUserId = SESSION.get("currentUserId");
+    }
+
+    DB.user.search({FQUserId: FQUserId}, function(err, users){
         if(err) {
             ALERT.show(err, ALERT_TYPE.DANGER);
         }else{
