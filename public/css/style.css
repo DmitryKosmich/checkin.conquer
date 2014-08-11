@@ -106,3 +106,18 @@ h1{
     color: #b2b2b2;
 }
 
+#user_avatar_wrapper{
+    margin-left: 10px;
+    float: left;
+}
+
+#user_avatar {
+    width: 150px;
+    max-height: 250px;
+    margin: 20px;
+}
+
+.trivial_text{
+    color: #8f8f8f;
+    font-size: 14px;
+}

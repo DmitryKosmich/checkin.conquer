@@ -127,3 +127,13 @@ function getRegions(checkins){
     }
     return result;
 }
+
+function getCitiesFromCheckins(checkins){
+    var cities = [];
+    for(var i = 0; i < checkins.length; i++){
+        if(checkins[i].city!='unknown'){
+            cities.push(checkins[i].city);
+        }
+    }
+    return removeRepetition(cities);
+}

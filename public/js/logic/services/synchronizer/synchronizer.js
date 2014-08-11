@@ -436,6 +436,31 @@ var SYNCHRONIZER = (function(){
                 });
             },
 
+            points: function(FQUserId, callback){
+                if(FQUserId== null){
+                    FQUserId = SESSION.get("currentUserId");
+                }
+                POINTS.calculate(FQUserId, function(points){
+                    DB.user.search({FQUserId: FQUserId}, function(err, users){
+                        if(err){
+                            ALERT.show(err, ALERT_TYPE.DANGER);
+                            callback(err);
+                        }else{
+                            if(users[0]){
+                                users[0].points = points;
+                                DB.user.update(users[0]._id, users[0], function(err, user){
+                                    if(err){
+                                        ALERT.show(err, ALERT_TYPE.DANGER);
+                                    }else{
+                                        callback(null, user);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                })
+            },
+
             all: function(callback){
                 $("#loadingImage").show();
                 ALERT.show("Start update!", ALERT_TYPE.INFO);
@@ -466,7 +491,9 @@ var SYNCHRONIZER = (function(){
                                         ALERT.show(err, ALERT_TYPE.DANGER);
                                         callback(err);
                                     }else{
-                                        callback(null, 'OK');
+                                        SYNCHRONIZER.update.points(null, function(){
+                                            callback(null, 'OK');
+                                        });
                                     }
                                 });
                             }

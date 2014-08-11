@@ -136,13 +136,8 @@ function showCities(){
                 if(err) {
                     //ALERT.show(err, ALERT_TYPE.DANGER); Error run, when it redirect on album page... why?
                 }else{
-                    var cities = [];
-                    for(var i = 0; i < checkins.length; i++){
-                        if(checkins[i].city!='unknown'){
-                            cities.push(checkins[i].city);
-                        }
-                    }
-                    cities = removeRepetition(cities);
+                    var cities = getCitiesFromCheckins(checkins);
+
                     $('.row.city').remove();
                     for(var i=0; i < cities.length; i++){
                         if(checkins[i]){

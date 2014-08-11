@@ -68,6 +68,7 @@ function addCountry(cc){
                                     ALERT.show(err, ALERT_TYPE.DANGER);
                                 }else{
                                     map.update();
+                                    ALERT.show("+ 10 points", ALERT_TYPE.SUCCESS);
                                 }
                             })
                         }else{
@@ -80,6 +81,7 @@ function addCountry(cc){
                                             ALERT.show(err, ALERT_TYPE.DANGER);
                                         }else{
                                             map.update();
+                                            ALERT.show("+ 10 points", ALERT_TYPE.SUCCESS);
                                         }
                                     });
                                 }
@@ -104,6 +106,7 @@ function deleteCountry(code){
                         ALERT.show(JSON.parse(err), ALERT_TYPE.DANGER);
                     }else{
                         map.update();
+                        ALERT.show("- 10 points", ALERT_TYPE.INFO);
                     }
                 });
             }

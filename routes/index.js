@@ -10,11 +10,14 @@ module.exports = function(app) {
     app.get('/', require('./pages/map').get);
     app.post('/', require('./pages/map').post);
 
+    app.get('/user', require('./pages/user').get);
+    app.post('/user', require('./pages/user').post);
+
     app.get('/friends', require('./pages/friends').get);
     app.post('/friends', require('./pages/friends').post);
 
-    app.get('/friend', require('./pages/friend').get);
-    app.post('/friend', require('./pages/friend').post);
+    app.get('/battle', require('./pages/battle').get);
+    app.post('/battle', require('./pages/battle').post);
 
     app.get('/countries', require('./pages/countries').get);
     app.post('/countries', require('./pages/countries').post);

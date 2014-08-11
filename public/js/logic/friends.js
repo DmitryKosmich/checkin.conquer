@@ -39,13 +39,14 @@ function showFriend(friend) {
     if(friend.lastUpdate == '0'){
         compare = '<a href="#" onclick="sendInvite('+friend.FQUserId+')">invite</a>';
     }else{
-        compare = '<a href="/friend?id='+friend.FQUserId+'" class="glyphicon glyphicon-tasks"></a>';
+        compare = '<a href="/battle?id='+friend.FQUserId+'" class="glyphicon glyphicon-tasks"></a>';
     }
     $( ".friends" ).append(
             '<tr class="row">' +
-            '<td><img id="mini_photo" src="'+friend.avatarSrc+'"></td>' +
+            '<td><a href="/user?id='+friend.FQUserId+'"><img id="mini_photo" src="'+friend.avatarSrc+'"></a></td>' +
             '<td>'+friend.name+'</td>' +
             '<td>'+friend.surname+'</td>' +
+            '<td>'+friend.points+'</td>' +
             '<td>'+friend.homeCity+'</td>' +
             '<td class="text-center">'+compare+'</td>' +
             '</tr>'

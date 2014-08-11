@@ -47,7 +47,15 @@ function fullUserForm(flag, user){
                 var returnCountries = '';
                 var startIndex = 0;
                 appendCountry(startIndex, regions.length-1, flag, regions, returnCountries);
-                $( '#'+flag+"_checkins" ).val(checkins.length);
+                DB.user.search({FQUserId:user.FQUserId}, function(err, users){
+                    if(err){
+                        ALERT.show(err, ALERT_TYPE.DANGER);
+                    }else{
+                        if(users[0]){
+                            $( '#'+flag+"_points" ).val(users[0].points);
+                        }
+                    }
+                });
             }
         }
     });

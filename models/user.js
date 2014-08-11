@@ -48,6 +48,12 @@ var schema = new Schema({
         unique: false,
         required: false,
         default: '0'
+    },
+    points: {
+        type: String,
+        unique: false,
+        required: false,
+        default: '0'
     }
 });
 

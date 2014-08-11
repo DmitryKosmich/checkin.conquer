@@ -1,9 +1,9 @@
 'use strict';
 
 exports.get = function(req, res) {
-    res.render('friend');
+    res.render('user');
 };
 
 exports.post = function(req, res) {
-    res.render('friend');
+    res.render('user');
 };

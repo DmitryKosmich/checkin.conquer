@@ -29,7 +29,7 @@
                         <div class="designationWrapper"><span id = 'join_color' class="designation" style="" ></span ><span data-localize="join">Join</span></div>
                         <div class="designationWrapper"><span id = 'user_color' class="designation" style=""></span><span data-localize="me">Me</span></div>
                         <div class="designationWrapper"><span id = 'not_captured_color' class="designation" style=""></span><span data-localize="not_captured">Not captured</span></div>
-                        <div style="clear: both"></div>
+                        <span class="clearfix"></span>
                         <hr>
                     </div>
                 </div>
@@ -37,8 +37,8 @@
                     <div class="col-md-12">
                         <form role="form">
                             <div class="form-group">
-                                <label for="f_checkins" data-localize="checkins">Checkins</label>
-                                <input type="text" class="form-control" id="f_checkins" readonly>
+                                <label for="f_points" data-localize="points">Points</label>
+                                <input type="text" class="form-control" id="f_points" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="f_countries"  data-localize="countries">Countries</label>
@@ -49,8 +49,8 @@
                     <div class="col-md-12">
                         <form role="form">
                             <div class="form-group">
-                                <label for="self_checkins"  data-localize="checkins">Checkins</label>
-                                <input type="text" class="form-control" id="self_checkins" readonly>
+                                <label for="self_points"  data-localize="points">Points</label>
+                                <input type="text" class="form-control" id="self_points" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="self_countries"  data-localize="countries">Countries</label>
@@ -75,7 +75,6 @@
 
 <script type="text/javascript" src="/js/logic/services/services.js"></script>
 <script type="text/javascript" src="/js/logic/services/session.js"></script>
-<script type="text/javascript" src="/js/logic/services/configuration.js"></script>
 <script type="text/javascript" src="/js/logic/services/database.js"></script>
 <script type="text/javascript" src="/js/jqmap/jquery.vmap.min.js"></script>
 <script type="text/javascript" src="/js/jqmap/maps/jquery.vmap.world.js"></script>
@@ -83,6 +82,6 @@
 <script type="text/javascript" src="/js/logic/services/map.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
-<script type="text/javascript" src="/js/logic/friend.js"></script>
+<script type="text/javascript" src="/js/logic/battle.js"></script>
 
 {% endblock %}

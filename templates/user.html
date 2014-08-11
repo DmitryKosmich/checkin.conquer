@@ -1,0 +1,70 @@
+{% extends 'layout/layout.html' %}
+
+{% block styles %}
+{% parent %}
+<link rel="stylesheet" href="/css/gallery/nanogallery.css" >
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-24">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title leftstr user_name"></h3>
+                <span class="panel-title rightstr trivial_text" id = "last_visit"></span>
+                <span class="clearfix"></span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id = "user_avatar_wrapper">
+                            <img id = "user_avatar" src="">
+                        </div>
+                    </div>
+                    <div class="col-md-18">
+                        <div id = "user_info">
+                            <form role="form">
+                                <div class="form-group">
+                                    <h1>
+                                        <span class="user_name"></span>
+                                    </h1>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user_points"  data-localize="points">Points</label>
+                                    <input type="text" class="form-control" id="user_points" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email"  data-localize="email">Email</label>
+                                    <input type="text" class="form-control" id="email" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="home"  data-localize="home_city">Home city</label>
+                                    <input type="text" class="form-control" id="home" readonly>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block other %}
+<div id="fb-root"></div>
+
+{% endblock %}
+
+{% block scripts %}
+{% parent %}
+
+<script type="text/javascript" src="/js/logic/services/services.js"></script>
+<script type="text/javascript" src="/js/logic/services/session.js"></script>
+<script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
+<script type="text/javascript" src="/js/logic/services/database.js"></script>
+<script type="text/javascript" src="/js/logic/services/points.js"></script>
+<script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
+<script type="text/javascript" src="/js/logic/user.js"></script>
+
+{% endblock %}
