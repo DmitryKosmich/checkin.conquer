@@ -96,9 +96,7 @@ function next(){
             }else{
                 if(albums){
                     var startIndex = 0;
-                    console.log(albums);
                     getPreviewURLs(startIndex, albums, [], function(resAlbums){
-                        console.log(albums);
                         showPicasaAlbums(resAlbums);
                     });
                 }
@@ -116,12 +114,11 @@ function addAlbum(userPicasaId, albumPicasaId, name){
         albumPicasaId: albumPicasaId
     };
 
-    if (getURLParameter('countryCode')) {
+    if (getURLParameter('countryCode')!="null") {
         newAlbum.cc = getURLParameter('countryCode');
     } else {
         newAlbum.city = getURLParameter('city');
     }
-
     SYNCHRONIZER.add.album(newAlbum, function (err) {
         if(err) {
             ALERT.show(err, ALERT_TYPE.DANGER);

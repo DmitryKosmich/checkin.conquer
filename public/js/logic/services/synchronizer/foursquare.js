@@ -74,8 +74,9 @@ var FOURSQUARE =  (function() {
                                 checkins.concat(data.response.checkins.items);
                                 SESSION.set("CHECKINS", JSON.stringify(checkins));
                             }
-                            //TODO: free sessionStorage item
-                            callback(null, JSON.parse(SESSION.get('CHECKINS')));
+                            var result = JSON.parse(SESSION.get('CHECKINS'));
+                            SESSION.remove('CHECKINS');
+                            callback(null, result);
                         }
                     });
                 }

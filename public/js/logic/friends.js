@@ -15,37 +15,46 @@ window.onload = function() {
             ALERT.show(err, ALERT_TYPE.DANGER);
         }else{
             if(users[0]){
-                showFriends(users[0].friends);
+                showFriends(users[0].friends, function(){
+                    setTurnListener();
+                    $("#loadingImage").fadeOut("slow");
+                });
             }
         }
     });
 };
 
-function showFriends(friends){
-    for(var i = 0; i < friends.length; i++){
-        (function(n, m){
-            DB.user.search({FQUserId: friends[n]}, function(err, users){
-                if(err) {
-                    ALERT.show(err, ALERT_TYPE.DANGER);
-                }else{
-                    if(users[0]){
-                        showFriend(users[0]);
+function showFriends(friends, callback){
+
+    var addFriendTransaction = function(index, friends, callback){
+        DB.user.search({FQUserId: friends[index]}, function(err, users){
+            if(err) {
+                ALERT.show(err, ALERT_TYPE.DANGER);
+            }else{
+                if(users[0]){
+                    showFriend(users[0]);
+                    if(index >= friends.length-1){
+                        callback(null);
                     }else{
-                        console.error('no user');
+                        addFriendTransaction(++index, friends, callback);
                     }
-                    if(n == m){
-                        $("#loadingImage").fadeOut("slow");
-                    }
+                }else{
+                    console.error('no user');
+                    callback(err);
                 }
-            });
-        })(i, friends.length-1);
-    }
+            }
+        });
+    };
+    var startIndex = 0;
+    addFriendTransaction(startIndex, friends, function(){
+        callback();
+    });
 }
 
 function showFriend(friend) {
     var compare = '';
     if(friend.lastUpdate == '0'){
-        compare = '<a href="#" onclick="sendInvite('+friend.FQUserId+')">invite</a>';
+        compare = '<a href="#" class="inviteTurner" onclick="sendInvite('+friend.FQUserId+')">invite</a>';
     }else{
         compare = '<a href="/battle?id='+friend.FQUserId+'" class="glyphicon glyphicon-tasks"></a>';
     }
@@ -84,7 +93,6 @@ function sendInvite(FQUserId){
     });
 }
 
-
 function openInviteDialog(message){
     $('#sendInviteButton').attr('href', 'javascript:send('+JSON.stringify(message)+')');
     $('#inviteMessage').val(message.body);
@@ -94,7 +102,6 @@ function openInviteDialog(message){
 function send(message){
     countryPopUpHide();
     message.body = $('#inviteMessage').val()+" "+config.CURR_WEB_ADDRESS;
-    console.log(message);
     $("#loadingImage").show();
     ALERT.show("Sending was started!", ALERT_TYPE.INFO);
     EMAIL.send(message, function(err, data){
@@ -116,4 +123,10 @@ function generateMessage(user, friend){
         body: "Dear, "+friend.name+", your friend "+user.name+" "+user.surname+" invited " +
             "you to join to "+config.CURR_WEB_ADDRESS+".  With respect Checkiner."
     };
+}
+
+function setTurnListener(){
+    $('.inviteTurner').click(function(){
+        $(this).addClass('trivial_text');
+    });
 }

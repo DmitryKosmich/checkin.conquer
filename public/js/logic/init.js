@@ -8,41 +8,13 @@ window.onload = function() {
         setNavItem('home_map');
         map.init({isRegionClick: true});
         map.setColor(config.BG_COLOR);
-        setToken();
-        userInit();
-        map.update();
+        AUTH.setToken();
+        if(SESSION.get('ACCESS_TOKEN')!= null){
+            userInit();
+            map.update();
+        }
     });
 };
-
-function setToken() {
-    if(config.ACCESS_TOKEN == 'undefined'){
-        if ($.bbq.getState('access_token')) {
-            SESSION.set('ACCESS_TOKEN', $.bbq.getState('access_token'));
-            config.ACCESS_TOKEN=$.bbq.getState('access_token');
-            $.bbq.pushState({}, 2);
-        }else{
-            if ($.bbq.getState('error')) {
-                ALERT.show('ERROR: getting access token', ALERT_TYPE.DANGER);
-            }else {
-                setTimeout(function(){
-                    if(config.ACCESS_TOKEN == 'undefined'){
-                        authPopUpShow();
-                    }
-                }, 3000);
-                doAuthRedirect();
-            }
-        }
-    }
-}
-
-function doAuthRedirect() {
-    var url = 'https://foursquare.com/oauth2/authenticate?' +
-        'client_id=' + config.CLIENT_ID+
-        '&response_type=token' +
-        '&redirect_uri='+config.REDIRECT_URL;
-
-    window.location.href = url;
-}
 
 function userInit(){
     if(SESSION.get('currentUserId')!= null){
