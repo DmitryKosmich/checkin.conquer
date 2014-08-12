@@ -311,10 +311,14 @@ var SYNCHRONIZER = (function(){
                                         DBCheckins.push(data[i]);
                                     }
                                 }
-                                addCheckins(id, FQCheckins, DBCheckins, function(err){
-                                    updateCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                if(FQCheckins[0]){
+                                    addCheckins(id, FQCheckins, DBCheckins, function(err){
+                                        updateCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                        deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                    });
+                                }else{
                                     deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
-                                });
+                                }
                                 callback(null, data);
                             }
                         });
@@ -346,8 +350,12 @@ var SYNCHRONIZER = (function(){
                         ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
                     }else{
-                        var startIndex = 0;
-                        addCountryTransaction(startIndex, checkins, callback);
+                        if(checkins[0]){
+                            var startIndex = 0;
+                            addCountryTransaction(startIndex, checkins, callback);
+                        }else{
+                            callback(null);
+                        }
                     }
                 });
             },
@@ -448,7 +456,10 @@ var SYNCHRONIZER = (function(){
                         }else{
                             if(users[0]){
                                 users[0].points = points;
-                                DB.user.update(users[0]._id, users[0], function(err, user){
+                                var id = users[0]._id;
+                                delete users[0]._id;
+                                delete users[0].__v;
+                                DB.user.update(id, users[0], function(err, user){
                                     if(err){
                                         ALERT.show(err, ALERT_TYPE.DANGER);
                                     }else{
