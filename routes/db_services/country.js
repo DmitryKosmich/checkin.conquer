@@ -4,14 +4,14 @@ exports.add = function(req, res) {
     var newCountry = new Country(req.body.country);
     Country.find({cc:newCountry.cc}, function(err, countries) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
             if(countries[0]==null){
                 newCountry.save(function(err, country, affected) {
                     if (err) {
-                        res.statusCode(500);
+                        res.status(500);
                         res.end();
                         throw err;
                     }else{
@@ -28,7 +28,7 @@ exports.add = function(req, res) {
 exports.getOne = function(req, res) {
     Country.findById(req.body.id, function(err, country) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -40,7 +40,7 @@ exports.getOne = function(req, res) {
 exports.getAll = function(req, res) {
     Country.find({}, function(err, countries) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -52,7 +52,7 @@ exports.getAll = function(req, res) {
 exports.delete = function(req, res) {
     Country.findByIdAndRemove(req.body.id, function(err, country) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -64,7 +64,7 @@ exports.delete = function(req, res) {
 exports.search = function(req, res) {
     Country.find(req.body.params, function(err, countries) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -76,7 +76,7 @@ exports.search = function(req, res) {
 exports.update = function(req, res) {
     Country.findByIdAndUpdate(req.body.id, req.body.country, function(err, country) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{

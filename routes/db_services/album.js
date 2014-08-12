@@ -4,7 +4,7 @@ exports.add = function(req, res) {
     var newAlbum = new Album(req.body.album);
     newAlbum.save(function(err, album, affected) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             throw err;
         }else{
             res.send(album);
@@ -15,7 +15,7 @@ exports.add = function(req, res) {
 exports.getOne = function(req, res) {
     Album.findById(req.body.id, function(err, album) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -27,7 +27,7 @@ exports.getOne = function(req, res) {
 exports.getAll = function(req, res) {
     Album.find({"FQUserId": req.body.FQUserId}, function(err, albums) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -39,7 +39,7 @@ exports.getAll = function(req, res) {
 exports.delete = function(req, res) {
     Album.findByIdAndRemove(req.body.id, function(err, album) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -51,7 +51,7 @@ exports.delete = function(req, res) {
 exports.search = function(req, res) {
     Album.find(req.body.params, function(err, albums) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -63,7 +63,7 @@ exports.search = function(req, res) {
 exports.update = function(req, res) {
     Album.findByIdAndUpdate(req.body.id, req.body.album, function(err, album) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{

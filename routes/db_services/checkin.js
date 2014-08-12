@@ -4,7 +4,7 @@ exports.add = function(req, res) {
     var newCheckin = new Checkin(req.body.checkin);
     newCheckin.save(function(err, checkin, affected) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -16,7 +16,7 @@ exports.add = function(req, res) {
 exports.getOne = function(req, res) {
     Checkin.findById(req.body.id, function(err, checkin) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -28,7 +28,7 @@ exports.getOne = function(req, res) {
 exports.getAll = function(req, res) {
     Checkin.find({"FQUserId": req.body.FQUserId}, function(err, checkins) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -40,7 +40,7 @@ exports.getAll = function(req, res) {
 exports.delete = function(req, res) {
     Checkin.findByIdAndRemove(req.body.id, function(err, checkin) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -52,7 +52,7 @@ exports.delete = function(req, res) {
 exports.search = function(req, res) {
     Checkin.find(req.body.params, function(err, checkins) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
@@ -64,7 +64,7 @@ exports.search = function(req, res) {
 exports.update = function(req, res) {
     Checkin.findByIdAndUpdate(req.body.id, req.body.checkin, function(err, checkin) {
         if (err) {
-            res.statusCode(500);
+            res.status(500);
             res.end();
             throw err;
         }else{
