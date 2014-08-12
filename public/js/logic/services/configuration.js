@@ -13,6 +13,6 @@ var config = {
     EMAIL_USER: "checkiner@gmail.com",
     EMAIL_PASSWORD: "checkiner1234",
 
-    CURR_WEB_ADDRESS: 'checkiner-conquer.rhcloud.com',
+    CURR_WEB_ADDRESS: 'discover-conquer.rhcloud.com',
     COUNT_OF_ELEMS_ON_USER_PAGE_PANELS: 5
 };

@@ -1,5 +1,10 @@
 {% extends 'layout/layout.html' %}
 
+{% block styles %}
+{% parent %}
+<link rel="stylesheet" href="/css/popup/popup.css" >
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-24">
@@ -22,6 +27,8 @@
         </div>
     </div>
 </div>
+
+<div>{% include "partials/invite_popup.html" %}</div>
 {% endblock %}
 
 {% block other %}

@@ -73,24 +73,8 @@ function sendInvite(FQUserId){
                         ALERT.show(err, ALERT_TYPE.DANGER);
                     }else{
                         if(frineds[0]){
-                            var message = {
-                                from: user.email,
-                                to: frineds[0].email,
-                                subject: "Invite",
-                                body: "Dear, "+frineds[0].name+", your friend "+user.name+" "+user.surname+" invited " +
-                                    "you to join to "+config.CURR_WEB_ADDRESS+".  With respect Checkiner."
-                            };
-                            $("#loadingImage").show();
-                            ALERT.show("Sending was started!", ALERT_TYPE.INFO);
-                            EMAIL.send(message, function(err, data){
-                                if(err){
-                                    ALERT.show("Letter was not sent!", ALERT_TYPE.DANGER);
-                                    $("#loadingImage").fadeOut("slow");
-                                }else{
-                                    ALERT.show("Letter was sent!", ALERT_TYPE.SUCCESS);
-                                    $("#loadingImage").fadeOut("slow");
-                                }
-                            });
+                            var message = generateMessage(user, frineds[0]);
+                            openInviteDialog(message);
                         }
                     }
                 });
@@ -98,4 +82,38 @@ function sendInvite(FQUserId){
             }
         }
     });
+}
+
+
+function openInviteDialog(message){
+    $('#sendInviteButton').attr('href', 'javascript:send('+JSON.stringify(message)+')');
+    $('#inviteMessage').val(message.body);
+    countryPopUpShow();
+}
+
+function send(message){
+    countryPopUpHide();
+    message.body = $('#inviteMessage').val()+" "+config.CURR_WEB_ADDRESS;
+    console.log(message);
+    $("#loadingImage").show();
+    ALERT.show("Sending was started!", ALERT_TYPE.INFO);
+    EMAIL.send(message, function(err, data){
+        if(err){
+            ALERT.show("Letter was not sent!", ALERT_TYPE.DANGER);
+            $("#loadingImage").fadeOut("slow");
+        }else{
+            ALERT.show("Letter was sent!", ALERT_TYPE.SUCCESS);
+            $("#loadingImage").fadeOut("slow");
+        }
+    });
+}
+
+function generateMessage(user, friend){
+    return {
+        from: user.email,
+        to: friend.email,
+        subject: "Invite",
+        body: "Dear, "+friend.name+", your friend "+user.name+" "+user.surname+" invited " +
+            "you to join to "+config.CURR_WEB_ADDRESS+".  With respect Checkiner."
+    };
 }
