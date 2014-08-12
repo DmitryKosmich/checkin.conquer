@@ -22,6 +22,7 @@
 }
 
 .albumImage{
+    text-align: center;
     max-width: 285px;
     max-height: 157px;
 }
@@ -29,8 +30,13 @@
 .albumTitle{
 }
 
+.newAlbum{
+    margin-top: 15px;
+}
+
 .albumWrapper{;
     padding-bottom: 20px;
+    text-align: center;
     max-width: 300px;
     max-height: 210px;
     overflow: hidden;

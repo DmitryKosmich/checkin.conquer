@@ -13,7 +13,12 @@ var PICASA = (function(){
         getAlbumPreviewUrl: function(userId, albumId, callback){
             $.get( "https://picasaweb.google.com/data/feed/api/user/"+userId+"/albumid/"+albumId+"?fields=entry%2Fmedia%3Agroup%2Fmedia%3Acontent%5B%40url%5D&alt=json&imgmax=220")
                 .done(function( data ) {
-                    callback(null, data.feed.entry[0].media$group.media$content[0].url);
+                    console.log(data);
+                    if(data.feed.entry){
+                        callback(null, data.feed.entry[0].media$group.media$content[0].url);
+                    }else{
+                        callback(null, null);
+                    }
                 }, "json")
                 .fail(function( err ) {
                     callback(ERROR.create(ERROR_TYPE.PICASA, 'loading of album preview'));
@@ -25,7 +30,10 @@ var PICASA = (function(){
                 .done(function( data ) {
                     var albums = [];
                     for(var i = 0; i < data.feed.entry.length; i++){
-                        albums.push(getAlbumIdFromURL(data.feed.entry[i].id.$t));
+                        var album = {};
+                        album.id = getAlbumIdFromURL(data.feed.entry[i].id.$t);
+                        album.name = data.feed.entry[i].title.$t;
+                        albums.push(album);
                     }
                     callback(null, albums);
                 }, "json")

@@ -37,10 +37,10 @@
 }
 
 .alert-warning{
-    background-color: rgba(205, 203, 34, 0.51);
+    background-color: rgba(176, 162, 10, 0.51);
 }
 .alert-warning:hover{
-    background-color: #cdcb22;
+    background-color: #b0a20a;
 }
 
 .alert-danger{

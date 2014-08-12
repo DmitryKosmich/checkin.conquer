@@ -13,7 +13,12 @@
 		top: 0;
 		left: 0; 
 		}
-	
+
+	.modal_content{
+        max-height: 480px;
+        overflow-y: auto;
+    }
+
 	.reveal-modal_country_popup {
 		/*visibility: hidden;*/
         display: none;
