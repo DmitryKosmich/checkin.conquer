@@ -3,8 +3,8 @@ window.onload = function() {
 
     $(document).ready(function () {
         setLocalization();
-        map.init({isRegionClick: false});
-        map.setColor(config.BG_COLOR);
+        MAP.init({isRegionClick: false});
+        MAP.setColor(config.BG_COLOR);
         DB.user.search({FQUserId: getURLParameter('id')}, function(err, users){
             if(err) {
                 ALERT.show(err, ALERT_TYPE.DANGER);
@@ -24,7 +24,7 @@ window.onload = function() {
                 fullUserForm('self', users[0]);
             }
         });
-        map.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR);
+        MAP.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR);
         setDesignation();
         $("#loadingImage").fadeOut("slow");
     });
@@ -52,7 +52,21 @@ function fullUserForm(flag, user){
                         ALERT.show(err, ALERT_TYPE.DANGER);
                     }else{
                         if(users[0]){
-                            $( '#'+flag+"_points" ).val(users[0].points);
+                            var user = users[0];
+                            $( '#'+flag+'_points' ).val(setFormat(user.points));
+
+                            STATISTICS.getCountriesCount(user.FQUserId, function(count){
+                                $('#'+flag+'_countries_count').val(count);
+                            });
+                            STATISTICS.getCitiesCount(user.FQUserId, function(count){
+                                $('#'+flag+'_cities_count').val(setFormat(count));
+                            });
+                            STATISTICS.getArea(user.FQUserId, function(area){
+                                $('#'+flag+'_area').val(setFormat(area));
+                            });
+                            STATISTICS.getPopulation(user.FQUserId, function(population){
+                                $('#'+flag+'_population').val(setFormat(population));
+                            });
                         }
                     }
                 });

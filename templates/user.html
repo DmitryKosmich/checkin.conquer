@@ -23,7 +23,8 @@
                                     <img id = "user_avatar" src="">
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" style="text-align: center">
+                                <a href="#" data-localize="compare_with_me" id = "compare">Compare with me</a>
                             </div>
                         </div>
                         <div class="panel panel-default">
@@ -64,16 +65,41 @@
                                     <hr>
                                 </div>
                                 <div class="form-group">
-                                    <label for="user_points"  data-localize="points">Points</label>
-                                    <input type="text" class="form-control" id="user_points" readonly>
+                                    <label for="home"  data-localize="home_city">Home city</label>
+                                    <input type="text" class="form-control" id="home" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="email"  data-localize="email">Email</label>
                                     <input type="text" class="form-control" id="email" readonly>
                                 </div>
+                                <hr>
                                 <div class="form-group">
-                                    <label for="home"  data-localize="home_city">Home city</label>
-                                    <input type="text" class="form-control" id="home" readonly>
+                                    <label for="user_points"  data-localize="points">Points</label>
+                                    <input type="text" class="form-control" id="user_points" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="countries_count"  data-localize="countries_count">Countries count</label>
+                                    <input type="text" class="form-control" id="countries_count" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cities_count"  data-localize="cities_count">Cities count</label>
+                                    <input type="text" class="form-control" id="cities_count" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area"  data-localize="area">Area</label>
+                                    <input type="text" class="form-control" id="area" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="population"  data-localize="population">Population</label>
+                                    <input type="text" class="form-control" id="population" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="frinds_count"  data-localize="frinds_count">Frinds count</label>
+                                    <input type="text" class="form-control" id="frinds_count" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="albums_count"  data-localize="albums_count">Albums count</label>
+                                    <input type="text" class="form-control" id="albums_count" readonly>
                                 </div>
                             </form>
                         </div>
@@ -99,6 +125,7 @@
 <script type="text/javascript" src="/js/logic/services/database.js"></script>
 <script type="text/javascript" src="/js/logic/services/points.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
+<script type="text/javascript" src="/js/logic/services/statistics.js"></script>
 <script type="text/javascript" src="/js/logic/user.js"></script>
 
 {% endblock %}

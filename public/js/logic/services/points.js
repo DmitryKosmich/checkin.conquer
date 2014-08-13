@@ -1,4 +1,3 @@
-'use strict';
 
 var POINT_COST = {
 
@@ -11,6 +10,8 @@ var POINT_COST = {
 
 var POINTS = (function(){
 
+    'use strict';
+
     var calculateCountriesPoints = function(checkins){
         var points = 0;
         var FQCountries = [];
@@ -22,7 +23,7 @@ var POINTS = (function(){
                 Countries.push(checkins[i].cc);
             }
         }
-        FQCountries = removeRepetition(FQCountries);
+        FQCountries = removeRepetitionArr(FQCountries);
         points += FQCountries.length * POINT_COST.FQ_COUNTRY;
         points += Countries.length * POINT_COST.COUNTRY;
         return points;
@@ -59,10 +60,35 @@ var POINTS = (function(){
         });
     };
 
+    var getCheckinsOfCountry  = function(country, checkins){
+        var actualCheckins = [];
+        for(var i = 0; i < checkins.length; i++){
+            if(checkins[i].cc == country){
+                actualCheckins.push(checkins[i]);
+            }
+        }
+        return actualCheckins;
+    };
+
+    var countCountryPoints =  function(checkins){
+        var points = 0;
+        for(var j = 0; j < checkins.length; j++){
+            var existFQCountry = false;
+            if(checkins[j].isFQ == true){
+                existFQCountry = true;
+                points += POINT_COST.FQ_CITY;
+            }else{
+                points += POINT_COST.COUNTRY;
+            }
+        }
+        return  existFQCountry == true ? points += POINT_COST.FQ_COUNTRY : points;
+    };
+
     return {
-        calculate: function(id, callback){
+
+        calculate: function(FQUserId, callback){
             var points = 0;
-            DB.checkin.getAll(id, function(err, checkins){
+            DB.checkin.getAll(FQUserId, function(err, checkins){
                 if(err){
                     ALERT.show(err, ALERT_TYPE.DANGER);
                 }else{
@@ -70,11 +96,27 @@ var POINTS = (function(){
                        var cities = getCitiesFromCheckins(checkins);
                         points += cities.length * POINT_COST.FQ_CITY;
                         points += calculateCountriesPoints(checkins);
-                        calculateFriendsPoints(points, id, callback);
+                        calculateFriendsPoints(points, FQUserId, callback);
                     }else{
-                        calculateFriendsPoints(points, id, callback);
+                        calculateFriendsPoints(points, FQUserId, callback);
                     }
                 }
+            });
+        },
+
+        getCountryPoints: function(FQUserId, country, callback){
+            var points = 0;
+            DB.checkin.getAll(FQUserId, function(err, checkins){
+                ERROR.errorWrapper(err, checkins, function(country){
+                    if(checkins){
+
+                        var actualCheckins = getCheckinsOfCountry(country, country);
+                        points = countCountryPoints(actualCheckins);
+                        callback(points);
+                    }else{
+                        callback(points);
+                    }
+                });
             });
         }
     }

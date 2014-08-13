@@ -1,6 +1,7 @@
-'use strict';
 
 var AUTH = (function(){
+
+    'use strict';
 
     var doAuthRedirect = function () {
         var url = 'https://foursquare.com/oauth2/authenticate?' +
@@ -14,7 +15,6 @@ var AUTH = (function(){
     return {
 
         setToken: function () {
-            console.log(config.ACCESS_TOKEN);
             if(config.ACCESS_TOKEN == 'undefined'){
                 if ($.bbq.getState('access_token')) {
                     SESSION.set('ACCESS_TOKEN', $.bbq.getState('access_token'));

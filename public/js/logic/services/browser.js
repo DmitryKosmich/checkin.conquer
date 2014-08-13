@@ -1,6 +1,8 @@
-'use strict';
 
 var BROWSER = (function(){
+
+    'use strict';
+
     return {
         getVersion: function(){
             var ua= navigator.userAgent, tem,

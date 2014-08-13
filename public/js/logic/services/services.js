@@ -114,6 +114,15 @@ function removeRepetition(data){
     return countriesArr;
 }
 
+function removeRepetitionArr(data){
+    var arrOfObjs = removeRepetition(data);
+    var arr = [];
+    for(var i = 0; i < arrOfObjs.length; i++){
+        arr.push(arrOfObjs[i].value);
+    }
+    return arr;
+}
+
 function getRegions(checkins){
 
     var regions = [];

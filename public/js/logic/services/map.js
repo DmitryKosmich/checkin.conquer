@@ -1,6 +1,7 @@
-'use strict';
 
-var map =  (function() {
+var MAP =  (function() {
+
+    'use strict';
 
     function setColor(color){
         var colorData = sample_data;

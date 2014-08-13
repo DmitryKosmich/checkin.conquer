@@ -41,13 +41,46 @@
         });
     }
 
+    function fillCompare(user){
+        var tag = $("#compare");
+        if(user.FQUserId == SESSION.get("currentUserId")){
+            tag.html('');
+            tag.append('Me');
+            tag.attr('data-localize', 'me');
+            tag.attr('href', '/');
+        }else{
+            tag.attr('href', '/battle?id='+user.FQUserId);
+        }
+    }
+
     function fillUser(user){
-        $("#user_avatar").attr('src', user.avatarSrc);
-        $('#user_points').val(user.points);
-        $('.user_name').append(user.name+" "+user.surname);
+        fillCompare(user);
         setLastVisit(user);
+
+        $("#user_avatar").attr('src', user.avatarSrc);
+        $('.user_name').append(user.name+" "+user.surname);
         $("#email").val(user.email);
         $("#home").val(user.homeCity);
+        $('#user_points').val(setFormat(user.points));
+
+        STATISTICS.getCountriesCount(user.FQUserId, function(count){
+            $('#countries_count').val(count);
+        });
+        STATISTICS.getArea(user.FQUserId, function(area){
+            $('#area').val(setFormat(area));
+        });
+        STATISTICS.getPopulation(user.FQUserId, function(population){
+            $('#population').val(setFormat(population));
+        });
+        STATISTICS.getCitiesCount(user.FQUserId, function(count){
+            $('#cities_count').val(setFormat(count));
+        });
+        STATISTICS.getFriendsCount(user.FQUserId, function(count){
+            $('#frinds_count').val(setFormat(count));
+        });
+        STATISTICS.getAlbumsCount(user.FQUserId, function(count){
+            $('#albums_count').val(setFormat(count));
+        });
     }
 
     function setLastVisit(user){

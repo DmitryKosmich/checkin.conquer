@@ -1,6 +1,7 @@
-'use strict';
 
 var DB = (function(){
+
+    'use strict';
 
     var country = (function(){
         return {

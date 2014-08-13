@@ -10,6 +10,7 @@ $(document).ready(function () {
             if(album.FQUserId != SESSION.get("currentUserId")){
                 $('#deleteButtonWrap').remove();
             }
+            setTitle(album);
             init(album.userPicasaId, album.albumPicasaId);
             $("#loadingImage").fadeOut("slow");
         }
@@ -44,9 +45,23 @@ function deleteAlbum(){
     });
 }
 
+function setTitle(album){
+    if(album.cc){
+        DB.country.search({cc: album.cc}, function(err, countries){
+            ERROR.errorWrapper(err, countries, function(countries){
+                if(countries){
+                    $('#locality_title').append(": "+countries[0].name+": "+album.name);
+                }
+            });
+        });
+    }else{
+        $('#locality_title').append(": "+album.city+": "+album.name);
+    }
+}
+
 function redirectBack(album){
     var address = '';
-    if("null"!=album.cc){
+    if(album.cc){
         address = 'countryCode='+album.cc;
     }else{
         address = 'city='+album.city;

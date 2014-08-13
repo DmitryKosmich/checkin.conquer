@@ -88,6 +88,7 @@ function createTable(){
                 showCountry(allCountriesInfo[i], '');
                 if(i == allCountriesInfo.length-1){
                     conquerInfo.flagSrc = users[0].avatarSrc;
+                    conquerInfo.name = '<a href="/user?id=me">'+users[0].name+' '+users[0].surname+'</a>'
                     showCountry(conquerInfo, 'mainColor');
                     $("#loadingImage").fadeOut("slow");
                 }

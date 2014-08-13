@@ -1,4 +1,3 @@
-'use strict';
 
 var ERROR_TYPE = {
 
@@ -11,7 +10,23 @@ var ERROR_TYPE = {
 
 var ERROR = (function(){
 
+    'use strict';
+
     return {
+
+        errorWrapper: function(err, arr, callback){
+            if(err){
+                ALERT.show(err, ALERT_TYPE.DANGER);
+                $("#loadingImage").fadeOut("slow");
+            }else{
+                if(arr[0]){
+                    callback(arr);
+                }else{
+                    callback(null);
+                }
+            }
+        },
+
         create: function(type, message){
             var mess = '';
             if(message){

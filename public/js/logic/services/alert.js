@@ -1,4 +1,3 @@
-'use strict';
 
 var ALERT_TYPE = {
 
@@ -10,6 +9,8 @@ var ALERT_TYPE = {
 };
 
 var ALERT = (function(){
+
+    'use strict';
 
     var getIcon = function(type){
         if(type == ALERT_TYPE.SUCCESS)  {

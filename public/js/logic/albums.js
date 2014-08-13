@@ -8,9 +8,17 @@ $(document).ready(function () {
 
     if(getURLParameter('countryCode')!='null'){
         params.cc = getURLParameter('countryCode');
+        DB.country.search({cc: params.cc}, function(err, countries){
+            ERROR.errorWrapper(err, countries, function(countries){
+                if(countries){
+                    $('#locality_title').append(": "+countries[0].name);
+                }
+            });
+        });
     }
     if(getURLParameter('city')!='null'){
         params.city = getURLParameter('city');
+        $('#locality_title').append(": "+params.city);
     }
     if(getURLParameter('id')!='null'){
         params.FQUserId = getURLParameter('id');

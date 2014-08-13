@@ -6,12 +6,12 @@ window.onload = function() {
         countryPopUpHide();
         setLocalization();
         setNavItem('home_map');
-        map.init({isRegionClick: true});
-        map.setColor(config.BG_COLOR);
+        MAP.init({isRegionClick: true});
+        MAP.setColor(config.BG_COLOR);
         AUTH.setToken();
         if(SESSION.get('ACCESS_TOKEN')!= null){
             userInit();
-            map.update();
+            MAP.update();
         }
     });
 };
@@ -59,7 +59,7 @@ function synchUpdate(){
         if(err){
             ALERT.show("Update is completed with error!", ALERT_TYPE.DANGER);
         }else{
-            map.update();
+            MAP.update();
             $("#loadingImage").fadeOut("slow");
             ALERT.show("Update is completed!", ALERT_TYPE.SUCCESS);
         }

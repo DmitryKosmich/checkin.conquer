@@ -1,6 +1,7 @@
-'use strict';
 
 var EMAIL = (function(){
+
+    'use strict';
 
     return {
         send: function(message, callback){
