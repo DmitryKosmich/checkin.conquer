@@ -89,18 +89,16 @@ var POINTS = (function(){
         calculate: function(FQUserId, callback){
             var points = 0;
             DB.checkin.getAll(FQUserId, function(err, checkins){
-                if(err){
-                    ALERT.show(err, ALERT_TYPE.DANGER);
-                }else{
-                    if(checkins[0]){
-                       var cities = getCitiesFromCheckins(checkins);
+                ERROR.errorWrapper(err, checkins, function(checkins){
+                    if(checkins){
+                        var cities = getCitiesFromCheckins(checkins);
                         points += cities.length * POINT_COST.FQ_CITY;
                         points += calculateCountriesPoints(checkins);
                         calculateFriendsPoints(points, FQUserId, callback);
                     }else{
                         calculateFriendsPoints(points, FQUserId, callback);
                     }
-                }
+                });
             });
         },
 
@@ -109,7 +107,6 @@ var POINTS = (function(){
             DB.checkin.getAll(FQUserId, function(err, checkins){
                 ERROR.errorWrapper(err, checkins, function(country){
                     if(checkins){
-
                         var actualCheckins = getCheckinsOfCountry(country, country);
                         points = countCountryPoints(actualCheckins);
                         callback(points);

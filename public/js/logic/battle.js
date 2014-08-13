@@ -5,25 +5,24 @@ window.onload = function() {
         setLocalization();
         MAP.init({isRegionClick: false});
         MAP.setColor(config.BG_COLOR);
+
         DB.user.search({FQUserId: getURLParameter('id')}, function(err, users){
-            if(err) {
-                ALERT.show(err, ALERT_TYPE.DANGER);
-            }else{
-                if(users[0]){
+            ERROR.errorWrapper(err, users, function(users){
+                if(users){
                     $('.vs_title').append(users[0].name+' '+users[0].surname  );
                     fullUserForm('f', users[0]);
-                }else{
-                    console.error('ERROR: user '+ getURLParameter('id')+' not founded!');
                 }
-            }
+            });
         });
+
         DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
-            if(err) {
-                ALERT.show(err, ALERT_TYPE.DANGER);
-            }else{
-                fullUserForm('self', users[0]);
-            }
+            ERROR.errorWrapper(err, users, function(users){
+                if(users){
+                    fullUserForm('self', users[0]);
+                }
+            });
         });
+
         MAP.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR);
         setDesignation();
         $("#loadingImage").fadeOut("slow");
@@ -39,48 +38,46 @@ function setDesignation() {
 
 function fullUserForm(flag, user){
     DB.checkin.getAll(user.FQUserId, function(err, checkins){
-        if(err) {
-            ALERT.show(err, ALERT_TYPE.DANGER);
-        }else{
-            if(checkins[0]){
+        ERROR.errorWrapper(err, checkins, function(checkins){
+            if(checkins){
                 var regions = getRegions(checkins);
                 var returnCountries = '';
                 var startIndex = 0;
                 appendCountry(startIndex, regions.length-1, flag, regions, returnCountries);
                 DB.user.search({FQUserId:user.FQUserId}, function(err, users){
-                    if(err){
-                        ALERT.show(err, ALERT_TYPE.DANGER);
-                    }else{
-                        if(users[0]){
-                            var user = users[0];
-                            $( '#'+flag+'_points' ).val(setFormat(user.points));
-
-                            STATISTICS.getCountriesCount(user.FQUserId, function(count){
-                                $('#'+flag+'_countries_count').val(count);
-                            });
-                            STATISTICS.getCitiesCount(user.FQUserId, function(count){
-                                $('#'+flag+'_cities_count').val(setFormat(count));
-                            });
-                            STATISTICS.getArea(user.FQUserId, function(area){
-                                $('#'+flag+'_area').val(setFormat(area));
-                            });
-                            STATISTICS.getPopulation(user.FQUserId, function(population){
-                                $('#'+flag+'_population').val(setFormat(population));
-                            });
+                    ERROR.errorWrapper(err, users, function(users){
+                        if(users){
+                            fillUserFields(flag, users[0]);
                         }
-                    }
+                    });
                 });
             }
-        }
+        });
     });
+}
+
+function fillUserFields(flag, user){
+    $( '#'+flag+'_points' ).val(setFormat(user.points));
+
+    STATISTICS.getCountriesCount(user.FQUserId, function(count){
+        $('#'+flag+'_countries_count').val(count);
+    });
+    STATISTICS.getCitiesCount(user.FQUserId, function(count){
+        $('#'+flag+'_cities_count').val(setFormat(count));
+    });
+    STATISTICS.getArea(user.FQUserId, function(area){
+        $('#'+flag+'_area').val(setFormat(area));
+    });
+    STATISTICS.getPopulation(user.FQUserId, function(population){
+        $('#'+flag+'_population').val(setFormat(population));
+    });
+
 }
 
 function appendCountry(n, m, flag, regions, returnCountries){
     DB.country.search({cc: regions[n]}, function(err, countries){
-        if(err) {
-            ALERT.show(err, ALERT_TYPE.DANGER);
-        }else{
-            if(countries[0]){
+        ERROR.errorWrapper(err, countries, function(countries){
+            if(countries){
                 returnCountries += countries[0].name+', ';
             }
             if(n == m){
@@ -89,6 +86,6 @@ function appendCountry(n, m, flag, regions, returnCountries){
             }else{
                 appendCountry(++n, m, flag, regions, returnCountries);
             }
-        }
+        });
     });
 }

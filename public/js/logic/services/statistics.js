@@ -33,6 +33,8 @@ var STATISTICS = (function(){
                         getFullCountriesInfoByCc(0, countries, [], function(allCountriesInfo){
                             callback(allCountriesInfo);
                         });
+                    }else{
+                        callback([]);
                     }
                 });
             });
@@ -60,7 +62,7 @@ var STATISTICS = (function(){
 
         getCountriesCount: function(FQUserId, callback){
             STATISTICS.getCountries(FQUserId, function(countries){
-                callback(countries.length);
+                callback( countries ? countries.length : 0 );
             });
         },
 

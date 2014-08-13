@@ -3,25 +3,7 @@ var MAP =  (function() {
 
     'use strict';
 
-    function setColor(color){
-        var colorData = sample_data;
-        for (var cc in colorData){
-            colorData[cc]=color;
-        }
-        jQuery('#vmap').vectorMap('set', 'colors', colorData);
-    }
-
-    function setRegionColor(regions, newColor){
-        var colorData = sample_data;
-        for (var cc in colorData){
-            if(isExist(cc, regions)){
-                colorData[cc]=newColor;
-            }
-        }
-        jQuery('#vmap').vectorMap('set', 'colors', colorData);
-    }
-
-    function setTwoRegionsColor(obj1, obj2){
+    var setTwoRegionsColor = function (obj1, obj2){
         var colorData = sample_data;
         var flag = {
             isBelongsToFirst: false,
@@ -47,84 +29,96 @@ var MAP =  (function() {
             flag.isBelongsToSecond = false;
         }
         jQuery('#vmap').vectorMap('set', 'colors', colorData);
-    }
-
-    function init(params) {
-        jQuery('#vmap').vectorMap(
-            {
-                map: 'world_en',
-                backgroundColor: null,
-                color: '#ffffff',
-                hoverOpacity: 0.7,
-                selectedColor: '#104a5a',
-                enableZoom: true,
-                showTooltip: true,
-                values: sample_data,
-                scaleColors: ['#C8EEFF', '#006491'],
-                normalizeFunction: 'polynomial',
-                borderColor: null,
-                borderOpacity: 1.0,
-                borderWidth: 1,
-                hoverColor: '#fff',
-                selectedRegion: null,
-                onRegionClick: function (element, code, region) {
-                    if(params.isRegionClick==true){
-                        getCountryDialogInfo({ "code" : code});
-                    }
-                }
-            });
-    }
-
-    function update(userId, color){
-        DB.checkin.getAll(userId, function(err, checkins){
-            if(err) {
-                ALERT.show(err, ALERT_TYPE.DANGER);
-            }else{
-                var regions = getRegions(checkins);
-                setColor(config.BG_COLOR);
-                if(color){
-                    setRegionColor(regions, color);
-                }else{
-                    setRegionColor(regions, config.VISITED_COUNTRY_COLOR);
-                }
-            }
-        });
-    }
-
-    function updateCompetition(userId1, color1, userId2, color2){
-        DB.checkin.getAll(userId1, function(err, checkins1){
-            if(err) {
-                ALERT.show(err, ALERT_TYPE.DANGER);
-            }else{
-                var obj1 = {
-                    color: color1,
-                    regions: getRegions(checkins1)
-                };
-                DB.checkin.getAll(userId2, function(err, checkins2){
-                    if(err) {
-                        ALERT.show(err, ALERT_TYPE.DANGER);
-                    }else{
-                        var obj2 = {
-                            color: color2,
-                            regions: getRegions(checkins2)
-                        };
-                        setTwoRegionsColor(obj1, obj2);
-                    }
-                });
-            }
-        });
-    }
+    };
 
     return  {
-        init : init,
 
-        setColor: setColor,
+        init : function(params) {
+            jQuery('#vmap').vectorMap(
+                {
+                    map: 'world_en',
+                    backgroundColor: null,
+                    color: '#ffffff',
+                    hoverOpacity: 0.7,
+                    selectedColor: '#104a5a',
+                    enableZoom: true,
+                    showTooltip: true,
+                    values: sample_data,
+                    scaleColors: ['#C8EEFF', '#006491'],
+                    normalizeFunction: 'polynomial',
+                    borderColor: null,
+                    borderOpacity: 1.0,
+                    borderWidth: 1,
+                    hoverColor: '#fff',
+                    selectedRegion: null,
+                    onRegionClick: function (element, code, region) {
+                        if(params.isRegionClick==true){
+                            getCountryDialogInfo({ "code" : code});
+                        }
+                    }
+                });
+        },
 
-        setRegionColor: setRegionColor,
+        setColor: function setColor(color){
+            var colorData = sample_data;
+            for (var cc in colorData){
+                colorData[cc]=color;
+            }
+            jQuery('#vmap').vectorMap('set', 'colors', colorData);
+        },
 
-        update: update,
+        setRegionColor: function(regions, newColor){
+            var colorData = sample_data;
+            for (var cc in colorData){
+                if(isExist(cc, regions)){
+                    colorData[cc]=newColor;
+                }
+            }
+            jQuery('#vmap').vectorMap('set', 'colors', colorData);
+        },
 
-        updateCompetition: updateCompetition
+        update: function update(userId, color){
+            DB.checkin.getAll(userId, function(err, checkins){
+                ERROR.errorWrapper(err, checkins, function(checkins){
+                    if(checkins){
+                        var regions = getRegions(checkins);
+                        MAP.setColor(config.BG_COLOR);
+                        if(color){
+                            MAP.setRegionColor(regions, color);
+                        }else{
+                            MAP.setRegionColor(regions, config.VISITED_COUNTRY_COLOR);
+                        }
+                    }
+                });
+            });
+        },
+
+        updateCompetition: function(userId1, color1, userId2, color2){
+            DB.checkin.getAll(userId1, function(err, checkins1){
+                ERROR.errorWrapper(err, checkins1, function(checkins1){
+                    var obj1 = {
+                        color: color1,
+                        regions: []
+                    };
+                    if(checkins1){
+                        obj1.regions = getRegions(checkins1);
+                    }
+                    DB.checkin.getAll(userId2, function(err, checkins2){
+                        ERROR.errorWrapper(err, checkins2, function(checkins2){
+                            var obj2 = {
+                                color: color2,
+                                regions: []
+                            };
+                            if(checkins2){
+                                obj2.regions = getRegions(checkins2);
+                            }
+                            setTwoRegionsColor(obj1, obj2);
+                        });
+                    });
+                });
+            });
+        }
+
     }
 })();
 

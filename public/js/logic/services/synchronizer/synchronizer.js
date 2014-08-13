@@ -1,6 +1,7 @@
-'use strict';
 
 var SYNCHRONIZER = (function(){
+
+    'use strict';
 
     var createUser = function(FQUser, FQUserId){
 
