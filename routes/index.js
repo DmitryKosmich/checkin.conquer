@@ -38,6 +38,7 @@ module.exports = function(app) {
 
     app.post('/country/add', require('./db_services/country').add);
     app.post('/country/get', require('./db_services/country').getOne);
+    app.post('/country/many', require('./db_services/country').getMany);
     app.post('/country/all', require('./db_services/country').getAll);
     app.post('/country/delete', require('./db_services/country').delete);
     app.post('/country/search', require('./db_services/country').search);

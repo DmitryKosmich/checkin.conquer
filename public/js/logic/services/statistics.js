@@ -7,31 +7,22 @@ var STATISTICS = (function(){
 
         getCountries: function(FQUserId, callback){
 
-            var getFullCountriesInfoByCc = function(index, ccs, result, callback){
-                DB.country.search({cc: ccs[index]}, function(err, countries){
-                    ERROR.errorWrapper(err, countries, function(countries){
-                        if(countries){
-                            result.push(countries[0]);
-                            if(index >= ccs.length-1){
-                                callback(result);
-                            }else{
-                                getFullCountriesInfoByCc(++index, ccs, result, callback);
-                            }
-                        }
-                    });
-                })
-            };
-
             DB.checkin.getAll(FQUserId, function(err, checkins){
                 ERROR.errorWrapper(err, checkins, function(checkins){
                     if(checkins){
-                        var countries = [];
+                        var ccs = [];
                         for(var i =0; i < checkins.length; i++){
-                            countries.push(checkins[i].cc);
+                            ccs.push(checkins[i].cc);
                         }
-                        countries = removeRepetitionArr(countries);
-                        getFullCountriesInfoByCc(0, countries, [], function(allCountriesInfo){
-                            callback(allCountriesInfo);
+                        ccs = removeRepetitionArr(ccs);
+                        DB.country.getMany(ccs, function(err, countries){
+                            ERROR.errorWrapper(err, countries, function(countries){
+                                if(countries){
+                                    callback(countries);
+                                }else{
+                                    callback([]);
+                                }
+                            });
                         });
                     }else{
                         callback([]);

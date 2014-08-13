@@ -37,6 +37,47 @@ exports.getOne = function(req, res) {
     });
 };
 
+exports.getMany = function(req, res) {
+    var counties = [];
+    /*for(var i = 0; i < req.body.ccs.length; i++){
+        Country.findOne({cc: req.body.ccs[i]}, function(err, country) {
+            if (err) {
+                res.status(500);
+                res.end();
+                throw err;
+            }else{
+                counties.push(country);
+                if(counties.length == req.body.ccs.length){
+                    res.send(counties);
+                }
+            }
+        });
+    }*/
+    var transaction = function(index, ccs, counties, callback){
+        Country.findOne({cc: ccs[index]}, function(err, country) {
+            if (err) {
+                callback(err);
+            }else{
+                counties.push(country);
+                if(index >= ccs.length-1){
+                    callback(null, counties);
+                }else{
+                    transaction(++index, ccs, counties, callback);
+                }
+            }
+        });
+    };
+    transaction(0, req.body.ccs, counties, function(err, counties){
+        if(err){
+            res.status(500);
+            res.end();
+            throw err;
+        }else{
+            res.send(counties);
+        }
+    });
+};
+
 exports.getAll = function(req, res) {
     Country.find({}, function(err, countries) {
         if (err) {

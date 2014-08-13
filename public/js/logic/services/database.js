@@ -55,6 +55,16 @@ var DB = (function(){
                     }, "json");
             },
 
+            getMany: function(arr, callback){
+                $.post( "/country/many", {'ccs' : arr})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting many country"));
+                    }, "json");
+            },
+
             update: function(id, country, callback){
                 $.post( "/country/update", {'id' : id, 'country': country})
                     .done(function( data ) {

@@ -314,7 +314,7 @@ var SYNCHRONIZER = (function(){
                                 }
                                 if(FQCheckins[0]){
                                     addCheckins(id, FQCheckins, DBCheckins, function(err){
-                                        updateCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                        //updateCheckins(id, FQCheckins, DBCheckins, function(err){});
                                         deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
                                     });
                                 }else{
@@ -330,34 +330,52 @@ var SYNCHRONIZER = (function(){
 
             countries: function (callback) {
 
-                var addCountryTransaction = function(index, checkins, callback){
-                    SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
-                        if(err) {
-                            ALERT.show(err, ALERT_TYPE.DANGER);
-                            callback(err);
-                        }else{
-                            if(index >= checkins.length-1){
-                                callback(null, data);
-                                return '';
-                            }else{
-                                addCountryTransaction(++index, checkins, callback);
-                            }
+                var isExistInCoutries = function(cc, countries){
+                    for(var i =0; i < countries.length; i++){
+                        if(cc == countries[i].cc){
+                            return true;
                         }
-                    });
+                    }
+                    return false;
+                };
+
+                var addCountryTransaction = function(index, checkins, countries, callback){
+
+                    function plusIndex(data) {
+                        if (index >= checkins.length - 1) {
+                            callback(null, data);
+                        } else {
+                            addCountryTransaction(++index, checkins, countries, callback);
+                        }
+                    }
+
+                    if( isExistInCoutries(checkins[index].cc, countries) == false){
+                        SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
+                            if(err) {
+                                ALERT.show(err, ALERT_TYPE.DANGER);
+                                callback(err);
+                            } else {
+                                plusIndex(data);
+                            }
+                        });
+                    }else{
+                        plusIndex();
+                    }
                 };
 
                 DB.checkin.getAll(null, function(err, checkins){
-                    if(err) {
-                        ALERT.show(err, ALERT_TYPE.DANGER);
-                        callback(err);
-                    }else{
-                        if(checkins[0]){
-                            var startIndex = 0;
-                            addCountryTransaction(startIndex, checkins, callback);
+                    ERROR.errorWrapper(err, checkins, function(checkins){
+                        if(checkins){
+                            DB.country.getAll(function(err, countries){
+                                ERROR.errorWrapper(err, countries, function(countries){
+                                    var startIndex = 0;
+                                    addCountryTransaction(startIndex, checkins, countries, callback);
+                                });
+                            });
                         }else{
                             callback(null);
                         }
-                    }
+                    });
                 });
             },
 
