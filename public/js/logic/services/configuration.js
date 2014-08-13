@@ -15,5 +15,7 @@ var config = {
     EMAIL_PASSWORD: "checkiner1234",
 
     CURR_WEB_ADDRESS: 'discover-conquer.rhcloud.com',
-    COUNT_OF_ELEMS_ON_USER_PAGE_PANELS: 5
+    COUNT_OF_ELEMS_ON_USER_PAGE_PANELS: 5,
+
+    SUPERIORITY_STEP: 10
 };

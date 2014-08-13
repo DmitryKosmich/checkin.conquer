@@ -105,9 +105,9 @@ var POINTS = (function(){
         getCountryPoints: function(FQUserId, country, callback){
             var points = 0;
             DB.checkin.getAll(FQUserId, function(err, checkins){
-                ERROR.errorWrapper(err, checkins, function(country){
+                ERROR.errorWrapper(err, checkins, function(checkins){
                     if(checkins){
-                        var actualCheckins = getCheckinsOfCountry(country, country);
+                        var actualCheckins = getCheckinsOfCountry(country, checkins);
                         points = countCountryPoints(actualCheckins);
                         callback(points);
                     }else{

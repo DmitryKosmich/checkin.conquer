@@ -5,10 +5,13 @@ var MAP =  (function() {
 
     var setTwoRegionsColor = function (obj1, obj2){
         var colorData = sample_data;
+        var conflictCountries = [];
+
         var flag = {
             isBelongsToFirst: false,
             isBelongsToSecond: false
         };
+
         for (var cc in colorData){
             if(isExist(cc, obj1.regions)){
                 flag.isBelongsToFirst = true;
@@ -16,19 +19,51 @@ var MAP =  (function() {
             if(isExist(cc, obj2.regions)){
                 flag.isBelongsToSecond = true;
             }
-            if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == true){
-                colorData[cc]=config.JOIN_COUNTRY_COLOR;
-            }
+
             if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == false){
                 colorData[cc]=obj1.color;
             }
             if(flag.isBelongsToFirst == false && flag.isBelongsToSecond == true){
                 colorData[cc]=obj2.color;
             }
+            if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == true){
+                conflictCountries.push(cc);
+            }
             flag.isBelongsToFirst = false;
             flag.isBelongsToSecond = false;
         }
-        jQuery('#vmap').vectorMap('set', 'colors', colorData);
+
+        var transaction = function(index, counties, colorData, callback){
+            getVinerColor(obj1, obj2, counties[index], function(color){
+                colorData[counties[index]] = color;
+                if(index >= counties.length-1){
+                    callback(colorData);
+                }else{
+                    transaction(++index, counties, colorData, callback);
+                }
+            });
+        };
+
+        transaction(0, conflictCountries, colorData, function(colorData){
+            console.log(conflictCountries);
+            jQuery('#vmap').vectorMap('set', 'colors', colorData);
+        });
+    };
+
+    var getVinerColor = function(obj1, obj2, cc, callback){
+        STATISTICS.getPointsOfCountry(obj1.FQUserId, cc, function(points1){
+            STATISTICS.getPointsOfCountry(obj2.FQUserId, cc, function(points2){
+                if(points1 > points2 && Math.abs(points1 - points2) > config.SUPERIORITY_STEP){
+                    callback(obj1.color);
+                }else{
+                    if(points1 < points2 && Math.abs(points1 - points2) > config.SUPERIORITY_STEP){
+                        callback(obj2.color);
+                    }else{
+                        callback(config.JOIN_COUNTRY_COLOR);
+                    }
+                }
+            });
+        });
     };
 
     return  {
@@ -97,6 +132,7 @@ var MAP =  (function() {
             DB.checkin.getAll(userId1, function(err, checkins1){
                 ERROR.errorWrapper(err, checkins1, function(checkins1){
                     var obj1 = {
+                        FQUserId: userId1,
                         color: color1,
                         regions: []
                     };
@@ -106,6 +142,7 @@ var MAP =  (function() {
                     DB.checkin.getAll(userId2, function(err, checkins2){
                         ERROR.errorWrapper(err, checkins2, function(checkins2){
                             var obj2 = {
+                                FQUserId: userId2,
                                 color: color2,
                                 regions: []
                             };
