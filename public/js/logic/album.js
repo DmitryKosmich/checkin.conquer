@@ -7,11 +7,15 @@ $(document).ready(function () {
             ALERT.show(err, ALERT_TYPE.DANGER);
             $("#loadingImage").fadeOut("slow");
         }else{
-            if(album.FQUserId != SESSION.get("currentUserId")){
-                $('#deleteButtonWrap').remove();
+            if(album){
+                if(album.FQUserId != SESSION.get("currentUserId")){
+                    $('#deleteButtonWrap').remove();
+                }
+                setTitle(album);
+                init(album.userPicasaId, album.albumPicasaId);
+            }else{
+                window.location.href = '/countries';
             }
-            setTitle(album);
-            init(album.userPicasaId, album.albumPicasaId);
             $("#loadingImage").fadeOut("slow");
         }
     });

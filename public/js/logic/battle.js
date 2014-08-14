@@ -4,7 +4,7 @@ window.onload = function() {
     $(document).ready(function () {
         setLocalization();
         MAP.init({isRegionClick: false});
-        MAP.setColor(config.BG_COLOR);
+        MAP.setColor(CONFIG.BG_COLOR);
 
         DB.user.search({FQUserId: getURLParameter('id')}, function(err, users){
             ERROR.errorWrapper(err, users, function(users){
@@ -23,27 +23,37 @@ window.onload = function() {
             });
         });
 
-        MAP.updateCompetition(getURLParameter('id'), config.FRIEND_COLOR, SESSION.get("currentUserId"), config.VISITED_COUNTRY_COLOR);
+        MAP.updateCompetition(getURLParameter('id'), CONFIG.FRIEND_COLOR, SESSION.get("currentUserId"), CONFIG.VISITED_COUNTRY_COLOR);
         setDesignation();
         $("#loadingImage").fadeOut("slow");
     });
 };
 
 function setDesignation() {
-    $( "#friend_color" ).attr('style', 'background-color: '+config.FRIEND_COLOR+';');
-    $( "#join_color" ).attr('style', 'background-color: '+config.JOIN_COUNTRY_COLOR+';');
-    $( "#user_color" ).attr('style', 'background-color: '+config.VISITED_COUNTRY_COLOR+';');
-    $( "#not_captured_color" ).attr('style', 'background-color: '+config.BG_COLOR+';');
+    $( "#friend_color" ).attr('style', 'background-color: '+CONFIG.FRIEND_COLOR+';');
+    $( "#join_color" ).attr('style', 'background-color: '+CONFIG.JOIN_COUNTRY_COLOR+';');
+    $( "#user_color" ).attr('style', 'background-color: '+CONFIG.VISITED_COUNTRY_COLOR+';');
+    $( "#not_captured_color" ).attr('style', 'background-color: '+CONFIG.BG_COLOR+';');
 }
 
 function fullUserForm(flag, user){
     DB.checkin.getAll(user.FQUserId, function(err, checkins){
         ERROR.errorWrapper(err, checkins, function(checkins){
             if(checkins){
+
                 var regions = getRegions(checkins);
-                var returnCountries = '';
-                var startIndex = 0;
-                appendCountry(startIndex, regions.length-1, flag, regions, returnCountries);
+                DB.country.getMany(regions, function(err, countries){
+                    ERROR.errorWrapper(err, countries, function(){
+                        if(countries){
+                            var returnCountries = '';
+                            for(var  i = 0; i < countries.length; i++){
+                                returnCountries += countries[i].name+', ';
+                            }
+                            $( '#'+flag+"_countries" ).append(returnCountries.substr(0,returnCountries.length-2));
+                        }
+                    });
+                });
+
                 DB.user.search({FQUserId:user.FQUserId}, function(err, users){
                     ERROR.errorWrapper(err, users, function(users){
                         if(users){
@@ -72,20 +82,4 @@ function fillUserFields(flag, user){
         $('#'+flag+'_population').val(setFormat(population));
     });
 
-}
-
-function appendCountry(n, m, flag, regions, returnCountries){
-    DB.country.search({cc: regions[n]}, function(err, countries){
-        ERROR.errorWrapper(err, countries, function(countries){
-            if(countries){
-                returnCountries += countries[0].name+', ';
-            }
-            if(n == m){
-                $( '#'+flag+"_countries" ).append(returnCountries.substr(0,returnCountries.length-2));
-                return '';
-            }else{
-                appendCountry(++n, m, flag, regions, returnCountries);
-            }
-        });
-    });
 }

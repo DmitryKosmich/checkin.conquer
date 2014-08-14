@@ -94,8 +94,10 @@ var STATISTICS = (function(){
         getFriendsCount: function(FQUserId, callback){
             DB.user.search({FQUserId:FQUserId}, function(err, users){
                 ERROR.errorWrapper(err, users, function(users){
-                    if(users[0]){
+                    if(users){
                         callback( users[0].friends[0] ? users[0].friends.length : 0 );
+                    }else{
+                        callback( 0 );
                     }
                 })
             });

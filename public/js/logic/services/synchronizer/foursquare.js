@@ -5,7 +5,7 @@ var FOURSQUARE =  (function() {
     return  {
 
         getCheckins: function (id, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit=250&oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit=250&oauth_token=" + CONFIG.ACCESS_TOKEN + "&v=" + getNowDate())
                 .done(function( data ) {
                     callback(null, data);
                 }, "json")
@@ -15,7 +15,7 @@ var FOURSQUARE =  (function() {
         },
 
         getCheckinsWithParams: function (id, limit, offset, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit="+limit+"&offset="+offset+"&oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+            $.get("https://api.foursquare.com/v2/users/" + id + "/checkins?limit="+limit+"&offset="+offset+"&oauth_token=" + CONFIG.ACCESS_TOKEN + "&v=" + getNowDate())
                 .done(function( data ) {
                     callback(null, data);
                 }, "json")
@@ -25,7 +25,7 @@ var FOURSQUARE =  (function() {
         },
 
         getFriends: function (id, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "/friends?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+            $.get("https://api.foursquare.com/v2/users/" + id + "/friends?oauth_token=" + CONFIG.ACCESS_TOKEN + "&v=" + getNowDate())
                 .done(function( data ) {
                     callback(null, data.response.friends.items);
                 }, "json")
@@ -35,7 +35,7 @@ var FOURSQUARE =  (function() {
         },
 
         getUser: function (id, callback) {
-            $.get("https://api.foursquare.com/v2/users/" + id + "?oauth_token=" + config.ACCESS_TOKEN + "&v=" + getNowDate())
+            $.get("https://api.foursquare.com/v2/users/" + id + "?oauth_token=" + CONFIG.ACCESS_TOKEN + "&v=" + getNowDate())
                 .done(function( data ) {
                     callback(null, data.response.user);
                 }, "json")

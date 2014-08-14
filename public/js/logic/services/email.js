@@ -5,8 +5,8 @@ var EMAIL = (function(){
 
     return {
         send: function(message, callback){
-            message.user = config.EMAIL_USER;
-            message.password = config.EMAIL_PASSWORD;
+            message.user = CONFIG.EMAIL_USER;
+            message.password = CONFIG.EMAIL_PASSWORD;
             $.post( "/email/send", {'message' : message})
                 .done(function( data ) {
                     callback(null, data);

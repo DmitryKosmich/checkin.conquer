@@ -30,33 +30,16 @@ var POINTS = (function(){
     };
 
     var calculateFriendsPoints = function(points, id, callback){
-        DB.user.search({FQUserId: id}, function(err, users){
-            if(err){
-                ALERT.show(err, ALERT_TYPE.DANGER);
-            }else{
-                if(users[0]){
-                    points += users[0].friends.length * POINT_COST.FRIEND;
-                    calculateAlbumsPoints(points, id, callback);
-                }else{
-                    calculateAlbumsPoints(points, id, callback);
-                }
-            }
+        STATISTICS.getFriendsCount(id, function(count){
+            points += count * POINT_COST.FRIEND;
+            calculateAlbumsPoints(points, id, callback);
         });
-
     };
 
     var calculateAlbumsPoints = function(points, id, callback){
-        DB.album.getAll(id, function(err, albums){
-            if(err){
-                ALERT.show(err, ALERT_TYPE.DANGER);
-            }else{
-                if(albums[0]){
-                    points += albums.length * POINT_COST.ALBUM;
-                    callback(points);
-                }else{
-                    callback(points);
-                }
-            }
+        STATISTICS.getAlbumsCount(id, function(count){
+            points += count * POINT_COST.ALBUM;
+            callback(points);
         });
     };
 

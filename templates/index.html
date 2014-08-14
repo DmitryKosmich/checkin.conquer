@@ -33,10 +33,14 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" src="/js/logic/services/services.js"></script>
-<script type="text/javascript" src="/js/logic/services/session.js"></script>
-<script type="text/javascript" src="/js/logic/services/database.js"></script>
+
+<script type="text/javascript" src="/js/jqmap/jquery.vmap.min.js"></script>
+<script type="text/javascript" src="/js/jqmap/maps/jquery.vmap.world.js"></script>
+<script type="text/javascript" src="/js/jqmap/data/jquery.vmap.sampledata.js"></script>
+<script type="text/javascript" src="/js/logic/services/map.js"></script>
+
 <script type="text/javascript" src="/js/logic/services/points.js"></script>
+<script type="text/javascript" src="/js/logic/services/statistics.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/picasa.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/restcountries.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
@@ -45,8 +49,4 @@
 <script type="text/javascript" src="/js/logic/country.js"></script>
 {% parent %}
 
-<script type="text/javascript" src="/js/jqmap/jquery.vmap.min.js"></script>
-<script type="text/javascript" src="/js/jqmap/maps/jquery.vmap.world.js"></script>
-<script type="text/javascript" src="/js/jqmap/data/jquery.vmap.sampledata.js"></script>
-<script type="text/javascript" src="/js/logic/services/map.js"></script>
 {% endblock %}

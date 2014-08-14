@@ -1,6 +1,8 @@
-'use strict';
 
 var VALIDATION = (function(){
+
+    'use strict';
+
     return {
         notEmpty: function(string){
             return string?true:false;

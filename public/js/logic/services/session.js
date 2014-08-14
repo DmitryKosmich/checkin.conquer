@@ -28,6 +28,6 @@ var SESSION = (function(){
             }
         }
     } else {
-        alert('ERROR: Sorry! No Web Storage support..');
+        window.location.href = '/error/browser';
     }
 })();

@@ -53,13 +53,13 @@ var MAP =  (function() {
     var getVinerColor = function(obj1, obj2, cc, callback){
         STATISTICS.getPointsOfCountry(obj1.FQUserId, cc, function(points1){
             STATISTICS.getPointsOfCountry(obj2.FQUserId, cc, function(points2){
-                if(points1 > points2 && Math.abs(points1 - points2) > config.SUPERIORITY_STEP){
+                if(points1 > points2 && Math.abs(points1 - points2) > CONFIG.SUPERIORITY_STEP){
                     callback(obj1.color);
                 }else{
-                    if(points1 < points2 && Math.abs(points1 - points2) > config.SUPERIORITY_STEP){
+                    if(points1 < points2 && Math.abs(points1 - points2) > CONFIG.SUPERIORITY_STEP){
                         callback(obj2.color);
                     }else{
-                        callback(config.JOIN_COUNTRY_COLOR);
+                        callback(CONFIG.JOIN_COUNTRY_COLOR);
                     }
                 }
             });
@@ -117,11 +117,11 @@ var MAP =  (function() {
                 ERROR.errorWrapper(err, checkins, function(checkins){
                     if(checkins){
                         var regions = getRegions(checkins);
-                        MAP.setColor(config.BG_COLOR);
+                        MAP.setColor(CONFIG.BG_COLOR);
                         if(color){
                             MAP.setRegionColor(regions, color);
                         }else{
-                            MAP.setRegionColor(regions, config.VISITED_COUNTRY_COLOR);
+                            MAP.setRegionColor(regions, CONFIG.VISITED_COUNTRY_COLOR);
                         }
                     }
                 });

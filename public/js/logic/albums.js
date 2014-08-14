@@ -35,6 +35,10 @@ $(document).ready(function () {
     });
 });
 
+function showInstruction() {
+    $('#instruction').show("slow");
+}
+
 function showAlbums(albums, params){
 
     for(var i = 0; i < albums.length; i++){
@@ -52,7 +56,7 @@ function showAlbums(albums, params){
             $("#albums").append(
                     '<div class="albumWrapper">' +
                     '<div class="album">'+
-                    '<a href="#" onclick="countryPopUpShow()"><img  class="albumImage newAlbum" src="/images/add_album.png"></a>'+
+                    '<a href="#" onclick="openPopup()"><img  class="albumImage newAlbum" src="/images/add_album.png"></a>'+
                     '</div>' +
                     '</div>'
             );
@@ -147,10 +151,15 @@ function redirectBack(){
 }
 
 function closePopup(){
-    setStartPopup();
+    $('#instruction').hide();
     countryPopUpHide()
 }
 
+function openPopup(){
+    $('#instruction').hide();
+    countryPopUpShow();
+}
+/*
 function setStartPopup(){
     var currTag = $('.reveal-modal_country_popup.text-center > .modal_content');
     currTag.html('');
@@ -162,4 +171,4 @@ function setStartPopup(){
         '</div>'+
         '<a href="#" class="btn btn-default" onclick="next()" data-localize="Next">Next</a>'
     );
-}
+}*/

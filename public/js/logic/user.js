@@ -61,8 +61,10 @@
         $('.user_name').append(user.name+" "+user.surname);
         $("#email").val(user.email);
         $("#home").val(user.homeCity);
-        $('#user_points').val(setFormat(user.points));
 
+        POINTS.calculate(user.FQUserId, function(count){
+            $('#user_points').val(count);
+        });
         STATISTICS.getCountriesCount(user.FQUserId, function(count){
             $('#countries_count').val(count);
         });
@@ -84,7 +86,7 @@
     }
 
     function setLastVisit(user){
-        if(((new Date().getTime() / 1000) - user.lastUpdate) < config.UPDATE_INTERVAL){
+        if(((new Date().getTime() / 1000) - user.lastUpdate) < CONFIG.UPDATE_INTERVAL){
             $('#last_visit').append("Online");
         }else{
             if(user.lastUpdate!="0"){

@@ -101,7 +101,7 @@ function openInviteDialog(message){
 
 function send(message){
     countryPopUpHide();
-    message.body = $('#inviteMessage').val()+" "+config.CURR_WEB_ADDRESS;
+    message.body = $('#inviteMessage').val()+" "+CONFIG.CURR_WEB_ADDRESS;
     $("#loadingImage").show();
     ALERT.show("Sending was started!", ALERT_TYPE.INFO);
     EMAIL.send(message, function(err, data){
@@ -121,7 +121,7 @@ function generateMessage(user, friend){
         to: friend.email,
         subject: "Invite",
         body: "Dear, "+friend.name+", your friend "+user.name+" "+user.surname+" invited " +
-            "you to join to "+config.CURR_WEB_ADDRESS+".  With respect Checkiner."
+            "you to join to "+CONFIG.CURR_WEB_ADDRESS+".  With respect Checkiner."
     };
 }
 

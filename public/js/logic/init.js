@@ -7,7 +7,7 @@ window.onload = function() {
         setLocalization();
         setNavItem('home_map');
         MAP.init({isRegionClick: true});
-        MAP.setColor(config.BG_COLOR);
+        MAP.setColor(CONFIG.BG_COLOR);
         AUTH.setToken();
         if(SESSION.get('ACCESS_TOKEN')!= null){
             userInit();
@@ -36,7 +36,7 @@ function updateAll(){
             ALERT.show(err, ALERT_TYPE.DANGER);
         }else{
             if(users[0]){
-                if(((new Date().getTime() / 1000) - users[0].lastUpdate)>config.UPDATE_INTERVAL){
+                if(((new Date().getTime() / 1000) - users[0].lastUpdate)>CONFIG.UPDATE_INTERVAL){
                     synchUpdate();
                 }else{
                     $("#loadingImage").fadeOut("slow");

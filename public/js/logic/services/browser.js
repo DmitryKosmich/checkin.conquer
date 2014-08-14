@@ -3,6 +3,10 @@ var BROWSER = (function(){
 
     'use strict';
 
+    var redirectErrorPage = function(){
+        window.location.href = '/error/browser';
+    };
+
     return {
 
         getVersion: function(){
@@ -21,7 +25,7 @@ var BROWSER = (function(){
             return M.join(' ');
         },
 
-        isCorrect: function(browserName){
+        checkCorrectness: function(browserName){
             var browserParts = browserName.split(" ");
             var browser = {};
             browser.name = browserParts[0];
@@ -29,11 +33,14 @@ var BROWSER = (function(){
 
             if('MSIE'== browser.name){
                 if(browser.version<9){
-                    return false;
+                    redirectErrorPage();
                 }
             }
             //todo: and for others browsers
-            return true;
         }
     }
+})();
+
+(function(){
+    BROWSER.checkCorrectness(BROWSER.getVersion());
 })();
