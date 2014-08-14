@@ -113,11 +113,16 @@ h1{
 #user_avatar {
     position: relative;
     text-align: center;
-    width: 150px;
+    width: 100%;
     max-height: 250px;
+    border:solid 1px #c5c5c5;
 }
 
 .trivial_text{
     color: #8f8f8f;
     font-size: 14px;
+}
+
+.panel > .panel-heading{
+    background-color: #ededed;
 }

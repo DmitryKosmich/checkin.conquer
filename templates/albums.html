@@ -28,17 +28,10 @@
 <div>{% include "partials/add_album_popup.html" %}</div>
 {% endblock %}
 
-{% block other %}
-<div id="fb-root"></div>
-
-{% endblock %}
-
 {% block scripts %}
 {% parent %}
-
 <script type="text/javascript" src="/js/logic/services/synchronizer/picasa.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
 <script type="text/javascript" src="/js/logic/albums.js"></script>
-
 {% endblock %}

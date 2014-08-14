@@ -34,20 +34,13 @@
 </div>
 
 <div>{% include "partials/country_popup.html" %}</div>
-
 {% endblock %}
 
-{% block other %}
-<div id="fb-root"></div>
-
-{% endblock %}
 
 {% block scripts %}
 {% parent %}
-
 <script type="text/javascript" src="/js/logic/services/synchronizer/restcountries.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
 <script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
 <script type="text/javascript" src="/js/logic/countries.js"></script>
-
 {% endblock %}
