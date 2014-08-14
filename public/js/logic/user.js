@@ -91,7 +91,7 @@
         }else{
             if(user.lastUpdate!="0"){
                 var date = new Date(user.lastUpdate*1000);
-                $('#last_visit').append('Последнее посещение: '+ date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" в "+date.getHours()+":"+date.getMinutes());
+                $('#last_visit').append(date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes());
             }
         }
     }

@@ -48,5 +48,6 @@
     "send": "Отправить",
     "text_of_invite": "Текст приглашения",
     "cities_count": "Количество городов",
-    "countries_count": "Количество стран"
+    "countries_count": "Количество стран",
+    "last_visit": "Последнее посещение"
 }
