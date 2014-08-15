@@ -5,7 +5,7 @@ var FACEBOOK = (function(){
         init: function(){
             window.fbAsyncInit = function() {
                 FB.init({
-                    appId      : '608985209216820',
+                    appId      : CONFIG.FACEBOOK_APP_ID,
                     xfbml      : true,
                     version    : 'v2.0'
                 });

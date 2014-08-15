@@ -1,6 +1,5 @@
-'use strict';
-
 (function(){
+    'use strict';
 
     $(document).ready(function () {
         setLocalization();
@@ -40,7 +39,7 @@
             }
         });
     }
-
+    //'<a title="Send invite" href="#" class="inviteTurner" onclick="sendInvite('+friend.FQUserId+')">Invite</a>'
     function fillCompare(user){
         var tag = $("#compare");
         if(user.FQUserId == SESSION.get("currentUserId")){
@@ -49,7 +48,16 @@
             tag.attr('data-localize', 'me');
             tag.attr('href', '/');
         }else{
-            tag.attr('href', '/battle?id='+user.FQUserId);
+            DB.user.search({FQUserId: user.FQUserId}, function(err, users){
+                if(users){
+                    if(users[0].lastUpdate == '0'){
+                        tag.html('').append('Invite');
+                        tag.attr('href', 'javascript:sendInvite("'+user.FQUserId+'")');
+                    }else{
+                        tag.attr('href', '/battle?id='+user.FQUserId);
+                    }
+                }
+            });
         }
     }
 

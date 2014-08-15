@@ -4,8 +4,8 @@ module.exports = function(app) {
 
     app.post('/email/send', require('./db_services/email').send);
 
-    app.get('/error/browser', require('./pages/error_browser').get);
-    app.post('/error/browser', require('./pages/error_browser').post);
+    app.get('/error/browser', require('./pages/error-browser').get);
+    app.post('/error/browser', require('./pages/error-browser').post);
 
     app.get('/', require('./pages/map').get);
     app.post('/', require('./pages/map').post);

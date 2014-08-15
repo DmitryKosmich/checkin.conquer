@@ -1,9 +1,9 @@
 'use strict';
 
 exports.get = function(req, res) {
-    res.render('incorrectBrowser');
+    res.render('incorrect-browser');
 };
 
 exports.post = function(req, res) {
-    res.render('incorrectBrowser');
+    res.render('incorrect-browser');
 };
