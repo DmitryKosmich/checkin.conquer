@@ -2,26 +2,26 @@
 
 {% block styles %}
 {% parent %}
-<link rel="stylesheet" href="/css/gallery/nanogallery.css" >
+<link rel="stylesheet" href="/css/nanogallery.css" >
 {% endblock %}
 
 {% block content %}
 <div class="row">
-<div class="col-md-24">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title leftstr"><span data-localize="album">Album </span><span id = 'locality_title'></span></h3>
-            <span class="rightstr">
-                <span id="deleteButtonWrap"><a href="#" onclick="deleteAlbum()" id="deleteButton" class="glyphicon glyphicon-trash mainColor"></a></span>
-            </span>
-            <span class="clearfix"></span>
-        </div>
-        <div class="panel-body">
-            <div id="gallery">
+    <div class="col-md-24">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title leftstr"><span data-localize="album">Album </span><span id = 'locality_title'></span></h3>
+                <span class="rightstr">
+                    <span id="deleteButtonWrap"><a href="#" onclick="deleteAlbum()" id="deleteButton" class="glyphicon glyphicon-trash mainColor"></a></span>
+                </span>
+                <span class="clearfix"></span>
+            </div>
+            <div class="panel-body">
+                <div id="gallery">
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}
 

@@ -22,12 +22,14 @@ var MAP =  (function() {
 
             if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == false){
                 colorData[cc]=obj1.color;
-            }
-            if(flag.isBelongsToFirst == false && flag.isBelongsToSecond == true){
-                colorData[cc]=obj2.color;
-            }
-            if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == true){
-                conflictCountries.push(cc);
+            }else{
+                if(flag.isBelongsToFirst == false && flag.isBelongsToSecond == true){
+                    colorData[cc]=obj2.color;
+                }else{
+                    if(flag.isBelongsToFirst == true && flag.isBelongsToSecond == true){
+                        conflictCountries.push(cc);
+                    }
+                }
             }
             flag.isBelongsToFirst = false;
             flag.isBelongsToSecond = false;
@@ -45,7 +47,6 @@ var MAP =  (function() {
         };
 
         transaction(0, conflictCountries, colorData, function(colorData){
-            console.log(conflictCountries);
             jQuery('#vmap').vectorMap('set', 'colors', colorData);
         });
     };

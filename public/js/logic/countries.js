@@ -100,7 +100,7 @@ function createTable(){
 
 function showCountry(country, colorClass) {
     var cc = colorClass=="mainColor"?'':country.cc;
-    var hasAlbum = colorClass=="mainColor"?'':'<a href="/albums?countryCode='+cc+'" class="glyphicon glyphicon-picture" >';
+    var hasAlbum = colorClass=="mainColor"?'':'<a title="See albums" href="/albums?countryCode='+cc+'" class="glyphicon glyphicon-picture" >';
     var showCity = colorClass=="mainColor"?'': 'showCities';
 
     country.population = setFormat(country.population)=='0'?'':setFormat(country.population);
@@ -150,7 +150,7 @@ function showCities(){
                                     '<td></td>' +
                                     '<td></td>' +
                                     '<td></td>' +
-                                    '<td class="mainColor text-center"><a href="/albums?city='+cities[i].value+'" class="glyphicon glyphicon-picture"></a></td>' +
+                                    '<td class="mainColor text-center"><a title="See albums" href="/albums?city='+cities[i].value+'" class="glyphicon glyphicon-picture"></a></td>' +
                                     '</tr>');
 
                             $(".row.city").hide();

@@ -5,16 +5,16 @@ p {
   margin: 20px 0;
 }
 
-.form-control {
-  box-shadow: none;
+a{
+  cursor: pointer;
+  color: @brand-primary;
 }
 
-.btn {
-  font-family: @brand-font;
+h1{
+  color: @brand-primary;
 }
 
 body {
-  border-top: 5px solid #7e7e7e;
 
   .wrapper {
     padding: 0 0 0 0;
@@ -24,6 +24,7 @@ body {
       padding-right: 30px;
       padding-bottom: 10px;
     }
+
     .navbar-right {
       padding-right: 15px;
     }
@@ -34,25 +35,101 @@ body {
   }
 }
 
-a{
-    cursor: pointer;
+.form-control {
+  box-shadow: none;
+}
+
+.btn {
+  font-family: @brand-font;
 }
 
 .panel {
   box-shadow: none;
   .panel-heading {
     font: 14px @brand-font;
+    color: darken(@text-color, 20%);
     text-transform: uppercase;
     padding: 10px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    background-color: @panel-header-bg-color;
 
     .glyphicon{
-      color: #29c5e6;
+      color: @brand-primary;
+    }
+
+    a{
+      color: darken(@text-color, 20%);
     }
   }
 
   .panel-body {
     padding: 10px;
   }
+}
+
+.mainColor{
+  color: @brand-primary;
+}
+
+.trivial_text{
+  color: @text-color;
+  font-size: 14px;
+}
+
+/*----------------------user avatar-----------------------*/
+#user_avatar_wrapper{
+  text-align: center;
+}
+
+#user_avatar {
+  background: @image-loader-min;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  min-height: 150px;
+  max-height: 250px;
+  border: solid 1px @image-border-color;
+}
+
+#mini_avatar {
+  background: @panel-header-bg-color @image-loader-min;
+  width: 60px;
+  min-height: 60px;
+  border: solid 1px @image-border-color;
+}
+
+/*----------------------accordions-----------------------*/
+tbody {
+
+  .showCities{
+    cursor: pointer;
+  }
+
+  .accordionHeaderRow {
+    color: darken(@text-color, 30%);
+  }
+
+  .accordionBodyRow {
+    color: lighten(@text-color, 20%);
+  }
+}
+
+/*---------------------flags------------------------------*/
+#country_flag{
+  background-color: @panel-header-bg-color;
+  padding: 1px;
+  width: 35px;
+  min-height: 25px;
+  margin: 0;
+  border: solid 1px @image-border-color;
+}
+
+/*---------------------left-right------------------------------*/
+.leftstr, .rightstr {
+  float: left;
+  width: 50%;
+}
+.rightstr {
+  text-align: right;
 }

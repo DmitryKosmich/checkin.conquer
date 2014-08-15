@@ -1,56 +1,64 @@
-/*ШриФт*/
+/*main*/
 @brand-font: 'Cuprum',sans-serif;
-/*серый фон страницы*/
 @body-bg: #f8f8f8;
-/*специфический голубой фон данного дизайна*/
 @brand-primary: #29c5e6;
-/*фон панелей*/
-@panel-bg: #f3f3f3;
-/*цвет рамки панелей*/
-@panel-inner-border: #e7e7e7;
-/*убираем скругление у блоков*/
 @border-radius-base: 0;
-/*первичные кнопки имеют голубой фон*/
-@btn-primary-bg: @brand-primary;
-/*если ширина экрана больше 992px, то ширина контейнера 960px*/
-@container-md: 960px;
-/*если ширина экрана больше 1200px, то ширина контейнера так же 960px*/
-@container-lg: @container-md;
-/*основным шрифтом будет Tahoma*/
-@font-family-base: Tahoma, sans-serif;
-/*задаем базовый размер*/
-@font-size-base: 14px;
-/*основной цвет текста на странице*/
-@text-color: #8f8f8f;
-/*серый фон текстовых полей*/
-@input-bg: @panel-bg;
-/*серая рамка текстовых полей*/
-@input-border: @panel-inner-border;
-/*серый цвет текста в полях*/
-@input-color: #808080;
-
 @grid-columns: 24;
-/*высота навигационного меню*/
+
+/*text*/
+@font-family-base: Tahoma, sans-serif;
+@font-size-base: 14px;
+@text-color: #7b7b7b;
+
+/*alerts*/
+@brand-success: #6bb926;
+@brand-info: @brand-primary;
+@brand-danger: #e86230;
+@brand-warning: #e6c048;
+
+/*map*/
+@brand-primary-map-bg: #666;
+@brand-primary-map: @brand-primary;
+
+/*panels*/
+@panel-header-bg-color: #ededed;
+@panel-header-color: @text-color;
+@panel-bg: #f3f3f3;
+@panel-inner-border: #e7e7e7;
+@panel-primary-border: @panel-inner-border;
+
+/*buttons*/
+@btn-primary-bg: @brand-primary;
+
+/*screen*/
+@container-md: 960px;/*если ширина экрана больше 992px, то ширина контейнера 960px*/
+@container-lg: @container-md;/*если ширина экрана больше 1200px, то ширина контейнера так же 960px*/
+
+/*inputs*/
+@input-bg: @panel-bg;
+@input-border: darken(@panel-inner-border, 5%);
+@input-color: #747474;
+@input-bg-disabled: @panel-header-bg-color;
+
+/*navbar*/
 @navbar-height: 37px;
-
-/*задаем  побольше горизонтальный отступ*/
 @nav-link-padding: 10px 30px;
+@navbar-default-bg: @panel-header-bg-color;
+@navbar-default-link-color: #949494;
 
-/*фон для пунктов меню*/
-@navbar-default-bg: @panel-bg;
-
-/*цвет текста в пунктах меню*/
-@navbar-default-link-color: #b2b2b2;
-
-/*и при наведении мышки – такой же*/
-@navbar-default-link-hover-color: @brand-primary;
-
-/*фон активного пункта меню – наш специфический голубой цвет*/
-@navbar-default-link-active-bg: @brand-primary;
-
-/*цвет текста активного пункта меню*/
-@navbar-default-link-active-color: #fff;
-
+@navbar-default-link-hover-color: lighten(@brand-primary, 20%);
 @navbar-default-link-hover-bg: #fff;
 
-@panel-primary-border: @panel-inner-border;
+@navbar-default-link-active-bg: @brand-primary;
+@navbar-default-link-active-color: #fff;
+
+/*albums*/
+@album-bg: @panel-header-bg-color;
+@album-border-color: darken(@panel-inner-border, 10%);
+@album-border-color-hover: #fff;
+
+/*images*/
+@image-loader-min: url('../../images/loading-min.gif') no-repeat center;
+@image-gloss: url('../../images/modal-gloss.png') no-repeat -200px -80px;
+@image-bg: @panel-header-bg-color;
+@image-border-color: darken(@panel-inner-border, 10%);

@@ -54,13 +54,13 @@ function showFriends(friends, callback){
 function showFriend(friend) {
     var compare = '';
     if(friend.lastUpdate == '0'){
-        compare = '<a href="#" class="inviteTurner" onclick="sendInvite('+friend.FQUserId+')">invite</a>';
+        compare = '<a title="Send invite" href="#" class="inviteTurner" onclick="sendInvite('+friend.FQUserId+')">invite</a>';
     }else{
-        compare = '<a href="/battle?id='+friend.FQUserId+'" class="glyphicon glyphicon-tasks"></a>';
+        compare = '<a title="Compare with me" href="/battle?id='+friend.FQUserId+'" class="glyphicon glyphicon-tasks"></a>';
     }
     $( ".friends" ).append(
             '<tr class="row">' +
-            '<td><a href="/user?id='+friend.FQUserId+'"><img id="mini_photo" src="'+friend.avatarSrc+'"></a></td>' +
+            '<td><a href="/user?id='+friend.FQUserId+'"><img id="mini_avatar" src="'+friend.avatarSrc+'"></a></td>' +
             '<td>'+friend.name+'</td>' +
             '<td>'+friend.surname+'</td>' +
             '<td>'+friend.points+'</td>' +

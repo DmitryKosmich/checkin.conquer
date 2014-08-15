@@ -39,11 +39,11 @@ function fillCountryDialog(country){
             $( "#deleteCountry").html('');
 
             if(checkins[0] == null){
-                $( "#addCountry" ).html('').append( '<a href="#" class="glyphicon glyphicon-map-marker"  onclick="addCountry(\''+country.cc+ '\')" ></a>' );
+                $( "#addCountry" ).html('').append( '<a href="#" title="Add country" class="glyphicon glyphicon-map-marker"  onclick="addCountry(\''+country.cc+ '\')" ></a>' );
             }else{
                 for(var i = 0; i < checkins.length; i++){
                     if(checkins[i].isFQ == false){
-                        $( "#deleteCountry" ).html('').append( '<a href="#" class="glyphicon glyphicon-trash" onclick="deleteCountry(\''+country.cc+'\')" ></a>' );
+                        $( "#deleteCountry" ).html('').append( '<a href="#" title="Delete country" class="glyphicon glyphicon-trash" onclick="deleteCountry(\''+country.cc+'\')" ></a>' );
                         break;
                     }
                 }
