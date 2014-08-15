@@ -95,6 +95,7 @@
 
     function setLastVisit(user){
         if(((new Date().getTime() / 1000) - user.lastUpdate) < CONFIG.UPDATE_INTERVAL){
+            $('#last_visit_phrase').html('');
             $('#last_visit').append("Online");
         }else{
             if(user.lastUpdate!="0"){
