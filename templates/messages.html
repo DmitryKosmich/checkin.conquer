@@ -1,0 +1,32 @@
+{% extends 'layout/layout.html' %}
+
+{% block styles %}
+{% parent %}
+<link rel="stylesheet" href="/css/popup.css" >
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-24">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title leftstr"><span data-localize="messages">Messages </span></h3>
+            <span class="rightstr">
+                <span></span>
+            </span>
+                <span class="clearfix"></span>
+            </div>
+            <div class="panel-body">
+                <ul class="list">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% parent %}
+<script type="text/javascript" src="/js/logic/services/time.js"></script>
+<script type="text/javascript" src="/js/logic/pages/messages.js"></script>
+{% endblock %}

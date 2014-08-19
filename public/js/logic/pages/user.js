@@ -63,6 +63,7 @@
 
     function fillUser(user){
         fillCompare(user);
+        $('#send_message').attr('href', '/chat?id='+user.FQUserId);
         setLastVisit(user);
 
         $("#user_avatar").attr('src', user.avatarSrc);
@@ -99,8 +100,9 @@
             $('#last_visit').append("Online");
         }else{
             if(user.lastUpdate!="0"){
-                var date = new Date(user.lastUpdate*1000);
-                $('#last_visit').append(date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes());
+                $('#last_visit').append(TIME.getDdMmYyyyHhMm(user.lastUpdate*1000, "."));
+            }else{
+                $('#last_visit_phrase').remove();
             }
         }
     }

@@ -35,16 +35,11 @@ if (app.get('env') == 'development') {
 }
 
 app.use(express.bodyParser());
-
 app.use(express.cookieParser());
-
 app.use(app.router);
-
 require('./routes')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.use(function(err, req, res, next) {
     if (typeof err == 'number') { // next(404);
         err = new HttpError(err);

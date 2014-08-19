@@ -1,0 +1,40 @@
+{% extends 'layout/layout.html' %}
+
+{% block styles %}
+{% parent %}
+<link rel="stylesheet" href="/css/popup.css" >
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-24">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title leftstr"><span data-localize="dialog">Messages </span></h3>
+            <span class="rightstr">
+                <span></span>
+            </span>
+                <span class="clearfix"></span>
+            </div>
+            <div class="panel-body">
+                <ul id="message_history">
+
+                </ul>
+                <form role="form" id="message">
+                    <div class="form-group">
+                        <label for="message_input"  data-localize="albums_count">Message</label>
+                        <textarea id="message_input" placeholder="Message text..." ></textarea>
+                    </div>
+                    <a href="javascript:sendMessage()" class="btn btn-primary">Send</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% parent %}
+<script type="text/javascript" src="/js/logic/services/messager.js"></script>
+<script type="text/javascript" src="/js/logic/pages/chat.js"></script>
+{% endblock %}

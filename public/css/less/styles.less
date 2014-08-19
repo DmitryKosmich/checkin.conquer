@@ -14,6 +14,14 @@ h1{
   color: @brand-primary;
 }
 
+li {
+  list-style-type: none;
+}
+ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+
 body {
 
   .wrapper {
@@ -49,7 +57,7 @@ body {
 
 .btn {
   font-family: @brand-font;
-  background-color: @input-bg;
+  /*background-color: @input-bg;*/
 }
 
 .panel {
@@ -74,6 +82,10 @@ body {
 
   .panel-body {
     padding: 10px;
+    
+    .send_message_button {
+      text-decoration: none;
+    }
   }
 }
 
@@ -138,6 +150,54 @@ tbody {
   float: left;
   width: 50%;
 }
+
 .rightstr {
   text-align: right;
+}
+
+/*------------------------message------------------------------*/
+#message_history {
+  height: 300px;
+  overflow-y: scroll;
+  min-width: 100%;
+  max-width: 100%;
+  padding: 20px;
+}
+
+#message_input {
+  position: relative;
+  overflow-y: scroll;
+  height: 100px;
+  min-width: 100%;
+  max-width: 100%;
+}
+.message{
+  margin-top: 20px;
+  max-width: 350px;
+  overflow-x: auto;
+  background-color: @panel-header-bg-color;
+  padding: 5px;
+}
+.author_message{
+  text-align: right;
+  margin-left: 500px;
+}
+/*------------------------------lists-----------------------------*/
+.list{
+  padding: 10px;
+}
+
+.elem{
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: @panel-header-bg-color;
+  cursor: pointer;
+  a{
+    text-decoration: none;
+    color: @text-color;
+  }
+}
+.elem:hover{
+  background-color: darken(@panel-header-bg-color, 2%);
 }

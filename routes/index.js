@@ -28,6 +28,12 @@ module.exports = function(app) {
     app.get('/albums', require('./pages/albums').get);
     app.post('/albums', require('./pages/albums').post);
 
+    app.get('/messages', require('./pages/messages').get);
+    app.post('/messages', require('./pages/messages').post);
+
+    app.get('/chat', require('./pages/chat').get);
+    app.post('/chat', require('./pages/chat').post);
+
 
     app.post('/user/add', require('./db_services/user').add);
     app.post('/user/get', require('./db_services/user').getOne);
@@ -58,4 +64,17 @@ module.exports = function(app) {
     app.post('/checkin/search', require('./db_services/checkin').search);
     app.post('/checkin/update', require('./db_services/checkin').update);
 
+    app.post('/message/add', require('./db_services/message').add);
+    app.post('/message/get', require('./db_services/message').getOne);
+    app.post('/message/all', require('./db_services/message').getAll);
+    app.post('/message/delete', require('./db_services/message').delete);
+    app.post('/message/search', require('./db_services/message').search);
+    app.post('/message/many', require('./db_services/message').getMany);
+
+    app.post('/chat/add', require('./db_services/chat').add);
+    app.post('/chat/get', require('./db_services/chat').getOne);
+    app.post('/chat/all', require('./db_services/chat').getAll);
+    app.post('/chat/delete', require('./db_services/chat').delete);
+    app.post('/chat/search', require('./db_services/chat').search);
+    app.post('/chat/update', require('./db_services/chat').update);
 };

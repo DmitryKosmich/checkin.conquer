@@ -39,20 +39,25 @@ exports.getOne = function(req, res) {
 
 exports.getMany = function(req, res) {
     var counties = [];
-    /*for(var i = 0; i < req.body.ccs.length; i++){
-        Country.findOne({cc: req.body.ccs[i]}, function(err, country) {
-            if (err) {
-                res.status(500);
-                res.end();
-                throw err;
-            }else{
-                counties.push(country);
-                if(counties.length == req.body.ccs.length){
-                    res.send(counties);
+    if(req.body.ccs){
+        for(var i = 0; i < req.body.ccs.length; i++){
+            Country.findOne({cc: req.body.ccs[i]}, function(err, country) {
+                if (err) {
+                    res.status(500);
+                    res.end();
+                    throw err;
+                }else{
+                    counties.push(country);
+                    if(counties.length == req.body.ccs.length){
+                        res.send(counties);
+                    }
                 }
-            }
-        });
-    }*/
+            });
+        }
+    }else{
+        res.send([]);
+    }
+    /*
     var transaction = function(index, ccs, counties, callback){
         Country.findOne({cc: ccs[index]}, function(err, country) {
             if (err) {
@@ -75,7 +80,7 @@ exports.getMany = function(req, res) {
         }else{
             res.send(counties);
         }
-    });
+    });*/
 };
 
 exports.getAll = function(req, res) {

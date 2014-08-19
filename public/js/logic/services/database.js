@@ -77,6 +77,155 @@ var DB = (function(){
         }
     })();
 
+    var chat = (function(){
+
+        return {
+            get: function(id, callback){
+                $.post( "/chat/get", {'id' : id})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting chat"));
+                    }, "json");
+            },
+
+            add: function(chat, callback){
+                console.log(chat);
+                $.post( "/chat/add", {'chat' : chat})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "adding chat"));
+                    }, "json");
+            },
+
+            delete: function(id, callback){
+                $.post( "/chat/delete", {'id' : id})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "deleting chat"));
+                    }, "json");
+            },
+
+            getAll: function(id, callback){
+                if(id==null){
+                    id = SESSION.get("currentUserId");
+                }
+                $.post( "/chat/all", {'FQUserId' : id})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting all chats"));
+                    }, "json");
+            },
+
+            search: function(params, callback){
+                $.post( "/chat/search", {'params' : params})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "searching chat"));
+                    }, "json");
+            },
+
+            update: function(id, chat, callback){
+                $.post( "/chat/update", {'id' : id, 'chat': chat})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "updating chat"));
+                    }, "json");
+            }
+        }
+    })();
+
+
+    var message = (function(){
+
+        return {
+            get: function(id, callback){
+                $.post( "/message/get", {'id' : id})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting message"));
+                    }, "json");
+            },
+
+            add: function(message, callback){
+                console.log(message);
+                $.post( "/message/add", {'message' : message})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "adding message"));
+                    }, "json");
+            },
+
+            delete: function(id, callback){
+                $.post( "/message/delete", {'id' : id})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "deleting message"));
+                    }, "json");
+            },
+
+            getAll: function(id, callback){
+                if(id==null){
+                    id = SESSION.get("currentUserId");
+                }
+                $.post( "/message/all", {'FQUserId' : id})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting all messages"));
+                    }, "json");
+            },
+
+            getMany: function(messages, callback){
+                $.post( "/message/many", {'messages' : messages})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "getting many messages"));
+                    }, "json");
+            },
+
+            search: function(params, callback){
+                $.post( "/message/search", {'params' : params})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "searching message"));
+                    }, "json");
+            },
+
+            update: function(id, message, callback){
+                $.post( "/message/update", {'id' : id, 'message': message})
+                    .done(function( data ) {
+                        callback(null, data);
+                    }, "json")
+                    .fail(function( err ) {
+                        callback(ERROR.create(ERROR_TYPE.DATA_BASE, "updating message"));
+                    }, "json");
+            }
+        }
+    })();
+
     var checkin = (function(){
         return {
             get: function(id, callback){
@@ -279,6 +428,8 @@ var DB = (function(){
         country: country,
         checkin: checkin,
         user: user,
-        album: album
+        album: album,
+        chat: chat,
+        message: message
     }
 })();

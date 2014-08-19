@@ -331,9 +331,11 @@ var SYNCHRONIZER = (function(){
             countries: function (callback) {
 
                 var isExistInCoutries = function(cc, countries){
-                    for(var i =0; i < countries.length; i++){
-                        if(cc == countries[i].cc){
-                            return true;
+                    if(countries){
+                        for(var i =0; i < countries.length; i++){
+                            if(cc == countries[i].cc){
+                                return true;
+                            }
                         }
                     }
                     return false;
