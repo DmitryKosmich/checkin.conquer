@@ -1,7 +1,6 @@
 var Message = require('../../models/message').Message;
 
 exports.add = function(req, res) {
-    console.log(req.body.message);
     var newMessage = new Message(req.body.message);
     newMessage.save(function(err, message, affected) {
         if (err) {

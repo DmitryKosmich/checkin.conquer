@@ -23,19 +23,22 @@
 
     function showChat(index, chats, callback){
         getFriend(chats[index], function(friend){
-            getMessage(chats[index].messages[0], function(message){
-                if(message){
-                    if(friend){
-                        $('.list').append(createLiElem(message, friend));
-                        console.log(createLiElem(message, friend));
-                        checkEnd(index, chats, callback);
+            if(chats[index].messages.length>0){
+                getMessage(chats[index].messages[chats[index].messages.length-1], function(message){
+                    if(message){
+                        if(friend){
+                            $('.list').append(createLiElem(message, friend));
+                            checkEnd(index, chats, callback);
+                        }else{
+                            checkEnd(index, chats, callback);
+                        }
                     }else{
                         checkEnd(index, chats, callback);
                     }
-                }else{
-                    checkEnd(index, chats, callback);
-                }
-            });
+                });
+            }else{
+                checkEnd(index, chats, callback);
+            }
         });
     }
 

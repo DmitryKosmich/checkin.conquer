@@ -7,7 +7,8 @@ var CURR_CHAT = {
     friend: {
         id:'',
         name: ''
-    }
+    },
+    lastUpdate: '0'
 };
 
 (function(){
@@ -21,7 +22,6 @@ var CURR_CHAT = {
             showChat(function(chat){
                 listen(chat);
                 $("#loadingImage").fadeOut("slow");
-                $("#message_history").animate({ scrollTop: 10000 }, "slow");
             });
         });
     };
@@ -52,11 +52,10 @@ var CURR_CHAT = {
         });
     }
 
-    function listen(chat){
+    function listen(){
         setTimeout(function(){
-            showChat(function(chat){
-                console.log('I listen!');
-                listen(chat);
+            showChat(function(){
+                listen();
             });
         }, 3000);
     }
@@ -71,41 +70,38 @@ var CURR_CHAT = {
 
     function showChat(callback){
         MESSAGER.getChat(getURLParameter('id'), function(chat){
-            DB.message.getMany(chat.messages, function(err, messages){
-                ERROR.errorWrapper(err, messages, function(messages){
-                    if(messages){
-                        showMessages(messages);
-                        callback(chat);
-                    }else{
-                        ALERT.show("Messages missing", ALERT_TYPE.INFO);
-                        callback(chat);
-                    }
-                });
-            });
-        });
-    }
-})();
-
-var sendMessage = (function(){
-
-    return function(){
-        MESSAGER.getChat(getURLParameter('id'), function(chat){
-            var text = $("#message_input").val();
-            MESSAGER.send(text, chat, function(chat){
-                console.log(JSON.stringify(chat));
+            if(chat.messages[0]){
                 DB.message.getMany(chat.messages, function(err, messages){
                     ERROR.errorWrapper(err, messages, function(messages){
                         if(messages){
-                            $("#message_input").val("");
-                            showMessages(messages);
-                            $("#message_history").animate({ scrollTop: 100000 }, "slow");
+                            if(needForUpdate(messages) == true){
+                                showMessages(messages);
+                            }
+                            callback();
                         }else{
                             ALERT.show("Messages missing", ALERT_TYPE.INFO);
+                            callback();
                         }
                     });
                 });
-            });
+            }else{
+                callback();
+            }
         });
+    }
+
+    function needForUpdate(messages) {
+        if(messages[0]){
+            if(messages[messages.length-1].created != CURR_CHAT.lastUpdate){
+                console.log(messages[messages.length-1].created+" "+CURR_CHAT.lastUpdate);
+                CURR_CHAT.lastUpdate = messages[messages.length-1].created;
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 })();
 
@@ -121,5 +117,27 @@ var showMessages = (function(){
                 chatTag.append('<li class="message"><a href="/user?id='+CURR_CHAT.friend.id+'">'+CURR_CHAT.friend.name+'</a><br>'+messages[i].body+'</li>');
             }
         }
+        $("#message_history").animate({ scrollTop: 100000 }, "slow");
+    }
+})();
+
+var sendMessage = (function(){
+
+    return function(){
+        MESSAGER.getChat(getURLParameter('id'), function(chat){
+            var text = $("#message_input").val();
+            MESSAGER.send(text, chat, function(chat){
+                DB.message.getMany(chat.messages, function(err, messages){
+                    ERROR.errorWrapper(err, messages, function(messages){
+                        if(messages){
+                            $("#message_input").val("");
+                            showMessages(messages);
+                        }else{
+                            ALERT.show("Messages missing", ALERT_TYPE.INFO);
+                        }
+                    });
+                });
+            });
+        });
     }
 })();

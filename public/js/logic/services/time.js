@@ -8,7 +8,6 @@ var TIME = (function(){
             if(!selectorTime){
                 selectorTime = ':';
             }
-            console.log(+milliseconds);
             var date = new Date(+milliseconds);
             return date.getDate()+selectorYear+date.getMonth()+selectorYear+date.getFullYear()+" "+date.getHours()+selectorTime+date.getMinutes();
         }

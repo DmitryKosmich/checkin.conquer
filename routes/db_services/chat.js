@@ -1,7 +1,6 @@
 var Chat = require('../../models/chat').Chat;
 
 exports.add = function(req, res) {
-    console.log(req.body.chat);
     var newChat = new Chat(req.body.chat);
     newChat.save(function(err, chat, affected) {
         if (err) {
