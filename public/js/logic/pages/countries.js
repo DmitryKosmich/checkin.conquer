@@ -21,6 +21,7 @@
     var activeCC = '';
 
     window.onload = function() {
+        AUTH.setToken();
         setLocalization();
         setNavItem('countries');
 

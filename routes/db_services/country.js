@@ -1,6 +1,7 @@
 var Country = require('../../models/country').Country;
 
 exports.add = function(req, res) {
+    console.log(req.body.country);
     var newCountry = new Country(req.body.country);
     Country.find({cc:newCountry.cc}, function(err, countries) {
         if (err) {

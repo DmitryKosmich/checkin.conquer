@@ -2,7 +2,9 @@
     'use strict';
 
     window.onload = function() {
+        AUTH.setToken();
         setLocalization();
+        setNavItem('messages');
         showChats(function(){
             $("#loadingImage").fadeOut("slow");
         });

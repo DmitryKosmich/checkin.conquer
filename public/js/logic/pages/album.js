@@ -2,6 +2,7 @@
     'use strict';
 
     $(document).ready(function () {
+        AUTH.setToken();
         setLocalization();
         DB.album.get(getURLParameter('id'), function(err, album){
             if(err) {

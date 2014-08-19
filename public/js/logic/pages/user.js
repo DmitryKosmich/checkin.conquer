@@ -2,6 +2,7 @@
     'use strict';
 
     $(document).ready(function () {
+        AUTH.setToken();
         setLocalization();
         prepare(function(user){
             $('#albums_head').attr('href', '/albums?id='+user.FQUserId);

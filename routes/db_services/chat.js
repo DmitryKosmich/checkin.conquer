@@ -39,7 +39,9 @@ exports.getAll = function(req, res) {
                     res.end();
                     throw err;
                 }else{
-                    resultChats.concat(chats);
+                    for(var index in chats){
+                        resultChats.push(chats[index]);
+                    }
                     res.send(resultChats);
                 }
             });

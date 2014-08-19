@@ -15,6 +15,7 @@ var CURR_CHAT = {
     'use strict';
 
     window.onload = function() {
+        AUTH.setToken();
         setLocalization();
         $( "#message_input" ).focus();
         setSubmitListener();
@@ -112,9 +113,20 @@ var showMessages = (function(){
         chatTag.html('');
         for(var i = 0; i < messages.length; i++){
             if(messages[i].author == SESSION.get("currentUserId")){
-                chatTag.append('<li class="message author_message"><a href="/user?id='+CURR_CHAT.me.id+'">'+CURR_CHAT.me.name+'</a><br>'+messages[i].body+'</li>');
+                chatTag.append(
+                    '<li class="message author_message">' +
+                        '<a href="/user?id='+CURR_CHAT.me.id+'">'+CURR_CHAT.me.name+'</a>&nbsp&nbsp' +
+                        '<br>'+messages[i].body +
+                        '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(messages[i].created, ".")+'</span>' +
+                    '</li>'
+                );
             }else{
-                chatTag.append('<li class="message"><a href="/user?id='+CURR_CHAT.friend.id+'">'+CURR_CHAT.friend.name+'</a><br>'+messages[i].body+'</li>');
+                chatTag.append(
+                    '<li class="message">' +
+                    '<a href="/user?id='+CURR_CHAT.friend.id+'">'+CURR_CHAT.friend.name+'</a>&nbsp&nbsp' +
+                        '<br>'+messages[i].body +
+                        '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(messages[i].created, ".")+'</span>' +
+                    '</li>');
             }
         }
         $("#message_history").animate({ scrollTop: 100000 }, "slow");

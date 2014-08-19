@@ -102,6 +102,8 @@ var SYNCHRONIZER = (function(){
                                 ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
+
+                                console.log(data);
                                 callback(null, data);
                             }
                         });
@@ -316,11 +318,12 @@ var SYNCHRONIZER = (function(){
                                     addCheckins(id, FQCheckins, DBCheckins, function(err){
                                         //updateCheckins(id, FQCheckins, DBCheckins, function(err){});
                                         deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                        callback(null, data);
                                     });
                                 }else{
                                     deleteCheckins(id, FQCheckins, DBCheckins, function(err){});
+                                    callback(null, data);
                                 }
-                                callback(null, data);
                             }
                         });
 
@@ -328,7 +331,7 @@ var SYNCHRONIZER = (function(){
                 });
             },
 
-            countries: function (callback) {
+            countries: function (id, callback) {
 
                 var isExistInCoutries = function(cc, countries){
                     if(countries){
@@ -345,6 +348,7 @@ var SYNCHRONIZER = (function(){
 
                     function plusIndex(data) {
                         if (index >= checkins.length - 1) {
+                            console.log(data);
                             callback(null, data);
                         } else {
                             addCountryTransaction(++index, checkins, countries, callback);
@@ -352,6 +356,7 @@ var SYNCHRONIZER = (function(){
                     }
 
                     if( isExistInCoutries(checkins[index].cc, countries) == false){
+                        console.log(checkins[index].cc);
                         SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
                             if(err) {
                                 ALERT.show(err, ALERT_TYPE.DANGER);
@@ -365,10 +370,14 @@ var SYNCHRONIZER = (function(){
                     }
                 };
 
-                DB.checkin.getAll(null, function(err, checkins){
+                console.log("GetCheckins");
+                DB.checkin.getAll(id, function(err, checkins){
+                    console.log(checkins);
                     ERROR.errorWrapper(err, checkins, function(checkins){
                         if(checkins){
+                            console.log('GetCountries');
                             DB.country.getAll(function(err, countries){
+                                console.log(countries);
                                 ERROR.errorWrapper(err, countries, function(countries){
                                     var startIndex = 0;
                                     addCountryTransaction(startIndex, checkins, countries, callback);
@@ -442,12 +451,19 @@ var SYNCHRONIZER = (function(){
                             ALERT.show(err, ALERT_TYPE.DANGER);
                             callback(err);
                         }else{
-                            if(index >= user.friends.length-1){
-                                callback(null, data);
-                                return '';
-                            }else{
-                                updateUserTransaction(++index, user, callback);
-                            }
+                            SYNCHRONIZER.update.countries(user.friends[index], function(err){
+                                if(err) {
+                                    ALERT.show(err, ALERT_TYPE.DANGER);
+                                    callback(err);
+                                }else{
+                                    if(index >= user.friends.length-1){
+                                        callback(null, data);
+                                        return '';
+                                    }else{
+                                        updateUserTransaction(++index, user, callback);
+                                    }
+                                }
+                            });
                         }
                     });
                 };
@@ -518,11 +534,14 @@ var SYNCHRONIZER = (function(){
                                 ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
-                                SYNCHRONIZER.update.countries(function(err){
+                                console.log("Start country update");
+                                SYNCHRONIZER.update.countries(null, function(err){
                                     if(err) {
                                         ALERT.show(err, ALERT_TYPE.DANGER);
                                         callback(err);
                                     }else{
+
+                                        console.log("End country update");
                                         SYNCHRONIZER.update.points(null, function(){
                                             callback(null, 'OK');
                                         });

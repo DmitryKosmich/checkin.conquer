@@ -2,6 +2,7 @@
     'use strict';
 
     window.onload = function() {
+        AUTH.setToken();
         setLocalization();
         setNavItem('friends');
 

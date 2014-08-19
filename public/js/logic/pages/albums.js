@@ -2,6 +2,7 @@
     'use strict';
 
     $(document).ready(function () {
+        AUTH.setToken();
         setLocalization();
         var params = {};
         params.FQUserId = SESSION.get("currentUserId");

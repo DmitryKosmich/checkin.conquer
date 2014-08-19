@@ -91,7 +91,6 @@ var DB = (function(){
             },
 
             add: function(chat, callback){
-                console.log(chat);
                 $.post( "/chat/add", {'chat' : chat})
                     .done(function( data ) {
                         callback(null, data);
@@ -161,7 +160,6 @@ var DB = (function(){
             },
 
             add: function(message, callback){
-                console.log(message);
                 $.post( "/message/add", {'message' : message})
                     .done(function( data ) {
                         callback(null, data);

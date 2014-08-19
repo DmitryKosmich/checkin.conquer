@@ -4,6 +4,7 @@
     window.onload = function() {
 
         $(document).ready(function () {
+            AUTH.setToken();
             setLocalization();
             MAP.init({isRegionClick: false});
             MAP.setColor(CONFIG.BG_COLOR);
