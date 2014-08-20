@@ -10,9 +10,11 @@
     <div class="col-md-24">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title leftstr"><span data-localize="dialog">Messages </span></h3>
+                <h3 class="panel-title leftstr">
+                    <span id="friend_name"></span>
+                </h3>
             <span class="rightstr">
-                <span></span>
+                <span class="trivial_text" id="my_name"></span>
             </span>
                 <span class="clearfix"></span>
             </div>
@@ -22,10 +24,14 @@
                 </ul>
                 <form role="form" id="message">
                     <div class="form-group">
-                        <label for="message_input"  data-localize="albums_count">Message</label>
+                        <label for="message_input"  data-localize="message">Message</label>
                         <textarea id="message_input" placeholder="Message text..." ></textarea>
                     </div>
-                    <a href="javascript:sendMessage()" class="btn btn-primary">Send</a><span class="trivial_text"> = Ctrl + Enter</span>
+                    <a href="javascript:sendMessage()" class="btn btn-primary">Send</a><span class="trivial_text"> = Ctrl + Enter</span><br>
+                    <div style="text-align: right">
+                        <span class="trivial_text" data-localize="update_after">&nbsp&nbspUpdate after  </span>
+                        <span class="trivial_text" id="update_timer"></span>
+                    </div>
                 </form>
             </div>
         </div>

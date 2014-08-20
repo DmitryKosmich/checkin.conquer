@@ -38,7 +38,7 @@
                 ALERT.show(err, ALERT_TYPE.DANGER);
             }else{
                 if(users[0]){
-                    if(((new Date().getTime() / 1000) - users[0].lastUpdate)>CONFIG.UPDATE_INTERVAL){
+                    if(((new Date().getTime() / 1000) - users[0].lastUpdate)>CONFIG.UPDATE_POINTS_INTERVAL){
                         synchUpdate();
                     }else{
                         $("#loadingImage").fadeOut("slow");

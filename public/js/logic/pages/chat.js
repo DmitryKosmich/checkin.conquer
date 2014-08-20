@@ -8,6 +8,7 @@ var CURR_CHAT = {
         id:'',
         name: ''
     },
+    updateTimer: CONFIG.UPDATE_TIME_INTERVAL,
     lastUpdate: '0'
 };
 
@@ -22,6 +23,7 @@ var CURR_CHAT = {
         initCurrChat(function(){
             showChat(function(chat){
                 listen(chat);
+                updateTimer();
                 $("#loadingImage").fadeOut("slow");
             });
         });
@@ -35,6 +37,8 @@ var CURR_CHAT = {
                     CURR_CHAT.friend.id = friend.FQUserId;
                     CURR_CHAT.me.name = me.name;
                     CURR_CHAT.me.id = me.FQUserId;
+                    $('#friend_name').append(friend.name+" "+friend.surname);
+                    $('#my_name').append(me.name+" "+me.surname);
                     callback();
                 }
             });
@@ -53,12 +57,24 @@ var CURR_CHAT = {
         });
     }
 
+    function updateTimer(){
+        setTimeout(function(){
+            $('#update_timer').html(CURR_CHAT.updateTimer);
+            if(CURR_CHAT.updateTimer>0){
+                CURR_CHAT.updateTimer--;
+            }
+            updateTimer();
+        }, 1000);
+
+    }
+
     function listen(){
         setTimeout(function(){
             showChat(function(){
+                CURR_CHAT.updateTimer = CONFIG.UPDATE_TIME_INTERVAL;
                 listen();
             });
-        }, 3000);
+        }, CONFIG.UPDATE_TIME_INTERVAL * 1000);
     }
 
     function setSubmitListener() {

@@ -16,7 +16,8 @@ var CONFIG = (function(){
         FRIEND_COLOR: '#BB4E51',
         BG_COLOR : '#666',
 
-        UPDATE_INTERVAL: 450,
+        UPDATE_POINTS_INTERVAL: 450,
+        UPDATE_TIME_INTERVAL: 5,
 
         EMAIL_USER: "checkiner@gmail.com",
         EMAIL_PASSWORD: "checkiner1234",
