@@ -15,19 +15,19 @@ var CURR_CHAT = {
 (function(){
     'use strict';
 
-    window.onload = function() {
-        AUTH.setToken();
-        setLocalization();
-        $( "#message_input" ).focus();
-        setSubmitListener();
-        initCurrChat(function(){
-            showChat(function(chat){
-                listen(chat);
-                updateTimer();
-                $("#loadingImage").fadeOut("slow");
+    $(document).ready(function () {
+        INITIALIZER.wrapper(function(){
+            $( "#message_input" ).focus();
+            setSubmitListener();
+            initCurrChat(function(){
+                showChat(function(chat){
+                    listen(chat);
+                    updateTimer();
+                    $("#loadingImage").fadeOut("slow");
+                });
             });
         });
-    };
+    });
 
     function initCurrChat(callback){
         getCompanion(SESSION.get("currentUserId"), function(me){
@@ -85,7 +85,24 @@ var CURR_CHAT = {
         });
     }
 
-    function showChat(callback){
+})();
+
+var showChat = (function(){
+
+    function needForUpdate(messages) {
+        if(messages[0]){
+            if(messages[messages.length-1].created != CURR_CHAT.lastUpdate){
+                CURR_CHAT.lastUpdate = messages[messages.length-1].created;
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    return function (callback){
         MESSAGER.getChat(getURLParameter('id'), function(chat){
             if(chat){
                 DB.message.search({chatId: chat._id}, 15, function(err, messages){
@@ -105,19 +122,6 @@ var CURR_CHAT = {
                 callback();
             }
         });
-    }
-
-    function needForUpdate(messages) {
-        if(messages[0]){
-            if(messages[messages.length-1].created != CURR_CHAT.lastUpdate){
-                CURR_CHAT.lastUpdate = messages[messages.length-1].created;
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
-        }
     }
 })();
 
@@ -180,6 +184,14 @@ var sendMessage = (function(){
                     });
                 });
             }
+        });
+    }
+})();
+
+var selfUpdate = (function(){
+    return function(){
+        showChat(function(){
+            CURR_CHAT.updateTimer = 5;
         });
     }
 })();

@@ -2,8 +2,12 @@
     'use strict';
 
     $(document).ready(function () {
-        AUTH.setToken();
-        setLocalization();
+        INITIALIZER.wrapper(function(){
+            startShowPage();
+        });
+    });
+
+    function startShowPage(){
         DB.album.get(getURLParameter('id'), function(err, album){
             if(err) {
                 ALERT.show(err, ALERT_TYPE.DANGER);
@@ -21,7 +25,7 @@
                 $("#loadingImage").fadeOut("slow");
             }
         });
-    });
+    }
 
     function init(userPicasaId, albumPicasaId){
         jQuery("#gallery").nanoGallery({

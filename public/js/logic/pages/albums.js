@@ -2,8 +2,12 @@
     'use strict';
 
     $(document).ready(function () {
-        AUTH.setToken();
-        setLocalization();
+        INITIALIZER.wrapper(function(){
+            startShowPage();
+        });
+    });
+
+    function startShowPage(){
         var params = {};
         params.FQUserId = SESSION.get("currentUserId");
 
@@ -35,7 +39,7 @@
                 $("#loadingImage").fadeOut("slow");
             }
         });
-    });
+    }
 
     function showAlbums(albums, params){
 

@@ -1,14 +1,15 @@
 (function(){
     'use strict';
 
-    window.onload = function() {
-        AUTH.setToken();
-        setLocalization();
-        setNavItem('messages');
-        showChats(function(){
-            $("#loadingImage").fadeOut("slow");
+
+    $(document).ready(function () {
+        INITIALIZER.wrapper(function(){
+            setNavItem('messages');
+            showChats(function(){
+                $("#loadingImage").fadeOut("slow");
+            });
         });
-    };
+    });
 
      function showChats(callback){
          DB.chat.getAll(SESSION.get('currentUserId'), function(err, chats){

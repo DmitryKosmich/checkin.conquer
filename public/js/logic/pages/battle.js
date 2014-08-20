@@ -1,36 +1,37 @@
 (function(){
     'use strict';
 
-    window.onload = function() {
-
-        $(document).ready(function () {
-            AUTH.setToken();
-            setLocalization();
-            MAP.init({isRegionClick: false});
-            MAP.setColor(CONFIG.BG_COLOR);
-
-            DB.user.search({FQUserId: getURLParameter('id')}, function(err, users){
-                ERROR.errorWrapper(err, users, function(users){
-                    if(users){
-                        $('.vs_title').append(users[0].name+' '+users[0].surname  );
-                        fullUserForm('f', users[0]);
-                    }
-                });
-            });
-
-            DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
-                ERROR.errorWrapper(err, users, function(users){
-                    if(users){
-                        fullUserForm('self', users[0]);
-                    }
-                });
-            });
-
-            MAP.updateCompetition(getURLParameter('id'), CONFIG.FRIEND_COLOR, SESSION.get("currentUserId"), CONFIG.VISITED_COUNTRY_COLOR);
-            setDesignation();
-            $("#loadingImage").fadeOut("slow");
+    $(document).ready(function () {
+        INITIALIZER.wrapper(function(){
+            startShowPage();
         });
-    };
+    });
+
+    function startShowPage(){
+        MAP.init({isRegionClick: false});
+        MAP.setColor(CONFIG.BG_COLOR);
+
+        DB.user.search({FQUserId: getURLParameter('id')}, function(err, users){
+            ERROR.errorWrapper(err, users, function(users){
+                if(users){
+                    $('.vs_title').append(users[0].name+' '+users[0].surname  );
+                    fullUserForm('f', users[0]);
+                }
+            });
+        });
+
+        DB.user.search({FQUserId: SESSION.get("currentUserId")}, function(err, users){
+            ERROR.errorWrapper(err, users, function(users){
+                if(users){
+                    fullUserForm('self', users[0]);
+                }
+            });
+        });
+
+        MAP.updateCompetition(getURLParameter('id'), CONFIG.FRIEND_COLOR, SESSION.get("currentUserId"), CONFIG.VISITED_COUNTRY_COLOR);
+        setDesignation();
+        $("#loadingImage").fadeOut("slow");
+    }
 
     function setDesignation() {
         $( "#friend_color" ).attr('style', 'background-color: '+CONFIG.FRIEND_COLOR+';');

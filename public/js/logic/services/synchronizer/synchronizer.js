@@ -16,9 +16,6 @@ var SYNCHRONIZER = (function(){
             email : FQUser.contact.email,
             avatarSrc : FQUser.photo.prefix + '110x110' + FQUser.photo.suffix
         };
-        if(FQUserId == SESSION.get("currentUserId")){
-            newUser.lastUpdate = new Date().getTime() / 1000;
-        }
         return newUser;
     };
 
@@ -410,12 +407,12 @@ var SYNCHRONIZER = (function(){
                                             }
                                             var newUser =  createUser(FQUser, FQUserId);
                                             newUser.friends = friends;
-                                            DB.user.update(users[0]._id, newUser, function(err, data){
+                                            DB.user.update(users[0]._id, newUser, function(err, user){
                                                 if(err) {
                                                     ALERT.show(err, ALERT_TYPE.DANGER);
                                                     callback(err);
                                                 }else{
-                                                    callback(null, data);
+                                                    callback(null, user);
                                                 }
                                             });
                                         }
@@ -506,7 +503,7 @@ var SYNCHRONIZER = (function(){
             all: function(callback){
                 $("#loadingImage").show();
                 ALERT.show("Start update!", ALERT_TYPE.INFO);
-                SYNCHRONIZER.update.user(null, function(err){
+                SYNCHRONIZER.update.user(null, function(err, user){
                     if(err) {
                         ALERT.show(err, ALERT_TYPE.DANGER);
                         callback(err);
@@ -530,11 +527,20 @@ var SYNCHRONIZER = (function(){
                             }else{
                                 SYNCHRONIZER.update.countries(null, function(err){
                                     if(err) {
-                                        ALERT.show(err, ALERT_TYPE.DANGER);
-                                        callback(err);
                                     }else{
                                         SYNCHRONIZER.update.points(null, function(){
-                                            callback(null, 'OK');
+                                            var id = user._id;
+                                            delete user._id;
+                                            delete user.__v;
+                                            user.lastUpdate = new Date().getTime() / 1000;
+                                            DB.user.update(id, user, function(err, user){
+                                                if(err){
+                                                    ALERT.show(err, ALERT_TYPE.DANGER);
+                                                    callback(err);
+                                                }else{
+                                                    callback(null, user);
+                                                }
+                                            });
                                         });
                                     }
                                 });

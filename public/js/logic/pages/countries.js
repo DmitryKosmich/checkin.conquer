@@ -21,10 +21,13 @@
     var activeCC = '';
 
     window.onload = function() {
-        AUTH.setToken();
-        setLocalization();
-        setNavItem('countries');
+        INITIALIZER.wrapper(function(){
+            setNavItem('countries');
+            startShowPage();
+        });
+    };
 
+    function startShowPage(){
         DB.checkin.getAll(null, function(err, checkins){
             if(err) {
                 ALERT.show(err, ALERT_TYPE.DANGER);
@@ -36,7 +39,7 @@
                 fillAllCountryInfo(removeRepetition(countriesData));
             }
         });
-    };
+    }
 
     function fillAllCountryInfo(countries){
         endIndicator.length = countries.length;

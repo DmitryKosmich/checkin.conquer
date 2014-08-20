@@ -2,22 +2,22 @@
     'use strict';
 
     $(document).ready(function () {
-        AUTH.setToken();
-        setLocalization();
-        prepare(function(user){
-            $('#albums_head').attr('href', '/albums?id='+user.FQUserId);
-            $('#friends_head').attr('href', '/friends?id='+user.FQUserId);
-            fillUser(user);
-            fillCountries(user);
-            fillFriends(user);
-            fillAlbums(user);
-            $("#loadingImage").fadeOut("slow");
+        INITIALIZER.wrapper(function(){
+            prepare(function(user){
+                $('#albums_head').attr('href', '/albums?id='+user.FQUserId);
+                $('#friends_head').attr('href', '/friends?id='+user.FQUserId);
+                fillUser(user);
+                fillCountries(user);
+                fillFriends(user);
+                fillAlbums(user);
+                $("#loadingImage").fadeOut("slow");
+            });
         });
     });
 
     function prepare(callback){
         var id = '';
-        if(getURLParameter('id') == "me"){
+        if(getURLParameter('id') == "me" || getURLParameter('id') == SESSION.get("currentUserId")){
             setNavItem('user');
             id = SESSION.get("currentUserId");
             SYNCHRONIZER.update.points(id, function(){
@@ -44,11 +44,13 @@
     function fillCompare(user){
         var tag = $("#compare");
         if(user.FQUserId == SESSION.get("currentUserId")){
-            tag.html('');
-            tag.append('Me');
-            tag.attr('data-localize', 'me');
-            tag.attr('href', '/');
+            tag.remove();
+            var messageTag = $('#send_message');
+            messageTag.html('Me');
+            messageTag.attr('data-localize', 'me');
+            messageTag.attr('href', '/');
         }else{
+            $('#send_message').attr('href', '/chat?id='+user.FQUserId);
             DB.user.search({FQUserId: user.FQUserId}, function(err, users){
                 if(users){
                     if(users[0].lastUpdate == '0'){
@@ -64,7 +66,6 @@
 
     function fillUser(user){
         fillCompare(user);
-        $('#send_message').attr('href', '/chat?id='+user.FQUserId);
         setLastVisit(user);
 
         $("#user_avatar").attr('src', user.avatarSrc);

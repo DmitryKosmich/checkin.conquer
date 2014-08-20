@@ -1,11 +1,14 @@
 (function(){
     'use strict';
 
-    window.onload = function() {
-        AUTH.setToken();
-        setLocalization();
-        setNavItem('friends');
+    $(document).ready(function () {
+        INITIALIZER.wrapper(function(){
+            setNavItem('friends');
+            startShowPage();
+        });
+    });
 
+    function startShowPage(){
         var FQUserId = '';
         if(getURLParameter('id')!='null'){
             FQUserId = getURLParameter('id');
@@ -25,7 +28,7 @@
                 }
             }
         });
-    };
+    }
 
     function showFriends(friends, callback){
 
