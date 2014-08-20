@@ -348,7 +348,6 @@ var SYNCHRONIZER = (function(){
 
                     function plusIndex(data) {
                         if (index >= checkins.length - 1) {
-                            console.log(data);
                             callback(null, data);
                         } else {
                             addCountryTransaction(++index, checkins, countries, callback);
@@ -356,7 +355,6 @@ var SYNCHRONIZER = (function(){
                     }
 
                     if( isExistInCoutries(checkins[index].cc, countries) == false){
-                        console.log(checkins[index].cc);
                         SYNCHRONIZER.add.country({cc: checkins[index].cc}, function(err, data){
                             if(err) {
                                 ALERT.show(err, ALERT_TYPE.DANGER);
@@ -370,14 +368,10 @@ var SYNCHRONIZER = (function(){
                     }
                 };
 
-                console.log("GetCheckins");
                 DB.checkin.getAll(id, function(err, checkins){
-                    console.log(checkins);
                     ERROR.errorWrapper(err, checkins, function(checkins){
                         if(checkins){
-                            console.log('GetCountries');
                             DB.country.getAll(function(err, countries){
-                                console.log(countries);
                                 ERROR.errorWrapper(err, countries, function(countries){
                                     var startIndex = 0;
                                     addCountryTransaction(startIndex, checkins, countries, callback);
@@ -534,14 +528,11 @@ var SYNCHRONIZER = (function(){
                                 ALERT.show(err, ALERT_TYPE.DANGER);
                                 callback(err);
                             }else{
-                                console.log("Start country update");
                                 SYNCHRONIZER.update.countries(null, function(err){
                                     if(err) {
                                         ALERT.show(err, ALERT_TYPE.DANGER);
                                         callback(err);
                                     }else{
-
-                                        console.log("End country update");
                                         SYNCHRONIZER.update.points(null, function(){
                                             callback(null, 'OK');
                                         });

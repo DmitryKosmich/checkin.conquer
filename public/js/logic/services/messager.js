@@ -45,6 +45,7 @@ var MESSAGER = (function(){
 
         send: function(text, chat, callback){
             var message = {
+                chatId: chat._id,
                 author: SESSION.get("currentUserId"),
                 body: text,
                 created: new Date().getTime()
@@ -53,17 +54,7 @@ var MESSAGER = (function(){
                 if(err){
                    ALERT.show("Adding message", ALERT_TYPE.DANGER);
                 }else{
-                    var id = chat._id;
-                    delete chat._id;
-                    delete chat.__v;
-                    chat.messages.push(message._id);
-                    DB.chat.update(id, chat, function(err, chat){
-                        if(err){
-                            ALERT.show("Updating chat", ALERT_TYPE.DANGER);
-                        }else{
-                            callback(chat);
-                        }
-                    });
+                    callback(message);
                 }
             });
         }

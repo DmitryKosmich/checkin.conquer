@@ -24,9 +24,9 @@
      }
 
     function showChat(index, chats, callback){
-        getFriend(chats[index], function(friend){
-            if(chats[index].messages.length>0){
-                getMessage(chats[index].messages[chats[index].messages.length-1], function(message){
+        if(chats[index]){
+            getFriend(chats[index], function(friend){
+                getMessage(chats[index]._id, function(message){
                     if(message){
                         if(friend){
                             $('.list').append(createLiElem(message, friend));
@@ -38,10 +38,10 @@
                         checkEnd(index, chats, callback);
                     }
                 });
-            }else{
-                checkEnd(index, chats, callback);
-            }
-        });
+            });
+        }else{
+            checkEnd(index, chats, callback);
+        }
     }
 
     function createLiElem(message, friend){
@@ -75,13 +75,15 @@
     }
 
     function getMessage(id, callback){
-        DB.message.get(id, function(err, message){
-            if(err){
-                ALERT.show("Getting message", ALERT_TYPE.DANGER);
-                callback(null);
-            }else{
-                callback(message);
-            }
+        DB.message.search({chatId: id}, 1, function(err, messages){
+            ERROR.errorWrapper(err, messages, function(messages){
+                if(messages){
+                    callback(messages[0]);
+                }else{
+
+                    callback(null);
+                }
+            });
         });
     }
 })();

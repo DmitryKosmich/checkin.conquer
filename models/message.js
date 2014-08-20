@@ -4,6 +4,11 @@ var mongoose = require('../lib/mongoose'),
     Schema = mongoose.Schema;
 
 var schema = new Schema({
+    chatId: {
+        type:String,
+        unique: false,
+        required: true
+    },
     body: {
         type:String,
         unique: false,

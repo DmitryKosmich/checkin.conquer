@@ -10,12 +10,6 @@ var schema = new Schema({
         required: false,
         default: 'no name'
     },
-    messages: {
-        type: [String], //MessageId's
-        unique: false,
-        required: false,
-        default: []
-    },
     from: {
         type:String,
         unique: false,

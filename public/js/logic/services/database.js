@@ -202,8 +202,8 @@ var DB = (function(){
                     }, "json");
             },
 
-            search: function(params, callback){
-                $.post( "/message/search", {'params' : params})
+            search: function(params, limit, callback){
+                $.post( "/message/search", {'params' : params, 'limit': limit})
                     .done(function( data ) {
                         callback(null, data);
                     }, "json")

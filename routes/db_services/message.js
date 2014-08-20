@@ -47,14 +47,24 @@ exports.delete = function(req, res) {
 };
 
 exports.search = function(req, res) {
-    Message.find(req.body.params, function(err, messages) {
-        if (err) {
+    if(req.body.limit){
+        Message.find(req.body.params).sort({ 'created' : -1 }).limit(req.body.limit).exec(function(err, messages){
+            sendResult(res, err, messages.reverse());
+        });
+    }else{
+        Message.find(req.body.params, function(err, messages){
+            sendResult(res, err, messages);
+        });
+    }
+    function sendResult(res, err, messages){
+        if(err){
             res.status(500);
+            res.end();
             throw err;
         }else{
             res.send(messages);
         }
-    });
+    }
 };
 
 

@@ -71,8 +71,8 @@ var CURR_CHAT = {
 
     function showChat(callback){
         MESSAGER.getChat(getURLParameter('id'), function(chat){
-            if(chat.messages[0]){
-                DB.message.getMany(chat.messages, function(err, messages){
+            if(chat){
+                DB.message.search({chatId: chat._id}, 15, function(err, messages){
                     ERROR.errorWrapper(err, messages, function(messages){
                         if(messages){
                             if(needForUpdate(messages) == true){
@@ -94,7 +94,6 @@ var CURR_CHAT = {
     function needForUpdate(messages) {
         if(messages[0]){
             if(messages[messages.length-1].created != CURR_CHAT.lastUpdate){
-                console.log(messages[messages.length-1].created+" "+CURR_CHAT.lastUpdate);
                 CURR_CHAT.lastUpdate = messages[messages.length-1].created;
                 return true;
             }else{
@@ -129,7 +128,20 @@ var showMessages = (function(){
                     '</li>');
             }
         }
-        $("#message_history").animate({ scrollTop: 100000 }, "slow");
+
+        setScrollDown();
+    }
+})();
+
+var setScrollDown = (function(){
+    return function(){
+        /*var ul = $("ul");
+        var last = ul.children().last();
+        var wholeHeight = last.offset().top
+            + last.outerHeight()
+            + parseFloat(ul.css("padding-top"))
+            + parseFloat(ul.css("padding-bottom"));*/
+        $("#message_history").animate({ scrollTop: 100000 });
     }
 })();
 
@@ -138,18 +150,20 @@ var sendMessage = (function(){
     return function(){
         MESSAGER.getChat(getURLParameter('id'), function(chat){
             var text = $("#message_input").val();
-            MESSAGER.send(text, chat, function(chat){
-                DB.message.getMany(chat.messages, function(err, messages){
-                    ERROR.errorWrapper(err, messages, function(messages){
-                        if(messages){
-                            $("#message_input").val("");
-                            showMessages(messages);
-                        }else{
-                            ALERT.show("Messages missing", ALERT_TYPE.INFO);
-                        }
+            if(text != ""){
+                MESSAGER.send(text, chat, function(message){
+                    DB.message.search({chatId: message.chatId}, 15, function(err, messages){
+                        ERROR.errorWrapper(err, messages, function(messages){
+                            if(messages){
+                                $("#message_input").val("");
+                                showMessages(messages);
+                            }else{
+                                ALERT.show("Messages missing", ALERT_TYPE.INFO);
+                            }
+                        });
                     });
                 });
-            });
+            }
         });
     }
 })();
