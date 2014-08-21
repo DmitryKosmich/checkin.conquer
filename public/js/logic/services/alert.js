@@ -52,15 +52,18 @@ var ALERT = (function(){
 
     return {
 
-        show: function(message, type){
-            var id = generateId();
-            $('#alerts').append('' +
-                '<li class="alert '+type+'" role="alert" id="'+id+'">' +
-                 getIcon(type)+
-                 message+
-                '</li>');
-            updateListeners();
-            hideAlert(id);
+        show: function(message, type, time){
+            time = time ? time : 0;
+            setTimeout(function(){
+                var id = generateId();
+                $('#alerts').append('' +
+                    '<li class="alert '+type+'" role="alert" id="'+id+'">' +
+                    getIcon(type)+
+                    message+
+                    '</li>');
+                updateListeners();
+                hideAlert(id);
+            }, time);
             }
     }
 })();

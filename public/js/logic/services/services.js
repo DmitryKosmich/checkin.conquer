@@ -146,3 +146,11 @@ function getCitiesFromCheckins(checkins){
     }
     return removeRepetition(cities);
 }
+function addNewLines(string){
+    var result = '';
+    if(string){
+        var strings = string.split('\n');
+        result = strings.join('<br>');
+    }
+    return result;
+}

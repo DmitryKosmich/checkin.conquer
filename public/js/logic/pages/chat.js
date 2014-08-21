@@ -78,9 +78,17 @@ var CURR_CHAT = {
     }
 
     function setSubmitListener() {
-        $('#message_input').keydown(function (e) {
-            if (e.ctrlKey && e.keyCode == 13) {
+        $('textarea#message_input').keydown(function (e) {
+            if (e.keyCode === 13 && e.ctrlKey) {
+                //console.log("enterKeyDown+ctrl");
+                $(this).val(function(i,val){
+                    return val + "\n";
+                });
+            }
+        }).keypress(function(e){
+            if (e.keyCode === 13 && !e.ctrlKey) {
                 sendMessage();
+                return false;
             }
         });
     }
@@ -135,7 +143,7 @@ var showMessages = (function(){
                 chatTag.append(
                     '<li class="message author_message">' +
                         '<a href="/user?id='+CURR_CHAT.me.id+'">'+CURR_CHAT.me.name+'</a>&nbsp&nbsp' +
-                        '<br>'+messages[i].body +
+                        '<br>'+addNewLines(messages[i].body) +
                         '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(messages[i].created, ".")+'</span>' +
                     '</li>'
                 );
