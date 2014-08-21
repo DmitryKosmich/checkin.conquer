@@ -20,7 +20,7 @@ var CURR_CHAT = {
             $( "#message_input" ).focus();
             setSubmitListener();
             initCurrChat(function(){
-                showChat(function(chat){
+                showChat(false, function(chat){
                     listen(chat);
                     updateTimer();
                     $("#loadingImage").fadeOut("slow");
@@ -70,7 +70,7 @@ var CURR_CHAT = {
 
     function listen(){
         setTimeout(function(){
-            showChat(function(){
+            showChat(false, function(){
                 CURR_CHAT.updateTimer = CONFIG.UPDATE_TIME_INTERVAL;
                 listen();
             });
@@ -80,7 +80,6 @@ var CURR_CHAT = {
     function setSubmitListener() {
         $('textarea#message_input').keydown(function (e) {
             if (e.keyCode === 13 && e.ctrlKey) {
-                //console.log("enterKeyDown+ctrl");
                 $(this).val(function(i,val){
                     return val + "\n";
                 });
@@ -110,23 +109,35 @@ var showChat = (function(){
         }
     }
 
-    return function (callback){
-        MESSAGER.getChat(getURLParameter('id'), function(chat){
+    function getMessages(chatId, callback){
+        MESSAGER.getChat(chatId, function(chat){
             if(chat){
                 DB.message.search({chatId: chat._id}, 15, function(err, messages){
                     ERROR.errorWrapper(err, messages, function(messages){
                         if(messages){
-                            if(needForUpdate(messages) == true){
-                                showMessages(messages);
-                            }
-                            callback();
+                            callback(messages);
                         }else{
                             ALERT.show("Messages missing", ALERT_TYPE.INFO);
-                            callback();
+                            callback([]);
                         }
                     });
                 });
             }else{
+                callback([]);
+            }
+        });
+
+    }
+
+    return function (needFullUpdate, callback){
+        getMessages(getURLParameter('id'), function(messages){
+            if(needFullUpdate == false){
+                if(needForUpdate(messages) == true){
+                    showMessages(messages);
+                }
+                callback();
+            }else{
+                showMessages(messages);
                 callback();
             }
         });
@@ -140,9 +151,9 @@ var showMessages = (function(){
         chatTag.html('');
         for(var i = 0; i < messages.length; i++){
             if(messages[i].author == SESSION.get("currentUserId")){
-                drawMessage(messages[i], 'author_message');
+                drawMessage(messages[i], CURR_CHAT.me, 'author_message');
             }else{
-                drawMessage(messages[i]);
+                drawMessage(messages[i], CURR_CHAT.friend);
             }
         }
 
@@ -152,12 +163,6 @@ var showMessages = (function(){
 
 var setScrollDown = (function(){
     return function(){
-        /*var ul = $("ul");
-        var last = ul.children().last();
-        var wholeHeight = last.offset().top
-            + last.outerHeight()
-            + parseFloat(ul.css("padding-top"))
-            + parseFloat(ul.css("padding-bottom"));*/
         $("#message_history").animate({ scrollTop: 100000 });
     }
 })();
@@ -173,13 +178,14 @@ var sendMessage = (function(){
                             if(messages){
                                 showMessages(messages);
                             }else{
-                                messageInputTag.val(text);
                                 ALERT.show("Messages missing", ALERT_TYPE.INFO);
                             }
                         });
                     });
                 });
             }else{
+                selfUpdate(function(){});
+                messageInputTag.val(text);
                 ALERT.show("Your message should be less than 450 characters!", ALERT_TYPE.WARNING);
             }
         });
@@ -192,7 +198,8 @@ var sendMessage = (function(){
         messageInputTag.val('');
         var tempMessage = MESSAGER.createMessage(text);
         if(text != ""){
-            drawMessage(tempMessage, 'author_message');
+            drawMessage(tempMessage, CURR_CHAT.me, 'author_message');
+            setScrollDown();
             updateMessagesHistory(text, messageInputTag);
         }
     }
@@ -200,19 +207,19 @@ var sendMessage = (function(){
 
 var selfUpdate = (function(){
     return function(){
-        showChat(function(){
-            CURR_CHAT.updateTimer = 5;
-        });
+        CURR_CHAT.updateTimer = 5;
+        $('#update_timer').html(CURR_CHAT.updateTimer);
+        showChat(true, function(){});
     }
 })();
 
 var drawMessage = (function(){
 
-    return function(message, author_message) {
+    return function(message, user, author_message) {
         author_message = author_message ? author_message : '';
         $("#message_history").append(
                 '<li class="message '+author_message+'">' +
-                '<a href="/user?id='+CURR_CHAT.friend.id+'">'+CURR_CHAT.friend.name+'</a>&nbsp&nbsp' +
+                '<a href="/user?id='+user.id+'">'+user.name+'</a>&nbsp&nbsp' +
                 '<br>'+message.body +
                 '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(message.created, ".")+'</span>' +
                 '</li>');
