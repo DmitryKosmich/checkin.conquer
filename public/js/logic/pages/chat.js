@@ -140,20 +140,9 @@ var showMessages = (function(){
         chatTag.html('');
         for(var i = 0; i < messages.length; i++){
             if(messages[i].author == SESSION.get("currentUserId")){
-                chatTag.append(
-                    '<li class="message author_message">' +
-                        '<a href="/user?id='+CURR_CHAT.me.id+'">'+CURR_CHAT.me.name+'</a>&nbsp&nbsp' +
-                        '<br>'+addNewLines(messages[i].body) +
-                        '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(messages[i].created, ".")+'</span>' +
-                    '</li>'
-                );
+                drawMessage(messages[i], 'author_message');
             }else{
-                chatTag.append(
-                    '<li class="message">' +
-                    '<a href="/user?id='+CURR_CHAT.friend.id+'">'+CURR_CHAT.friend.name+'</a>&nbsp&nbsp' +
-                        '<br>'+messages[i].body +
-                        '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(messages[i].created, ".")+'</span>' +
-                    '</li>');
+                drawMessage(messages[i]);
             }
         }
 
@@ -175,30 +164,37 @@ var setScrollDown = (function(){
 
 var sendMessage = (function(){
 
-    return function(){
+    var updateMessagesHistory = function(text, messageInputTag){
         MESSAGER.getChat(getURLParameter('id'), function(chat){
-            var messageInputTag = $("#message_input");
-            var text = messageInputTag.val();
-            messageInputTag.val("");
-            if(text != ""){
-                if(text.length < 450){
-                    MESSAGER.send(text, chat, function(message){
-                        DB.message.search({chatId: message.chatId}, 15, function(err, messages){
-                            ERROR.errorWrapper(err, messages, function(messages){
-                                if(messages){
-                                    showMessages(messages);
-                                }else{
-                                    messageInputTag.val(text);
-                                    ALERT.show("Messages missing", ALERT_TYPE.INFO);
-                                }
-                            });
+            if(text.length < 450){
+                MESSAGER.send(text, chat, function(message){
+                    DB.message.search({chatId: message.chatId}, 15, function(err, messages){
+                        ERROR.errorWrapper(err, messages, function(messages){
+                            if(messages){
+                                showMessages(messages);
+                            }else{
+                                messageInputTag.val(text);
+                                ALERT.show("Messages missing", ALERT_TYPE.INFO);
+                            }
                         });
                     });
-                }else{
-                    ALERT.show("Your message should be less than 450 characters!", ALERT_TYPE.WARNING);
-                }
+                });
+            }else{
+                ALERT.show("Your message should be less than 450 characters!", ALERT_TYPE.WARNING);
             }
         });
+
+    };
+
+    return function(){
+        var messageInputTag = $("#message_input");
+        var text = messageInputTag.val();
+        messageInputTag.val('');
+        var tempMessage = MESSAGER.createMessage(text);
+        if(text != ""){
+            drawMessage(tempMessage, 'author_message');
+            updateMessagesHistory(text, messageInputTag);
+        }
     }
 })();
 
@@ -207,5 +203,18 @@ var selfUpdate = (function(){
         showChat(function(){
             CURR_CHAT.updateTimer = 5;
         });
+    }
+})();
+
+var drawMessage = (function(){
+
+    return function(message, author_message) {
+        author_message = author_message ? author_message : '';
+        $("#message_history").append(
+                '<li class="message '+author_message+'">' +
+                '<a href="/user?id='+CURR_CHAT.friend.id+'">'+CURR_CHAT.friend.name+'</a>&nbsp&nbsp' +
+                '<br>'+message.body +
+                '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(message.created, ".")+'</span>' +
+                '</li>');
     }
 })();

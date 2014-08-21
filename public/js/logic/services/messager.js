@@ -26,6 +26,15 @@ var MESSAGER = (function(){
 
     return {
 
+        createMessage: function(text, chatId){
+            return {
+                chatId: chatId,
+                author: SESSION.get("currentUserId"),
+                body: text,
+                created: new Date().getTime()
+            }
+        },
+
         getChat: function(FQUserId, callback){
 
             findChat({from:  SESSION.get("currentUserId"), to: FQUserId}, function(chat){
@@ -44,12 +53,7 @@ var MESSAGER = (function(){
         },
 
         send: function(text, chat, callback){
-            var message = {
-                chatId: chat._id,
-                author: SESSION.get("currentUserId"),
-                body: text,
-                created: new Date().getTime()
-            };
+            var message = MESSAGER.createMessage(text, chat._id);
             DB.message.add(message, function(err, message){
                 if(err){
                    ALERT.show("Adding message", ALERT_TYPE.DANGER);
