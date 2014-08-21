@@ -177,16 +177,18 @@ var sendMessage = (function(){
 
     return function(){
         MESSAGER.getChat(getURLParameter('id'), function(chat){
-            var text = $("#message_input").val();
+            var messageInputTag = $("#message_input");
+            var text = messageInputTag.val();
+            messageInputTag.val("");
             if(text != ""){
                 if(text.length < 450){
                     MESSAGER.send(text, chat, function(message){
                         DB.message.search({chatId: message.chatId}, 15, function(err, messages){
                             ERROR.errorWrapper(err, messages, function(messages){
                                 if(messages){
-                                    $("#message_input").val("");
                                     showMessages(messages);
                                 }else{
+                                    messageInputTag.val(text);
                                     ALERT.show("Messages missing", ALERT_TYPE.INFO);
                                 }
                             });
