@@ -171,18 +171,22 @@ var sendMessage = (function(){
         MESSAGER.getChat(getURLParameter('id'), function(chat){
             var text = $("#message_input").val();
             if(text != ""){
-                MESSAGER.send(text, chat, function(message){
-                    DB.message.search({chatId: message.chatId}, 15, function(err, messages){
-                        ERROR.errorWrapper(err, messages, function(messages){
-                            if(messages){
-                                $("#message_input").val("");
-                                showMessages(messages);
-                            }else{
-                                ALERT.show("Messages missing", ALERT_TYPE.INFO);
-                            }
+                if(text.length < 450){
+                    MESSAGER.send(text, chat, function(message){
+                        DB.message.search({chatId: message.chatId}, 15, function(err, messages){
+                            ERROR.errorWrapper(err, messages, function(messages){
+                                if(messages){
+                                    $("#message_input").val("");
+                                    showMessages(messages);
+                                }else{
+                                    ALERT.show("Messages missing", ALERT_TYPE.INFO);
+                                }
+                            });
                         });
                     });
-                });
+                }else{
+                    ALERT.show("Your message should be less than 450 characters!", ALERT_TYPE.WARNING);
+                }
             }
         });
     }

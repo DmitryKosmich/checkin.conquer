@@ -76,8 +76,8 @@ function authPopUpShow(){
 }
 
 function authPopUpHide(){
-    $(".reveal-modal_auth_popup").hide();
-    $(".reveal-modal-bg_auth_popup").hide();
+    $(".reveal-modal[name*='auth_popup']").hide();
+    $(".reveal-modal-bg[name*='auth_popup']").hide();
 }
 
 function countryPopUpShow(){

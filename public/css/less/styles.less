@@ -1,6 +1,17 @@
 @import "bootstrap/bootstrap.less";
 @import "variables.less";
 
+@media all  and (max-width: 1024px) {
+  .message{
+    max-width: 100% !important;
+    min-width: 100px !important;
+  }
+  .author_message{
+    text-align: right !important;
+    margin-left: 0 !important;
+  }
+}
+
 p {
   margin: 20px 0;
 }
@@ -25,6 +36,20 @@ input, textarea {
   outline:none;
 }
 
+th, td {
+  min-width: 50px;
+  overflow-x: hidden;
+}
+
+hr{
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid @panel-inner-border;
+  margin: 1em 0;
+  padding: 0;
+}
+
 body {
 
   .wrapper {
@@ -39,13 +64,8 @@ body {
     .navbar-right {
       padding-right: 15px;
     }
-    hr{
-      display: block;
-      height: 1px;
-      border: 0;
-      border-top: 1px solid @panel-inner-border;
-      margin: 1em 0;
-      padding: 0;
+    .table_wrapper {
+      overflow-x: scroll;
     }
   }
 
@@ -176,6 +196,7 @@ tbody {
 .message{
   margin-top: 20px;
   max-width: 350px;
+  min-width: 350px;
   overflow-x: auto;
   background-color: @panel-header-bg-color;
   padding: 5px;
@@ -195,6 +216,7 @@ tbody {
   margin-bottom: 10px;
   background-color: @panel-header-bg-color;
   cursor: pointer;
+  overflow-x: hidden;
   a{
     text-decoration: none;
     color: @text-color;

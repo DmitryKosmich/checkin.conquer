@@ -49,7 +49,8 @@
         return ''+
         '<li class="elem">' +
         '<a href="/chat?id='+friend.FQUserId+'">' +
-        '<div class="chat_friend">'+friend.name+' '+friend.surname+'</div><hr><div>'+message.body+'</div>' +
+        '<div class="chat_friend">'+friend.name+' '+friend.surname+'</div><hr>' +
+        '<div>'+message.body+'</div>' +
         '<div class="trivial_text">'+TIME.getDdMmYyyyHhMm(message.created, ".")+'</div>' +
         '</a>' +
         '</li>';
