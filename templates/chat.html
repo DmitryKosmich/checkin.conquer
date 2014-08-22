@@ -19,13 +19,13 @@
                 <span class="clearfix"></span>
             </div>
             <div class="panel-body">
-                <ul id="message_history">
+                <ul id="message_history" class="flexcroll">
 
                 </ul>
                 <form role="form" id="message">
                     <div class="form-group">
                         <label for="message_input"  data-localize="message">Message</label>
-                        <textarea id="message_input" placeholder="Message text..." ></textarea>
+                        <textarea id="message_input" class="flexcroll" placeholder="Message text..." ></textarea>
                     </div>
                     <a href="javascript:sendMessage()" class="btn btn-primary">Send</a>
                     <div style="text-align: right">

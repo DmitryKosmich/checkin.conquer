@@ -8,20 +8,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-24">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title" data-localize="conquer_the_world">Conquer the world</h3>
-                </div>
-                <div class="panel-body">
-                    <form role="form" method="post" id = "geocoding_form">
-                        <div id = "vmap" class="mainColor" style="height: 400px;"></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<span class="mainColor"></span><span class="backColor"></span>
+<div id = "vmap" ></div>
 <div>{% include "partials/popup-country.html" %}</div>
 <div>{% include "partials/popup-auth.html" %}</div>
 

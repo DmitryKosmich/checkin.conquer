@@ -69,7 +69,10 @@
   border-radius: 0px;
   -moz-box-shadow: 0 0 10px rgba(0,0,0,.7);
   -webkit-box-shadow: 0 0 10px rgba(0,0,0,.7);
-  -box-shadow: 0 0 10px rgba(0,0,0,.7);
+  box-shadow: 0 0 10px rgba(0,0,0,.7);
+  input, textarea{
+    background-color: darken(@panel-header-bg-color, 5%);
+  }
 }
 
 .reveal-modal_country_popup.small 		{ width: 200px; margin-left: -140px;}
@@ -115,7 +118,7 @@
   left: 50%;
   margin-left: -300px;
   width: 520px;
-  background: @panel-header-bg-color url(../../images/modal-gloss.png) no-repeat -200px -80px;
+  background: @panel-header-bg-color @image-gloss;
   position: absolute;
   z-index: 101;
   padding: 30px 40px 34px;
@@ -124,8 +127,7 @@
   border-radius: 0px;
   -moz-box-shadow: 0 0 10px rgba(0,0,0,.7);
   -webkit-box-shadow: 0 0 10px rgba(0,0,0,.7);
-  -box-shadow: 0 0 10px rgba(0,0,0,.7);
-
+  box-shadow: 0 0 10px rgba(0,0,0,.7);
 }
 
 .reveal-modal_auth_popup.small 		{ width: 200px; margin-left: -140px;}

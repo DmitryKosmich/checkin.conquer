@@ -11,10 +11,10 @@ var CONFIG = (function(){
         REDIRECT_URL: document.URL,
 
         JOIN_COUNTRY_COLOR : '#cbc077',
-        VISITED_COUNTRY_COLOR : /*'#29c5e6'*/ $( ".mainColor" ).css( "color" ),
+        VISITED_COUNTRY_COLOR :  $( ".mainColor" ).css( "color" ),
         VISITED_COUNTRY_COLOR_BD : '#29c5e6',
         FRIEND_COLOR: '#BB4E51',
-        BG_COLOR : '#666',
+        BG_COLOR : $( ".backColor" ).css( "color" ),
 
         UPDATE_POINTS_INTERVAL: 450,
         UPDATE_TIME_INTERVAL: 5,
