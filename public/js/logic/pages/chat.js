@@ -220,7 +220,7 @@ var drawMessage = (function(){
         $("#message_history").append(
                 '<li class="message '+author_message+'">' +
                 '<a href="/user?id='+user.id+'">'+user.name+'</a>&nbsp&nbsp' +
-                '<br>'+message.body +
+                '<br>'+addNewLines(message.body) +
                 '<br><span class="trivial_text">'+TIME.getDdMmYyyyHhMm(message.created, ".")+'</span>' +
                 '</li>');
     }
