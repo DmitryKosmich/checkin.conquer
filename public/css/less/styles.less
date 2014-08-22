@@ -54,17 +54,32 @@ hr{
   padding: 0;
 }
 
-body {
+html, body {
+  height: 100%;
+}
 
+body {
+/*
+  header {
+    position: static;
+    top: 0;
+    left: 0;
+    height: 200px;
+    margin-bottom: -200px;
+    background-color: fade(#000, 50%);
+  }
+*/
   .wrapper {
-    padding: 0 0 0 0;
+    position: relative;
+    padding: 0 0 @footer-height 0 !important;
+    min-height: 100%;
+    margin-bottom: -@footer-height !important;
     .navbar a {
       text-transform: uppercase;
       font: 14px @brand-font;
       padding-right: 30px;
       padding-bottom: 10px;
     }
-
     .navbar-right {
       padding-right: 15px;
     }
@@ -73,9 +88,14 @@ body {
     }
   }
 
-  header {
-    margin-top: 30px;
-    padding-bottom: 5px;
+  footer {
+    height: @footer-height;
+    color: #fff;
+    background-color: @brand-primary;
+
+    .content{
+      padding-top: 100px;
+    }
   }
 }
 

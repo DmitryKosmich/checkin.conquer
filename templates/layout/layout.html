@@ -10,51 +10,55 @@
 </head>
 
 <body>
-<div class="wrapper container">
+
     <header>
-        <a href="/"><img id="logoImage" src="/images/logo.png" alt="discover & conquer logo"></a>
-        <img id="loadingImage" src="/images/loader.gif">
     </header>
-    {% include "../partials/topNavigation.html" %}
-    <ul id="alerts">
-    </ul>
-{% block content %}{% endblock %}
-</div>
 
-{% block other %}{% endblock %}
+    <div class="wrapper container">
+        <div>
+            <a href="/"><img id="logoImage" src="/images/logo.png" alt="discover & conquer logo"></a>
+            <img id="loadingImage" src="/images/loader.gif">
+        </div>
+        {% include "../partials/topNavigation.html" %}
+    {% block content %}{% endblock %}
+    </div>
+    <ul id="alerts"></ul>
+    {% block other %}{% endblock %}
 
-<footer class="text-center"><br>
-    © 2014 Study group
-</footer>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript">
-    window.jQuery || document.write('<script type="text/javascript" src="/js/jquery/jquery-1.11.1.min.js"><\/script>');
-</script>
-<script type="text/javascript" src="/js/jquery/jquery.browser.min.js"></script>
-<script type="text/javascript" src="/js/logic/services/browser.js"></script>
-<script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/jquery/jquery.ba-bbq.min.js"></script>
-<script type="text/javascript" src="/js/localize/jquery.localize.min.js"></script>
+    <footer class="text-center">
+        <div class="content">
+            © 2014 Study group
+        </div>
+    </footer>
 
-{% block scripts %}
-<script type="text/javascript" src="/js/logic/services/configuration.js"></script>
-<script type="text/javascript" src="/js/logic/services/services.js"></script>
-<script type="text/javascript" src="/js/logic/services/session.js"></script>
-<script type="text/javascript" src="/js/logic/services/auth.js"></script>
-<script type="text/javascript" src="/js/logic/services/alert.js"></script>
-<script type="text/javascript" src="/js/logic/services/error.js"></script>
-<script type="text/javascript" src="/js/logic/services/popup.js"></script>
-<script type="text/javascript" src="/js/logic/services/database.js"></script>
-<script type="text/javascript" src="/js/logic/services/points.js"></script>
-<script type="text/javascript" src="/js/logic/services/statistics.js"></script>
-<script type="text/javascript" src="/js/logic/services/initializer.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.jQuery || document.write('<script type="text/javascript" src="/js/jquery/jquery-1.11.1.min.js"><\/script>');
+    </script>
+    <script type="text/javascript" src="/js/jquery/jquery.browser.min.js"></script>
+    <script type="text/javascript" src="/js/logic/services/browser.js"></script>
+    <script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="/js/localize/jquery.localize.min.js"></script>
 
-<script type="text/javascript" src="/js/logic/services/synchronizer/picasa.js"></script>
-<script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
-<script type="text/javascript" src="/js/logic/services/synchronizer/restcountries.js"></script>
-<script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
-{% endblock %}
+    {% block scripts %}
+    <script type="text/javascript" src="/js/logic/services/configuration.js"></script>
+    <script type="text/javascript" src="/js/logic/services/services.js"></script>
+    <script type="text/javascript" src="/js/logic/services/session.js"></script>
+    <script type="text/javascript" src="/js/logic/services/auth.js"></script>
+    <script type="text/javascript" src="/js/logic/services/alert.js"></script>
+    <script type="text/javascript" src="/js/logic/services/error.js"></script>
+    <script type="text/javascript" src="/js/logic/services/popup.js"></script>
+    <script type="text/javascript" src="/js/logic/services/database.js"></script>
+    <script type="text/javascript" src="/js/logic/services/points.js"></script>
+    <script type="text/javascript" src="/js/logic/services/statistics.js"></script>
+    <script type="text/javascript" src="/js/logic/services/initializer.js"></script>
 
+    <script type="text/javascript" src="/js/logic/services/synchronizer/picasa.js"></script>
+    <script type="text/javascript" src="/js/logic/services/synchronizer/foursquare.js"></script>
+    <script type="text/javascript" src="/js/logic/services/synchronizer/restcountries.js"></script>
+    <script type="text/javascript" src="/js/logic/services/synchronizer/synchronizer.js"></script>
+    {% endblock %}
 
 </body>
 </html>
