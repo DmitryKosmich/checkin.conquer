@@ -76,6 +76,11 @@ body {
     padding: 20px 0 @footer-height 0 !important;
     min-height: 100%;
     margin-bottom: -@footer-height !important;
+    .navbar-default {
+      -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+      -moz-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+      box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+    }
     .navbar a {
       text-transform: uppercase;
       font: 14px @brand-font;
@@ -93,10 +98,9 @@ body {
   footer {
     height: @footer-height;
     color: @text-color;
-    background-color: @footer-bg-color;
 
     .content{
-      /*padding-top: 100px;*/
+      padding-bottom: 10px;
     }
   }
 }
@@ -123,12 +127,10 @@ body {
     .glyphicon{
       color: @brand-primary;
     }
-
     a{
       color: lighten(@text-color, 20%);
     }
   }
-
   .panel-body {
     padding: 10px;
     
@@ -159,7 +161,6 @@ body {
 #user_avatar_wrapper{
   text-align: center;
 }
-
 #user_avatar {
   background: @image-loader-min;
   position: relative;
@@ -168,7 +169,6 @@ body {
   min-height: 150px;
   border: solid 1px @image-border-color;
 }
-
 #mini_avatar {
   background: @panel-header-bg-color @image-loader-min;
   width: 60px;
@@ -182,11 +182,9 @@ tbody {
   .showCities{
     cursor: pointer;
   }
-
   .accordionHeaderRow {
     color: darken(@text-color, 30%);
   }
-
   .accordionBodyRow {
     color: lighten(@text-color, 20%);
   }
@@ -199,6 +197,8 @@ tbody {
   min-height: 25px;
   margin: 0;
   border: solid 1px @image-border-color;
+  opacity: 0.9;
+  filter: alpha(opacity=90); /* For IE8 and earlier */
 }
 
 /*---------------------left-right------------------------------*/
@@ -206,7 +206,6 @@ tbody {
   float: left;
   width: 50%;
 }
-
 .rightstr {
   text-align: right;
 }
@@ -219,7 +218,6 @@ tbody {
   max-width: 100%;
   padding: 20px;
 }
-
 #message_input {
   position: relative;
   overflow-y: scroll;
@@ -247,7 +245,6 @@ tbody {
 .list{
   padding: 10px;
 }
-
 .elem{
   padding: 10px;
   margin-top: 10px;
@@ -292,24 +289,19 @@ tbody {
   scrollbar-track-color: @panel-bg;
   scrollbar-arrow-color: @panel-header-bg-color;
 }
-
-/* Let's get this party started */
 .flexcroll::-webkit-scrollbar {
   width: 12px;
 }
-
-/* Track */
 .flexcroll::-webkit-scrollbar-track {
   -webkit-border-radius: 0px;
   border-radius: 0px;
 }
-
-/* Handle */
 .flexcroll::-webkit-scrollbar-thumb {
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: @panel-header-bg-color;
 }
+
 /*----------------------headerWorld---------------------------------*/
 .header-world {
   font: 40px 'TimeBurner';

@@ -76,7 +76,7 @@ var MAP =  (function() {
                     backgroundColor: null,
                     color: '#ffffff',
                     hoverOpacity: 0.7,
-                    selectedColor: '#104a5a',
+                    selectedColor: '#777',
                     enableZoom: true,
                     showTooltip: true,
                     values: sample_data,
