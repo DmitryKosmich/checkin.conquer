@@ -24,11 +24,11 @@ var AUTH = (function(){
                     if ($.bbq.getState('error')) {
                         ALERT.show('ERROR: getting access token', ALERT_TYPE.DANGER);
                     }else {
-                        setTimeout(function(){
+                        /*setTimeout(function(){
                             if(CONFIG.ACCESS_TOKEN == 'undefined'){
                                 authPopUpShow();
                             }
-                        }, 3000);
+                        }, 3000);*/
                         doAuthRedirect();
                     }
                 }

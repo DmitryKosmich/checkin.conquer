@@ -135,7 +135,7 @@
             var thisTag = this;
             var cc = $(thisTag).attr('name');
 
-            $( '.showCities' ).removeClass( "accordionHeaderRow" );
+            $( '.showCities' ).removeClass( "active" );
             $(".row.city").hide(100, function(){});
 
             if(activeCC!=cc){
@@ -163,7 +163,7 @@
                                 $( ".row.city").addClass( "accordionBodyRow" );
                                 if(i==cities.length-1){
                                     activeCC = cc;
-                                    $( thisTag).addClass( "accordionHeaderRow" );
+                                    $( thisTag).addClass( "active" );
                                 }
                             }
                         }
